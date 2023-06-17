@@ -20,7 +20,6 @@ export default {
         const getVisitors = async (page = 1) => {
             await api.get(`/visitors?page=${page}`).then((response) => {
                 visitors.value = response.data.data;
-                // console.log(visitors.value);
             });
         };
 

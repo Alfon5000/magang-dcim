@@ -4,19 +4,21 @@ import SidebarComponent from "../../components/SidebarComponent.vue";
 import api from "../../api";
 import { ref, onMounted } from "vue";
 import { RouterLink } from "vue-router";
+import { Bootstrap4Pagination } from "laravel-vue-pagination";
 
 export default {
     name: "UsersIndex",
     components: {
         HeaderComponent,
         SidebarComponent,
+        Bootstrap4Pagination,
     },
     setup() {
-        const users = ref([]);
+        const users = ref({ data: [] });
 
-        const getUsers = async () => {
-            await api.get("/users").then((response) => {
-                users.value = response.data.data.data;
+        const getUsers = async (page = 1) => {
+            await api.get(`/users?page=${page}`).then((response) => {
+                users.value = response.data.data;
             });
         };
 
@@ -81,8 +83,8 @@ export default {
                     </thead>
                     <tbody>
                         <tr
-                            v-if="users.length > 0"
-                            v-for="(user, index) in users"
+                            v-if="users.data.length > 0"
+                            v-for="(user, index) in users.data"
                             :key="index"
                         >
                             <td>{{ ++index }}</td>
@@ -118,31 +120,11 @@ export default {
                         </tr>
                     </tbody>
                 </table>
-
-                <nav>
-                    <ul class="pagination">
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">1</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">2</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">3</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
             </div>
+            <Bootstrap4Pagination
+                :data="users"
+                @pagination-change-page="getUsers"
+            />
         </div>
     </div>
 </template>

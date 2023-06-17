@@ -17,6 +17,7 @@
     },
     "dependencies": {
         "admin-lte": "3.2",
+        "laravel-vue-pagination": "^4.1.0",
         "vue-router": "^4.0.13"
     }
 }

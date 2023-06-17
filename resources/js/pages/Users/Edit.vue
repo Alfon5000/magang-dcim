@@ -7,6 +7,10 @@ import api from "../../api";
 
 export default {
     name: "UsersEdit",
+    components: {
+        HeaderComponent,
+        SidebarComponent,
+    },
     setup() {
         const route = useRoute();
         const router = useRouter();
@@ -38,7 +42,7 @@ export default {
             await api
                 .post(`/users/${route.params.id}`, formData)
                 .then((response) => {
-                    router.push({ name: "users" });
+                    router.push({ name: "users.index" });
                     console.log(response);
                 })
                 .catch((error) => {
@@ -127,12 +131,13 @@ export default {
                     </div>
                     <div class="mb-3">
                         <button type="submit" class="btn bg-teal mr-2">
+                            <i class="fas fa-save mr-2"></i>
                             Update
                         </button>
                         <RouterLink
-                            :to="{ name: 'users' }"
+                            :to="{ name: 'users.index' }"
                             class="btn btn-danger"
-                            >Cancel</RouterLink
+                            ><i class="fas fa-times mr-2"></i>Cancel</RouterLink
                         >
                     </div>
                 </form>

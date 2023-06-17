@@ -9,7 +9,7 @@
   @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body>
+<body class="hold-transition sidebar-mini layout-fixed text-sm">
   <div id="app"></div>
 </body>
 
