@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\LoginController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\UserController;
@@ -18,9 +19,9 @@ use App\Http\Controllers\API\TemperatureHumidityController;
 |
 */
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
 
 Route::apiResources([
     '/users' => UserController::class,
@@ -29,3 +30,6 @@ Route::apiResources([
 
 Route::get('/magnetic-door', [MagneticDoorController::class, 'index']);
 Route::get('/temperature-humidity/{id}', [TemperatureHumidityController::class, 'read']);
+
+Route::post('/login', [LoginController::class, 'login']);
+Route::get('/logout', [LoginController::class, 'logout']);
