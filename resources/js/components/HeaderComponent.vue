@@ -1,4 +1,6 @@
 <script>
+import { RouterLink } from "vue-router";
+
 export default {
     name: "HeaderComponent",
 };
@@ -54,10 +56,10 @@ export default {
                         >
                     </a>
                     <div class="dropdown-divider"></div>
-                    <RouterLink
+                    <router-link
                         :to="{ name: 'notifications' }"
                         class="dropdown-item dropdown-footer"
-                        >See All Notifications</RouterLink
+                        >See All Notifications</router-link
                     >
                 </div>
             </li>
@@ -148,10 +150,10 @@ export default {
                         <!-- Message End -->
                     </a>
                     <div class="dropdown-divider"></div>
-                    <RouterLink
+                    <router-link
                         :to="{ name: 'messages' }"
                         class="dropdown-item dropdown-footer"
-                        >See All Messages</RouterLink
+                        >See All Messages</router-link
                     >
                 </div>
             </li>
@@ -162,13 +164,16 @@ export default {
                     <i class="fas fa-user-cog"></i>
                 </a>
                 <div class="dropdown-menu dropdown-menu-md dropdown-menu-right">
-                    <RouterLink :to="{ name: 'profile' }" class="dropdown-item">
+                    <router-link
+                        :to="{ name: 'profile' }"
+                        class="dropdown-item"
+                    >
                         <i class="fas fa-user mr-2"></i> Profile
-                    </RouterLink>
+                    </router-link>
                     <div class="dropdown-divider"></div>
-                    <RouterLink :to="{ name: 'login' }" class="dropdown-item"
+                    <router-link :to="{ name: 'login' }" class="dropdown-item"
                         ><i class="fas fa-sign-out-alt mr-2"></i>Log
-                        Out</RouterLink
+                        Out</router-link
                     >
                 </div>
             </li>

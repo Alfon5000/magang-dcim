@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         Visitor::factory(20)->create();
 
         $this->call([
+            UserSeeder::class,
             SensorSeeder::class,
         ]);
     }
