@@ -16,7 +16,7 @@ export default {
         <header-component></header-component>
         <sidebar-component></sidebar-component>
         <div class="content-wrapper px-3">
-            <div class="content-headerComponent">
+            <div class="content-header">
                 <h2>Reports</h2>
             </div>
             <div class="content">
