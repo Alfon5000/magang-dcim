@@ -4,6 +4,7 @@ import SidebarComponent from "../../components/SidebarComponent.vue";
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import api from "../../api";
+import { RouterLink } from "vue-router";
 
 export default {
     name: "UsersEdit",
@@ -134,10 +135,11 @@ export default {
                             <i class="fas fa-save mr-2"></i>
                             Update
                         </button>
-                        <RouterLink
+                        <router-link
                             :to="{ name: 'users.index' }"
                             class="btn btn-danger"
-                            ><i class="fas fa-times mr-2"></i>Cancel</RouterLink
+                            ><i class="fas fa-times mr-2"></i
+                            >Cancel</router-link
                         >
                     </div>
                 </form>

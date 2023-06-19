@@ -1,36 +1,51 @@
 <script>
-import { ref } from "vue";
 import api from "../api";
-import { useRouter } from "vue-router";
 
 export default {
     name: "Login",
-    setup() {
-        const email = ref("");
-        const password = ref("");
-        const router = useRouter();
-
-        const login = async () => {
-            let formData = new FormData();
-            formData.append("email", email.value);
-            formData.append("password", password.value);
-
-            await api
-                .post("/login", formData)
-                .then(() => {
-                    router.push({ name: "dashboard" });
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        };
-
+    data() {
         return {
-            email,
-            password,
-            router,
-            login,
+            email: "",
+            password: "",
+            loggedIn: localStorage.getItem("loggedIn"),
+            token: localStorage.getItem("token"),
+            loginFailed: null,
         };
+    },
+    methods: {
+        login() {
+            if (this.email && this.password) {
+                api.get("/sanctum/csrf-cookie").then((response) => {
+                    console.log(response);
+                    api.post("/login", {
+                        email: this.email,
+                        password: this.password,
+                    })
+                        .then((response) => {
+                            console.log(response);
+                            if (response.data.success) {
+                                localStorage.setItem("loggedIn", true);
+                                localStorage.setItem(
+                                    "token",
+                                    response.data.token
+                                );
+                                this.loggedIn = true;
+                                return this.$router.push({ name: "dashboard" });
+                            } else {
+                                this.loginFailed = true;
+                            }
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                });
+            }
+        },
+    },
+    mounted() {
+        if (this.loggedIn) {
+            this.$router.push({ name: "dashboard" });
+        }
     },
 };
 </script>
@@ -56,6 +71,7 @@ export default {
                             id="email"
                             name="email"
                             placeholder="Enter your email"
+                            v-model="email"
                         />
                     </div>
                     <div class="form-group">
@@ -66,6 +82,7 @@ export default {
                             id="password"
                             name="password"
                             placeholder="Enter your password"
+                            v-model="password"
                         />
                     </div>
                     <div class="form-group">

@@ -1,10 +1,8 @@
 <script>
-import { onMounted } from "vue";
-
 export default {
     name: "AlertsComponent",
-    setup() {
-        const updateTime = () => {
+    methods: {
+        updateTime() {
             const dateElement = document.getElementById("date");
             const timeElement = document.getElementById("time");
 
@@ -21,11 +19,13 @@ export default {
 
             dateElement.innerText = date;
             timeElement.innerText = time;
-        };
-
-        onMounted(() => {
-            setInterval(updateTime, 1000);
-        });
+        },
+        updateSecond() {
+            setInterval(this.updateTime, 1000);
+        },
+    },
+    mounted() {
+        this.updateSecond();
     },
 };
 </script>

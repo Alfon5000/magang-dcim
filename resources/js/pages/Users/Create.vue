@@ -4,6 +4,7 @@ import SidebarComponent from "../../components/SidebarComponent.vue";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import api from "../../api";
+import { RouterLink } from "vue-router";
 
 export default {
     name: "UsersCreate",
@@ -117,10 +118,11 @@ export default {
                         <button type="submit" class="btn bg-teal mr-2">
                             <i class="fas fa-save mr-2"></i>Save
                         </button>
-                        <RouterLink
+                        <router-link
                             :to="{ name: 'users.index' }"
                             class="btn btn-danger"
-                            ><i class="fas fa-times mr-2"></i>Cancel</RouterLink
+                            ><i class="fas fa-times mr-2"></i
+                            >Cancel</router-link
                         >
                     </div>
                 </form>
