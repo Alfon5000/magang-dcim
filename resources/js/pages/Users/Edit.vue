@@ -1,75 +1,52 @@
 <script>
-import HeaderComponent from "../../components/HeaderComponent.vue";
-import SidebarComponent from "../../components/SidebarComponent.vue";
-import { ref, onMounted } from "vue";
-import { useRoute, useRouter } from "vue-router";
 import api from "../../api";
-import { RouterLink } from "vue-router";
 
 export default {
     name: "UsersEdit",
-    components: {
-        HeaderComponent,
-        SidebarComponent,
-    },
-    setup() {
-        const route = useRoute();
-        const router = useRouter();
-
-        const name = ref("");
-        const email = ref("");
-        const role = ref("");
-        const password = ref("");
-        const errors = ref([]);
-
-        onMounted(async () => {
-            await api.get(`/users/${route.params.id}`).then((response) => {
-                name.value = response.data.data.name;
-                email.value = response.data.data.email;
-                role.value = response.data.data.role;
-                password.value = response.data.data.password;
-            });
-        });
-
-        const updateUser = async () => {
-            let formData = new FormData();
-
-            formData.append("name", name.value);
-            formData.append("email", email.value);
-            formData.append("role", role.value);
-            formData.append("password", password.value);
-            formData.append("_method", "PUT");
-
-            await api
-                .post(`/users/${route.params.id}`, formData)
-                .then((response) => {
-                    router.push({ name: "users.index" });
-                    console.log(response);
-                })
-                .catch((error) => {
-                    errors.value = error.data.errors;
-                    console.log(error);
-                });
-        };
-
+    data() {
         return {
-            name,
-            email,
-            role,
-            password,
-            errors,
-            route,
-            router,
-            updateUser,
+            name: "",
+            email: "",
+            role: "",
+            password: "",
+            errors: [],
         };
+    },
+    methods: {
+        async getUser() {
+            await api
+                .get(`/users/${this.$route.params.id}`)
+                .then((response) => {
+                    this.name = response.data.data.name;
+                    this.email = response.data.data.email;
+                    this.role = response.data.data.role;
+                    this.password = response.data.data.password;
+                });
+        },
+        async updateUser() {
+            await api
+                .put(`/users/${this.$route.params.id}`, {
+                    name: this.name,
+                    email: this.email,
+                    role: this.role,
+                    password: this.password,
+                })
+                .then(() => {
+                    this.$router.push({ name: "users.index" });
+                })
+                .catch((error) => (this.errors = error.response.data.errors));
+        },
+    },
+    mounted() {
+        this.getUser();
     },
 };
 </script>
 
 <template>
     <div class="wrapper">
-        <header-component></header-component>
-        <sidebar-component></sidebar-component>
+        <Header />
+        <Sidebar />
         <div class="content-wrapper px-3">
             <div class="content-header">
                 <h2>Edit User</h2>

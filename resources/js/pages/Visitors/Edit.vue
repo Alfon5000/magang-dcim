@@ -1,72 +1,54 @@
 <script>
-import HeaderComponent from "../../components/HeaderComponent.vue";
-import SidebarComponent from "../../components/SidebarComponent.vue";
-import { ref, onMounted } from "vue";
-import { useRoute, useRouter } from "vue-router";
 import api from "../../api";
-import { RouterLink } from "vue-router";
 
 export default {
     name: "VisitorsEdit",
-    components: {
-        HeaderComponent,
-        SidebarComponent,
+    data() {
+        return {
+            name: "",
+            visiting_date: "",
+            status: "",
+            description: "",
+            errors: [],
+        };
     },
-    setup() {
-        const name = ref("");
-        const visiting_date = ref("");
-        const status = ref("");
-        const description = ref("");
-        const errors = ref([]);
-
-        const route = useRoute();
-        const router = useRouter();
-
-        const updateVisitor = async () => {
-            let formData = new FormData();
-            formData.append("name", name.value);
-            formData.append("visiting_date", visiting_date.value);
-            formData.append("status", status.value);
-            formData.append("description", description.value);
-            formData.append("_method", "PUT");
-
+    methods: {
+        async getVisitor() {
             await api
-                .post(`/visitors/${route.params.id}`, formData)
+                .get(`/visitors/${this.$route.params.id}`)
+                .then((response) => {
+                    this.name = response.data.data.name;
+                    this.visiting_date = response.data.data.visiting_date;
+                    this.status = response.data.data.status;
+                    this.description = response.data.data.description;
+                });
+        },
+        async updateVisitor() {
+            await api
+                .put(`/visitors/${this.$route.params.id}`, {
+                    name: this.name,
+                    visiting_date: this.visiting_date,
+                    status: this.status,
+                    description: this.description,
+                })
                 .then(() => {
-                    router.push({ name: "visitors.index" });
+                    this.$router.push({ name: "visitors.index" });
                 })
                 .catch((error) => {
-                    errors.value = error.response.data.errors;
+                    this.errors = error.response.data.errors;
                 });
-        };
-
-        onMounted(async () => {
-            await api.get(`/visitors/${route.params.id}`).then((response) => {
-                name.value = response.data.data.name;
-                visiting_date.value = response.data.data.visiting_date;
-                status.value = response.data.data.status;
-                description.value = response.data.data.description;
-            });
-        });
-
-        return {
-            name,
-            visiting_date,
-            status,
-            description,
-            errors,
-            route,
-            router,
-            updateVisitor,
-        };
+        },
+    },
+    mounted() {
+        this.getVisitor();
     },
 };
 </script>
 
 <template>
     <div class="wrapper">
-        <header-component></header-component>
-        <sidebar-component></sidebar-component>
+        <Header />
+        <Sidebar />
         <div class="content-wrapper px-3">
             <div class="content-header">
                 <h2>Edit Visitor</h2>

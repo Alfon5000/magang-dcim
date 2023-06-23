@@ -1,6 +1,6 @@
 <script>
 export default {
-    name: "AlertsComponent",
+    name: "Alerts",
     methods: {
         updateTime() {
             const dateElement = document.getElementById("date");

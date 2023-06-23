@@ -1,50 +1,39 @@
 <script>
-import HeaderComponent from "../../components/HeaderComponent.vue";
-import SidebarComponent from "../../components/SidebarComponent.vue";
 import api from "../../api";
-import { ref, onMounted } from "vue";
-import { RouterLink } from "vue-router";
 import { Bootstrap4Pagination } from "laravel-vue-pagination";
 
 export default {
     name: "UsersIndex",
     components: {
-        HeaderComponent,
-        SidebarComponent,
         Bootstrap4Pagination,
     },
-    setup() {
-        const users = ref({ data: [] });
-
-        const getUsers = async (page = 1) => {
-            await api.get(`/users?page=${page}`).then((response) => {
-                users.value = response.data.data;
-            });
-        };
-
-        const deleteUser = async (id) => {
-            await api.delete(`/users/${id}`).then(() => {
-                getUsers();
-            });
-        };
-
-        onMounted(() => {
-            getUsers();
-        });
-
+    data() {
         return {
-            users,
-            getUsers,
-            deleteUser,
+            users: {
+                data: [],
+            },
         };
+    },
+    methods: {
+        async getUsers(page = 1) {
+            await api
+                .get(`/users?page=${page}`)
+                .then((response) => (this.users = response.data.data));
+        },
+        async deleteUser(id) {
+            await api.delete(`/users/${id}`).then(() => this.getUsers());
+        },
+    },
+    mounted() {
+        this.getUsers();
     },
 };
 </script>
 
 <template>
     <div class="wrapper">
-        <header-component></header-component>
-        <sidebar-component></sidebar-component>
+        <Header />
+        <Sidebar />
         <div class="content-wrapper px-3">
             <div class="content-header">
                 <h2>User List</h2>

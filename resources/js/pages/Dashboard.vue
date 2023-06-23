@@ -1,16 +1,12 @@
 <script>
-import HeaderComponent from "../components/HeaderComponent.vue";
-import SidebarComponent from "../components/SidebarComponent.vue";
-import AlertsComponent from "../components/AlertsComponent.vue";
+import Alerts from "../components/Alerts.vue";
 // import MagneticDoor from "../components/Dashboard/MagneticDoor.vue";
 // import TemperatureHumidity from "../components/Dashboard/TemperatureHumidity.vue";
 
 export default {
     name: "Dashboard",
     components: {
-        HeaderComponent,
-        SidebarComponent,
-        AlertsComponent,
+        Alerts,
         // MagneticDoor,
         // TemperatureHumidity,
     },
@@ -19,8 +15,8 @@ export default {
 
 <template>
     <div class="wrapper">
-        <header-component></header-component>
-        <sidebar-component></sidebar-component>
+        <Header />
+        <Sidebar />
         <div class="content-wrapper">
             <div class="container-fluid">
                 <div class="row vh-100">
@@ -131,7 +127,7 @@ export default {
                         </div>
                     </div>
                     <div class="col-12 col-sm-4 col-md-3 bg-navy">
-                        <alerts-component></alerts-component>
+                        <Alerts />
                     </div>
                 </div>
             </div>

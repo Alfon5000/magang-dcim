@@ -1,8 +1,6 @@
 <script>
-import { RouterLink } from "vue-router";
-
 export default {
-    name: "SidebarComponent",
+    name: "Sidebar",
 };
 </script>
 

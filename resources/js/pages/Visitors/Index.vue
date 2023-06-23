@@ -1,52 +1,41 @@
 <script>
-import HeaderComponent from "../../components/HeaderComponent.vue";
-import SidebarComponent from "../../components/SidebarComponent.vue";
-import { ref, onMounted } from "vue";
-import { RouterLink } from "vue-router";
 import api from "../../api";
 import { Bootstrap4Pagination } from "laravel-vue-pagination";
 
 export default {
     name: "VisitorsIndex",
     components: {
-        HeaderComponent,
-        SidebarComponent,
         Bootstrap4Pagination,
     },
-    setup() {
-        const visitors = ref({ data: [] });
-        const keyword = ref("");
-
-        const getVisitors = async (page = 1) => {
-            await api.get(`/visitors?page=${page}`).then((response) => {
-                visitors.value = response.data.data;
-            });
-        };
-
-        const deleteVisitor = async (id) => {
-            await api.delete(`/visitors/${id}`).then(() => {
-                getVisitors();
-            });
-        };
-
-        onMounted(() => {
-            getVisitors();
-        });
-
+    data() {
         return {
-            visitors,
-            keyword,
-            getVisitors,
-            deleteVisitor,
+            visitors: {
+                data: [],
+            },
         };
+    },
+    methods: {
+        async getVisitors(page = 1) {
+            await api.get(`/visitors?page=${page}`).then((response) => {
+                this.visitors = response.data.data;
+            });
+        },
+        async deleteVisitor(id) {
+            await api.delete(`/visitors/${id}`).then(() => {
+                this.getVisitors();
+            });
+        },
+    },
+    mounted() {
+        this.getVisitors();
     },
 };
 </script>
 
 <template>
     <div class="wrapper">
-        <header-component></header-component>
-        <sidebar-component></sidebar-component>
+        <Header />
+        <Sidebar />
         <div class="content-wrapper px-3">
             <div class="content-header">
                 <h2>Visitor List</h2>

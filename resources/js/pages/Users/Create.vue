@@ -1,59 +1,41 @@
 <script>
-import HeaderComponent from "../../components/HeaderComponent.vue";
-import SidebarComponent from "../../components/SidebarComponent.vue";
-import { ref } from "vue";
-import { useRouter } from "vue-router";
 import api from "../../api";
-import { RouterLink } from "vue-router";
 
 export default {
     name: "UsersCreate",
-    components: {
-        HeaderComponent,
-        SidebarComponent,
+    data() {
+        return {
+            name: "",
+            email: "",
+            role: "",
+            password: "",
+            errors: [],
+        };
     },
-    setup() {
-        const name = ref("");
-        const email = ref("");
-        const role = ref("");
-        const password = ref("");
-        const errors = ref([]);
-        const router = useRouter();
-
-        const storeUser = async () => {
-            let formData = new FormData();
-            formData.append("name", name.value);
-            formData.append("email", email.value);
-            formData.append("role", role.value);
-            formData.append("password", password.value);
-
+    methods: {
+        async storeUser() {
             await api
-                .post("/users", formData)
+                .post(`/users`, {
+                    name: this.name,
+                    email: this.email,
+                    role: this.role,
+                    password: this.password,
+                })
                 .then(() => {
-                    router.push({ name: "users.index" });
+                    this.$router.push({ name: "users.index" });
                 })
                 .catch((error) => {
-                    errors.value = error.response.data.errors;
+                    errors = error.response.data.errors;
                 });
-        };
-
-        return {
-            name,
-            email,
-            role,
-            password,
-            errors,
-            router,
-            storeUser,
-        };
+        },
     },
 };
 </script>
 
 <template>
     <div class="wrapper">
-        <header-component></header-component>
-        <sidebar-component></sidebar-component>
+        <Header />
+        <Sidebar />
         <div class="content-wrapper px-3">
             <div class="content-header">
                 <h2>Create User</h2>

@@ -1,8 +1,29 @@
 <script>
-import { RouterLink } from "vue-router";
+import api from "../api";
 
 export default {
-    name: "HeaderComponent",
+    name: "Header",
+    data() {
+        return {
+            loggedIn: localStorage.getItem("loggedIn"),
+            token: localStorage.getItem("token"),
+        };
+    },
+    methods: {
+        async logout() {
+            await api.get(`/logout`).then((response) => {
+                localStorage.removeItem("loggedIn");
+                localStorage.removeItem("token");
+            });
+        },
+    },
+    mounted() {
+        if (this.loggedIn === true) {
+            this.$router.push({ name: "dashboard" });
+        } else {
+            this.$router.push({ name: "login" });
+        }
+    },
 };
 </script>
 
@@ -171,10 +192,10 @@ export default {
                         <i class="fas fa-user mr-2"></i> Profile
                     </router-link>
                     <div class="dropdown-divider"></div>
-                    <router-link :to="{ name: 'login' }" class="dropdown-item"
-                        ><i class="fas fa-sign-out-alt mr-2"></i>Log
-                        Out</router-link
-                    >
+                    <button @click.prevent="logout" class="dropdown-item">
+                        <i class="fas fa-sign-out-alt mr-2"></i>
+                        Log Out
+                    </button>
                 </div>
             </li>
         </ul>

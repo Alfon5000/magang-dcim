@@ -1,20 +1,13 @@
 <script>
-import HeaderComponent from "../components/HeaderComponent.vue";
-import SidebarComponent from "../components/SidebarComponent.vue";
-
 export default {
     name: "Reports",
-    components: {
-        HeaderComponent,
-        SidebarComponent,
-    },
 };
 </script>
 
 <template>
     <div class="wrapper">
-        <header-component></header-component>
-        <sidebar-component></sidebar-component>
+        <Header />
+        <Sidebar />
         <div class="content-wrapper px-3">
             <div class="content-header">
                 <h2>Reports</h2>
