@@ -1,14 +1,14 @@
 <script>
 import Alerts from "../components/Alerts.vue";
 // import MagneticDoor from "../components/Dashboard/MagneticDoor.vue";
-// import TemperatureHumidity from "../components/Dashboard/TemperatureHumidity.vue";
+import TemperatureHumidity from "../components/dashboard/TemperatureHumidity.vue";
 
 export default {
     name: "Dashboard",
     components: {
         Alerts,
         // MagneticDoor,
-        // TemperatureHumidity,
+        TemperatureHumidity,
     },
 };
 </script>
@@ -25,105 +25,68 @@ export default {
                             <h2>Dashboard</h2>
                         </div>
                         <div class="content">
-                            <!-- <div class="row">
-                <div class="col-12 col-sm-4">
-                  <div class="card">
-                    <div class="card-header text-center bg-navy">
-                      <h5>Sensor 1</h5>
-                    </div>
-                    <div class="card-body">
-                      <TemperatureOne />
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12 col-sm-4">
-                  <div class="card">
-                    <div class="card-header text-center bg-navy">
-                      <h5>Sensor 2</h5>
-                    </div>
-                    <div class="card-body">
-                      <TemperatureTwo />
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12 col-sm-4">
-                  <div class="card">
-                    <div class="card-header text-center bg-navy">
-                      <h5>Sensor 3</h5>
-                    </div>
-                    <div class="card-body">
-                      <TemperatureThree />
-                    </div>
-                  </div>
-                </div>
-              </div> -->
-                            <!-- <div class="row">
-                <div class="col-12 col-sm-4">
-                  <div class="card">
-                    <div class="card-header text-center bg-navy">
-                      <h5>Sensor 4</h5>
-                    </div>
-                    <div class="card-body">
-                      <TemperatureFour />
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12 col-sm-4">
-                  <div class="card">
-                    <div class="card-header text-center bg-navy">
-                      <h5>Sensor 5</h5>
-                    </div>
-                    <div class="card-body">
-                      <TemperatureFive />
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12 col-sm-4">
-                  <div class="card">
-                    <div class="card-header text-center bg-navy">
-                      <h5>Sensor 6</h5>
-                    </div>
-                    <div class="card-body">
-                      <TemperatureSix />
-                    </div>
-                  </div>
-                </div>
-              </div> -->
-                            <!-- <div class="row">
-                <div class="col-12 col-sm-4">
-                  <div class="card">
-                    <div class="card-header text-center bg-navy">
-                      <h5>Sensor 7</h5>
-                    </div>
-                    <div class="card-body">
-                      <TemperatureSeven />
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12 col-sm-4">
-                  <div class="card">
-                    <div class="card-header text-center bg-navy">
-                      <h5>Sensor 8</h5>
-                    </div>
-                    <div class="card-body">
-                      <TemperatureEight />
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12 col-sm-4">
-                  <div class="card">
-                    <div class="card-header text-center bg-navy">
-                      <h5>Sensor 9</h5>
-                    </div>
-                    <div class="card-body">
-                      <TemperatureHumidity
-                        sensor-id="6"
-                        element-id="temperature-one"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div> -->
+                            <div class="row">
+                                <div class="col-12 col-sm-4">
+                                    <TemperatureHumidity
+                                        sensor_id="6"
+                                        element_id="th1"
+                                        title="Temperature Humidity 1"
+                                    />
+                                </div>
+                                <div class="col-12 col-sm-4">
+                                    <TemperatureHumidity
+                                        sensor_id="7"
+                                        element_id="th2"
+                                        title="Temperature Humidity 2"
+                                    />
+                                </div>
+                                <div class="col-12 col-sm-4">
+                                    <TemperatureHumidity
+                                        sensor_id="8"
+                                        element_id="th3"
+                                        title="Temperature Humidity 3"
+                                    />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 col-sm-4">
+                                    <TemperatureHumidity
+                                        sensor_id="9"
+                                        element_id="th4"
+                                        title="Temperature Humidity 4"
+                                    />
+                                </div>
+                                <div class="col-12 col-sm-4">
+                                    <TemperatureHumidity
+                                        sensor_id="10"
+                                        element_id="th5"
+                                        title="Temperature Humidity 5"
+                                    />
+                                </div>
+                                <div class="col-12 col-sm-4">
+                                    <TemperatureHumidity
+                                        sensor_id="11"
+                                        element_id="th6"
+                                        title="Temperature Humidity 6"
+                                    />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 col-sm-4">
+                                    <TemperatureHumidity
+                                        sensor_id="12"
+                                        element_id="th7"
+                                        title="Temperature Humidity 7"
+                                    />
+                                </div>
+                                <div class="col-12 col-sm-4">
+                                    <TemperatureHumidity
+                                        sensor_id="13"
+                                        element_id="th8"
+                                        title="Temperature Humidity 8"
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-4 col-md-3 bg-navy">

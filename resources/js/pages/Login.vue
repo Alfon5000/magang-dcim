@@ -43,9 +43,9 @@ export default {
         },
     },
     mounted() {
-        if (this.loggedIn) {
-            this.$router.push({ name: "dashboard" });
-        }
+        // if (this.loggedIn === true) {
+        //     this.$router.push({ name: "dashboard" });
+        // }
     },
 };
 </script>

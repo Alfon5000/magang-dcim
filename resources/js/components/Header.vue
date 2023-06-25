@@ -18,18 +18,16 @@ export default {
         },
     },
     mounted() {
-        if (this.loggedIn === true) {
-            this.$router.push({ name: "dashboard" });
-        } else {
-            this.$router.push({ name: "login" });
-        }
+        // if (this.loggedIn === true) {
+        //     this.$router.push({ name: "dashboard" });
+        // }
     },
 };
 </script>
 
 <template>
     <!-- Navbar -->
-    <nav class="main-header navbar navbar-expand navbar-dark bg-dark">
+    <nav class="main-header navbar navbar-expand navbar-light">
         <!-- Left navbar links -->
         <ul class="navbar-nav">
             <li class="nav-item">

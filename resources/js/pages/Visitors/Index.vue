@@ -56,7 +56,6 @@ export default {
                                     type="text"
                                     class="form-control mb-3 mr-2"
                                     placeholder="Search here..."
-                                    v-model="keyword"
                                 />
                             </div>
                         </form>

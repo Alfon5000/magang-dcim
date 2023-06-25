@@ -6,26 +6,23 @@ export default {
             const dateElement = document.getElementById("date");
             const timeElement = document.getElementById("time");
 
-            const currentDate = new Date();
+            const dateTime = new Date();
 
-            const date = currentDate.toLocaleDateString(undefined, {
+            const date = dateTime.toLocaleDateString(undefined, {
                 weekday: "short",
                 year: "numeric",
                 month: "short",
                 day: "numeric",
             });
 
-            const time = currentDate.toLocaleTimeString();
+            const time = dateTime.toLocaleTimeString();
 
             dateElement.innerText = date;
             timeElement.innerText = time;
         },
-        updateSecond() {
-            setInterval(this.updateTime, 1000);
-        },
     },
     mounted() {
-        this.updateSecond();
+        setInterval(this.updateTime, 1000);
     },
 };
 </script>
