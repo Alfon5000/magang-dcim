@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class MagneticDoorController extends Controller
 {
-    public function index()
+    public function read()
     {
         $data = MagneticDoor::latest()->first();
         return response()->json([

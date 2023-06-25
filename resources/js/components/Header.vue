@@ -3,24 +3,14 @@ import api from "../api";
 
 export default {
     name: "Header",
-    data() {
-        return {
-            loggedIn: localStorage.getItem("loggedIn"),
-            token: localStorage.getItem("token"),
-        };
-    },
     methods: {
-        async logout() {
-            await api.get(`/logout`).then((response) => {
+        logout() {
+            api.get(`/logout`).then(() => {
                 localStorage.removeItem("loggedIn");
                 localStorage.removeItem("token");
+                this.$router.push({ name: "login" });
             });
         },
-    },
-    mounted() {
-        // if (this.loggedIn === true) {
-        //     this.$router.push({ name: "dashboard" });
-        // }
     },
 };
 </script>

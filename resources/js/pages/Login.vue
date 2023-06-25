@@ -5,8 +5,10 @@ export default {
     name: "Login",
     data() {
         return {
-            email: "",
-            password: "",
+            form: {
+                email: "",
+                password: "",
+            },
             loggedIn: localStorage.getItem("loggedIn"),
             token: localStorage.getItem("token"),
             loginFailed: null,
@@ -14,13 +16,10 @@ export default {
     },
     methods: {
         login() {
-            if (this.email && this.password) {
+            if (this.form.email && this.form.password) {
                 api.get("/sanctum/csrf-cookie").then((response) => {
                     console.log(response);
-                    api.post("/login", {
-                        email: this.email,
-                        password: this.password,
-                    })
+                    api.post("/login", this.form)
                         .then((response) => {
                             console.log(response);
                             if (response.data.success) {
@@ -43,9 +42,9 @@ export default {
         },
     },
     mounted() {
-        // if (this.loggedIn === true) {
-        //     this.$router.push({ name: "dashboard" });
-        // }
+        if (this.loggedIn === "true") {
+            this.$router.push({ name: "dashboard" });
+        }
     },
 };
 </script>
@@ -71,7 +70,7 @@ export default {
                             id="email"
                             name="email"
                             placeholder="Enter your email"
-                            v-model="email"
+                            v-model="form.email"
                         />
                     </div>
                     <div class="form-group">
@@ -82,7 +81,7 @@ export default {
                             id="password"
                             name="password"
                             placeholder="Enter your password"
-                            v-model="password"
+                            v-model="form.password"
                         />
                     </div>
                     <div class="form-group">

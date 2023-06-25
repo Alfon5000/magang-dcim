@@ -17,7 +17,7 @@ return new class extends Migration
             $table->float('temperature');
             $table->float('humidity');
             $table->foreignIdFor(Sensor::class);
-            $table->timestamps();
+            $table->timestamp('added_at');
         });
     }
 

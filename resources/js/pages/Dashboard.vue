@@ -1,14 +1,19 @@
 <script>
 import Alerts from "../components/Alerts.vue";
-// import MagneticDoor from "../components/Dashboard/MagneticDoor.vue";
-import TemperatureHumidity from "../components/dashboard/TemperatureHumidity.vue";
+import MagneticDoor from "../components/Dashboard/MagneticDoor.vue";
+import TemperatureHumidity from "../components/Dashboard/TemperatureHumidity.vue";
 
 export default {
     name: "Dashboard",
     components: {
         Alerts,
-        // MagneticDoor,
+        MagneticDoor,
         TemperatureHumidity,
+    },
+    mounted() {
+        if (localStorage.getItem("loggedIn") === null) {
+            this.$router.push({ name: "login" });
+        }
     },
 };
 </script>
@@ -85,6 +90,9 @@ export default {
                                         element_id="th8"
                                         title="Temperature Humidity 8"
                                     />
+                                </div>
+                                <div class="col-12 col-sm-4">
+                                    <MagneticDoor />
                                 </div>
                             </div>
                         </div>

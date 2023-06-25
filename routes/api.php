@@ -28,7 +28,7 @@ Route::apiResources([
     '/visitors' => VisitorController::class,
 ]);
 
-Route::get('/magnetic-door', [MagneticDoorController::class, 'index']);
+Route::get('/magnetic-door', [MagneticDoorController::class, 'read']);
 Route::get('/temperature-humidity/{id}', [TemperatureHumidityController::class, 'read']);
 
 Route::post('/login', [LoginController::class, 'login']);
