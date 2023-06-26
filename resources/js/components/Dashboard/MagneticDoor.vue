@@ -20,6 +20,10 @@ export default {
                             this.status = "Open";
                             this.color = "bg-danger";
                             this.icon = "fas fa-door-open";
+                        } else {
+                            this.status = "Closed";
+                            this.color = "bg-success";
+                            this.icon = "fas fa-door-closed";
                         }
                     }
                 })
@@ -29,7 +33,9 @@ export default {
         },
     },
     mounted() {
-        setInterval(this.readData, 2000);
+        setInterval(() => {
+            this.readData();
+        }, 1000);
     },
 };
 </script>
