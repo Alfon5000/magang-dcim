@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('magnetic_doors', function (Blueprint $table) {
             $table->id();
             $table->boolean('status');
-            $table->timestamp('added_at');
+            $table->timestamp('created_at');
         });
     }
 

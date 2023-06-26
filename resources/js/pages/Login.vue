@@ -5,7 +5,7 @@ export default {
     name: "Login",
     data() {
         return {
-            form: {
+            user: {
                 email: "",
                 password: "",
             },
@@ -16,10 +16,9 @@ export default {
     },
     methods: {
         login() {
-            if (this.form.email && this.form.password) {
+            if (this.user.email && this.user.password) {
                 api.get("/sanctum/csrf-cookie").then((response) => {
-                    console.log(response);
-                    api.post("/login", this.form)
+                    api.post("/login", this.user)
                         .then((response) => {
                             console.log(response);
                             if (response.data.success) {
@@ -28,8 +27,7 @@ export default {
                                     "token",
                                     response.data.token
                                 );
-                                this.loggedIn = true;
-                                return this.$router.push({ name: "dashboard" });
+                                this.$router.push({ name: "dashboard" });
                             } else {
                                 this.loginFailed = true;
                             }
@@ -41,7 +39,7 @@ export default {
             }
         },
     },
-    mounted() {
+    beforeMount() {
         if (this.loggedIn === "true") {
             this.$router.push({ name: "dashboard" });
         }
@@ -70,7 +68,7 @@ export default {
                             id="email"
                             name="email"
                             placeholder="Enter your email"
-                            v-model="form.email"
+                            v-model="user.email"
                         />
                     </div>
                     <div class="form-group">
@@ -81,7 +79,7 @@ export default {
                             id="password"
                             name="password"
                             placeholder="Enter your password"
-                            v-model="form.password"
+                            v-model="user.password"
                         />
                     </div>
                     <div class="form-group">

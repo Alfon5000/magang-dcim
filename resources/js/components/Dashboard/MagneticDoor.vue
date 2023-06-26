@@ -38,7 +38,7 @@ export default {
     <div class="small-box" :class="color">
         <div class="inner">
             <h3>{{ status }}</h3>
-            <p>Door</p>
+            <p>Magnetic Door</p>
         </div>
         <div class="icon">
             <i :class="icon"></i>

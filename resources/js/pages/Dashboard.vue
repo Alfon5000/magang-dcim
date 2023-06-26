@@ -2,16 +2,26 @@
 import Alerts from "../components/Alerts.vue";
 import MagneticDoor from "../components/Dashboard/MagneticDoor.vue";
 import TemperatureHumidity from "../components/Dashboard/TemperatureHumidity.vue";
+import UsersStatus from "../components/Dashboard/UsersStatus.vue";
+import VisitorsStatus from "../components/Dashboard/VisitorsStatus.vue";
 
 export default {
     name: "Dashboard",
+    data() {
+        return {
+            loggedIn: localStorage.getItem("loggedIn"),
+            token: localStorage.getItem("token"),
+        };
+    },
     components: {
         Alerts,
         MagneticDoor,
         TemperatureHumidity,
+        UsersStatus,
+        VisitorsStatus,
     },
-    mounted() {
-        if (localStorage.getItem("loggedIn") === null) {
+    beforeMount() {
+        if (this.loggedIn === null && this.token === null) {
             this.$router.push({ name: "login" });
         }
     },
@@ -30,6 +40,17 @@ export default {
                             <h2>Dashboard</h2>
                         </div>
                         <div class="content">
+                            <div class="row">
+                                <div class="col-12 col-sm-4">
+                                    <UsersStatus />
+                                </div>
+                                <div class="col-12 col-sm-4">
+                                    <VisitorsStatus />
+                                </div>
+                                <div class="col-12 col-sm-4">
+                                    <MagneticDoor />
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-12 col-sm-4">
                                     <TemperatureHumidity
@@ -90,9 +111,6 @@ export default {
                                         element_id="th8"
                                         title="Temperature Humidity 8"
                                     />
-                                </div>
-                                <div class="col-12 col-sm-4">
-                                    <MagneticDoor />
                                 </div>
                             </div>
                         </div>
