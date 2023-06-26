@@ -5,10 +5,12 @@ export default {
     name: "VisitorsEdit",
     data() {
         return {
-            name: "",
-            visiting_date: "",
-            status: "",
-            description: "",
+            visitor: {
+                name: "",
+                visiting_date: "",
+                status: "",
+                description: "",
+            },
             errors: [],
         };
     },
@@ -17,20 +19,16 @@ export default {
             await api
                 .get(`/visitors/${this.$route.params.id}`)
                 .then((response) => {
-                    this.name = response.data.data.name;
-                    this.visiting_date = response.data.data.visiting_date;
-                    this.status = response.data.data.status;
-                    this.description = response.data.data.description;
+                    this.visitor.name = response.data.data.name;
+                    this.visitor.visiting_date =
+                        response.data.data.visiting_date;
+                    this.visitor.status = response.data.data.status;
+                    this.visitor.description = response.data.data.description;
                 });
         },
         async updateVisitor() {
             await api
-                .put(`/visitors/${this.$route.params.id}`, {
-                    name: this.name,
-                    visiting_date: this.visiting_date,
-                    status: this.status,
-                    description: this.description,
-                })
+                .put(`/visitors/${this.$route.params.id}`, this.visitor)
                 .then(() => {
                     this.$router.push({ name: "visitors.index" });
                 })
@@ -60,7 +58,7 @@ export default {
                         <input
                             type="text"
                             class="form-control"
-                            v-model="name"
+                            v-model="visitor.name"
                             placeholder="Visitor name..."
                         />
                         <div v-if="errors.name" class="alert alert-danger mt-2">
@@ -72,7 +70,7 @@ export default {
                         <input
                             type="date"
                             class="form-control"
-                            v-model="visiting_date"
+                            v-model="visitor.visiting_date"
                         />
                         <div
                             v-if="errors.visiting_date"
@@ -86,7 +84,7 @@ export default {
                         <input
                             type="text"
                             class="form-control"
-                            v-model="status"
+                            v-model="visitor.status"
                             placeholder="Visitor status..."
                         />
                         <div
@@ -101,7 +99,7 @@ export default {
                         <input
                             type="text"
                             class="form-control"
-                            v-model="description"
+                            v-model="visitor.description"
                             placeholder="Visitor description..."
                         />
                         <div

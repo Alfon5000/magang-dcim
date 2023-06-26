@@ -5,22 +5,19 @@ export default {
     name: "UsersCreate",
     data() {
         return {
-            name: "",
-            email: "",
-            role: "",
-            password: "",
+            user: {
+                name: "",
+                email: "",
+                role: "",
+                password: "",
+            },
             errors: [],
         };
     },
     methods: {
         async storeUser() {
             await api
-                .post(`/users`, {
-                    name: this.name,
-                    email: this.email,
-                    role: this.role,
-                    password: this.password,
-                })
+                .post(`/users`, this.user)
                 .then(() => {
                     this.$router.push({ name: "users.index" });
                 })

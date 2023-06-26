@@ -4,8 +4,8 @@ import api from "../api";
 export default {
     name: "Header",
     methods: {
-        async logout() {
-            await api.get(`/logout`).then(() => {
+        logout() {
+            api.get(`/logout`).then(() => {
                 localStorage.removeItem("loggedIn");
                 localStorage.removeItem("token");
                 this.$router.push({ name: "login" });

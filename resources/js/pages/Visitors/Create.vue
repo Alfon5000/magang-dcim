@@ -5,22 +5,18 @@ export default {
     name: "VisitorsCreate",
     data() {
         return {
-            name: "",
-            visiting_date: "",
-            status: "",
-            description: "",
+            visitor: {
+                name: "",
+                visiting_date: "",
+                status: "",
+                description: "",
+            },
             errors: [],
-            keyword: "",
         };
     },
     methods: {
         async storeVisitor() {
-            api.post(`/visitors`, {
-                name: this.name,
-                visiting_date: this.visiting_date,
-                status: this.status,
-                description: this.description,
-            })
+            api.post(`/visitors`, this.visitor)
                 .then(() => {
                     this.$router.push({ name: "visitors.index" });
                 })
@@ -47,7 +43,7 @@ export default {
                         <input
                             type="text"
                             class="form-control"
-                            v-model="name"
+                            v-model="visitor.name"
                             placeholder="Visitor name..."
                         />
                         <div v-if="errors.name" class="alert alert-danger mt-2">
@@ -59,7 +55,7 @@ export default {
                         <input
                             type="date"
                             class="form-control"
-                            v-model="visiting_date"
+                            v-model="visitor.visiting_date"
                         />
                         <div
                             v-if="errors.visiting_date"
@@ -73,7 +69,7 @@ export default {
                         <input
                             type="text"
                             class="form-control"
-                            v-model="status"
+                            v-model="visitor.status"
                             placeholder="Visitor status..."
                         />
                         <div
@@ -88,7 +84,7 @@ export default {
                         <input
                             type="text"
                             class="form-control"
-                            v-model="description"
+                            v-model="visitor.description"
                             placeholder="Visitor description..."
                         />
                         <div

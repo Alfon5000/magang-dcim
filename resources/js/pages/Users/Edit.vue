@@ -5,10 +5,12 @@ export default {
     name: "UsersEdit",
     data() {
         return {
-            name: "",
-            email: "",
-            role: "",
-            password: "",
+            user: {
+                name: "",
+                email: "",
+                role: "",
+                password: "",
+            },
             errors: [],
         };
     },
@@ -17,20 +19,15 @@ export default {
             await api
                 .get(`/users/${this.$route.params.id}`)
                 .then((response) => {
-                    this.name = response.data.data.name;
-                    this.email = response.data.data.email;
-                    this.role = response.data.data.role;
-                    this.password = response.data.data.password;
+                    this.user.name = response.data.data.name;
+                    this.user.email = response.data.data.email;
+                    this.user.role = response.data.data.role;
+                    this.user.password = response.data.data.password;
                 });
         },
         async updateUser() {
             await api
-                .put(`/users/${this.$route.params.id}`, {
-                    name: this.name,
-                    email: this.email,
-                    role: this.role,
-                    password: this.password,
-                })
+                .put(`/users/${this.$route.params.id}`, this.user)
                 .then(() => {
                     this.$router.push({ name: "users.index" });
                 })
@@ -58,7 +55,7 @@ export default {
                         <input
                             type="text"
                             class="form-control"
-                            v-model="name"
+                            v-model="user.name"
                             placeholder="User name"
                         />
                         <div v-if="errors.name" class="alert alert-danger mt-2">
@@ -70,7 +67,7 @@ export default {
                         <input
                             type="email"
                             class="form-control"
-                            v-model="email"
+                            v-model="user.email"
                             placeholder="User email"
                         />
                         <div
@@ -85,7 +82,7 @@ export default {
                         <input
                             type="text"
                             class="form-control"
-                            v-model="role"
+                            v-model="user.role"
                             placeholder="User role"
                         />
                         <div v-if="errors.role" class="alert alert-danger mt-2">
@@ -97,7 +94,7 @@ export default {
                         <input
                             type="password"
                             class="form-control"
-                            v-model="password"
+                            v-model="user.password"
                             placeholder="User password"
                         />
                         <div

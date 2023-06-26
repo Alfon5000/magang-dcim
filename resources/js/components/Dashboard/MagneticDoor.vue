@@ -33,9 +33,7 @@ export default {
         },
     },
     mounted() {
-        setInterval(() => {
-            this.readData();
-        }, 1000);
+        setInterval(this.readData, 1000);
     },
 };
 </script>
