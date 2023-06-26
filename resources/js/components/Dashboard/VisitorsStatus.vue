@@ -35,8 +35,8 @@ export default {
         <div class="icon">
             <i class="fas fa-walking"></i>
         </div>
-        <a href="#" class="small-box-footer">
-            More info <i class="fas fa-arrow-circle-right"></i>
-        </a>
+        <router-link :to="{ name: 'visitors.index' }" class="small-box-footer"
+            >More info <i class="fas fa-arrow-circle-right"></i>
+        </router-link>
     </div>
 </template>

@@ -9,9 +9,7 @@ export default {
     },
     data() {
         return {
-            visitors: {
-                data: [],
-            },
+            visitors: [],
         };
     },
     methods: {
@@ -74,7 +72,7 @@ export default {
                     </thead>
                     <tbody>
                         <tr
-                            v-if="visitors.data.length > 0"
+                            v-if="visitors.total > 0"
                             v-for="(visitor, index) in visitors.data"
                             :key="index"
                         >

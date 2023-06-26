@@ -38,20 +38,20 @@ export default {
                     </li>
                     <li class="nav-item">
                         <router-link
-                            :to="{ name: 'visitors.index' }"
-                            class="nav-link"
-                        >
-                            <i class="nav-icon fas fa-users mr-2"></i>
-                            <p>Visitors</p>
-                        </router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link
                             :to="{ name: 'users.index' }"
                             class="nav-link"
                         >
                             <i class="nav-icon fas fa-user mr-2"></i>
                             <p>Users</p>
+                        </router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link
+                            :to="{ name: 'visitors.index' }"
+                            class="nav-link"
+                        >
+                            <i class="nav-icon fas fa-users mr-2"></i>
+                            <p>Visitors</p>
                         </router-link>
                     </li>
                     <li class="nav-item">
