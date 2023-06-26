@@ -2,27 +2,32 @@
 export default {
     name: "Alerts",
     methods: {
+        createDateTime() {
+            if (this.$route.name === "dashboard") {
+                const dateElement = document.getElementById("date");
+                const timeElement = document.getElementById("time");
+
+                const dateTime = new Date();
+
+                const date = dateTime.toLocaleDateString(undefined, {
+                    weekday: "short",
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                });
+
+                const time = dateTime.toLocaleTimeString();
+
+                dateElement.innerText = date;
+                timeElement.innerText = time;
+            }
+        },
         updateTime() {
-            const dateElement = document.getElementById("date");
-            const timeElement = document.getElementById("time");
-
-            const dateTime = new Date();
-
-            const date = dateTime.toLocaleDateString(undefined, {
-                weekday: "short",
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-            });
-
-            const time = dateTime.toLocaleTimeString();
-
-            dateElement.innerText = date;
-            timeElement.innerText = time;
+            setInterval(this.createDateTime, 1000);
         },
     },
     mounted() {
-        setInterval(this.updateTime, 1000);
+        this.updateTime();
     },
 };
 </script>

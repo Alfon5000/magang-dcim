@@ -13,7 +13,7 @@ export default {
     methods: {
         async readData() {
             await api
-                .get(`magnetic-door`)
+                .get(`/magnetic-door`)
                 .then((response) => {
                     if (response.data.success === true) {
                         if (response.data.data.status === 0) {
@@ -29,7 +29,7 @@ export default {
         },
     },
     mounted() {
-        setInterval(this.readData, 1000);
+        setInterval(this.readData, 2000);
     },
 };
 </script>

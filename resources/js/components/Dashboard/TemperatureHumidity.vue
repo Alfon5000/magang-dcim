@@ -51,7 +51,7 @@ export default {
                 data.setValue(0, 1, this.temperature);
                 data.setValue(1, 1, this.humidity);
                 chart.draw(data, options);
-            }, 1000);
+            }, 2000);
         },
     },
     mounted() {

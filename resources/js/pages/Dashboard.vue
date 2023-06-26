@@ -116,7 +116,7 @@ export default {
                         </div>
                     </div>
                     <div class="col-12 col-sm-4 col-md-3 bg-navy">
-                        <!-- <Alerts /> -->
+                        <Alerts />
                     </div>
                 </div>
             </div>
