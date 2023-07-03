@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -16,10 +17,12 @@ class UserController extends Controller
     public function index()
     {
         $users = User::latest()->paginate(5);
+        $all = User::all();
 
         return response()->json([
             'success' => true,
             'data' => $users,
+            'all' => $all,
         ]);
     }
 
@@ -30,9 +33,10 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
+            'role_id' => 'required',
             'email' => 'required|unique:users',
-            'role' => 'required',
             'password' => 'required|min:6',
+            'image' => 'required|image|max:2048',
         ]);
 
         if ($validator->fails()) {
@@ -42,8 +46,12 @@ class UserController extends Controller
             ]);
         }
 
+        $image = $request->file('image');
+        $image->storeAs('public/users', $image->hashName());
+
         $validated = $validator->validated();
         $validated['password'] = Hash::make($validated['password']);
+        $validated['image'] = $image->hashName();
         User::create($validated);
 
         return response()->json([
@@ -88,9 +96,10 @@ class UserController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'required',
+            'role_id' => 'required',
             'email' => 'required',
-            'role' => 'required',
             'password' => 'required|min:6',
+            'image' => 'image|max:2048',
         ]);
 
         if ($validator->fails()) {
@@ -102,7 +111,16 @@ class UserController extends Controller
 
         $validated = $validator->validated();
         $validated['password'] = Hash::make($validated['password']);
-        $user->update($validated);
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $image->storeAs('public/users', $image->hashName());
+            Storage::delete('public/users/' . basename($user->image));
+            $validated['image'] = $image->hashName();
+            $user->update($validated);
+        } else {
+            $user->update($validated);
+        }
 
         return response()->json([
             'success' => true,
@@ -124,6 +142,7 @@ class UserController extends Controller
             ], 404);
         }
 
+        Storage::delete('public/users/' . basename($user->image));
         $user->delete();
         return response()->json([
             'success' => true,

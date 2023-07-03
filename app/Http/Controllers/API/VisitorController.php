@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Visitor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class VisitorController extends Controller
@@ -15,10 +16,12 @@ class VisitorController extends Controller
     public function index()
     {
         $visitors = Visitor::latest()->paginate(5);
+        $all = Visitor::all();
 
         return response()->json([
             'success' => 'true',
-            'data' => $visitors
+            'data' => $visitors,
+            'all' => $all,
         ]);
     }
 
@@ -29,8 +32,10 @@ class VisitorController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'visiting_date' => 'required',
-            'status' => 'required',
+            'visitor_category_id' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
+            'application_letter' => 'required|file|max:2048',
             'description' => 'required',
         ]);
 
@@ -41,7 +46,11 @@ class VisitorController extends Controller
             ]);
         }
 
+        $letter = $request->file('letter');
+        $letter->storeAs('public/application-letters', $letter->hashName());
+
         $validated = $validator->validated();
+        $validated['application_letter'] = $letter->hashName();
         Visitor::create($validated);
 
         return response()->json([
@@ -86,8 +95,10 @@ class VisitorController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'visiting_date' => 'required',
-            'status' => 'required',
+            'visitor_category_id' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
+            'application_letter' => 'file|max:2048',
             'description' => 'required',
         ]);
 
@@ -99,7 +110,16 @@ class VisitorController extends Controller
         }
 
         $validated = $validator->validated();
-        $visitor->update($validated);
+
+        if ($request->hasFile('letter')) {
+            $letter = $request->file('letter');
+            $letter->storeAs('public/application-letters', $letter->hashName());
+            Storage::delete('public/application-letters' . basename($visitor->application_letter));
+            $validated['application_letter'] = $letter->hashName();
+            $visitor->update($validated);
+        } else {
+            $visitor->update($validated);
+        }
 
         return response()->json([
             'success' => true,
@@ -121,8 +141,8 @@ class VisitorController extends Controller
             ], 404);
         }
 
+        Storage::delete('public/application-letters/' . basename($visitor->application_letter));
         $visitor->delete();
-
         return response()->json([
             'success' => true,
             'message' => 'Visitor has been deleted.'
