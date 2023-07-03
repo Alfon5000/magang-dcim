@@ -12,16 +12,17 @@ export default {
             loggedIn: localStorage.getItem("loggedIn"),
             token: localStorage.getItem("token"),
             loginFailed: null,
+            errors: [],
         };
     },
     methods: {
-        login() {
+        async login() {
             if (this.user.email && this.user.password) {
-                api.get("/sanctum/csrf-cookie").then((response) => {
-                    api.post("/login", this.user)
+                await api.get("/sanctum/csrf-cookie").then(async (response) => {
+                    await api
+                        .post("/login", this.user)
                         .then((response) => {
-                            console.log(response);
-                            if (response.data.success) {
+                            if (response.data.success === true) {
                                 localStorage.setItem("loggedIn", true);
                                 localStorage.setItem(
                                     "token",
@@ -29,11 +30,12 @@ export default {
                                 );
                                 this.$router.push({ name: "dashboard" });
                             } else {
+                                this.errors = response.data.message;
                                 this.loginFailed = true;
                             }
                         })
                         .catch((error) => {
-                            console.error(error);
+                            console.log(error);
                         });
                 });
             }
@@ -70,6 +72,9 @@ export default {
                             placeholder="Enter your email"
                             v-model="user.email"
                         />
+                        <div v-if="errors.email" class="text-danger mt-2">
+                            {{ errors.email[0] }}
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
@@ -81,6 +86,9 @@ export default {
                             placeholder="Enter your password"
                             v-model="user.password"
                         />
+                        <div v-if="errors.password" class="text-danger mt-2">
+                            {{ errors.password[0] }}
+                        </div>
                     </div>
                     <div class="form-group">
                         <a href="#">Forgot password?</a>

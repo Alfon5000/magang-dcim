@@ -14,17 +14,15 @@ export default {
     },
     methods: {
         async readData() {
-            if (this.$route.name === "dashboard") {
-                await api
-                    .get(`temperature-humidity/${this.sensorId}`)
-                    .then((response) => {
-                        this.temperature = response.data.data.temperature;
-                        this.humidity = response.data.data.humidity;
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    });
-            }
+            await api
+                .get(`temperature-humidity/${this.sensorId}`)
+                .then((response) => {
+                    this.temperature = response.data.data.temperature;
+                    this.humidity = response.data.data.humidity;
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
         },
         drawChart() {
             const data = google.visualization.arrayToDataTable([

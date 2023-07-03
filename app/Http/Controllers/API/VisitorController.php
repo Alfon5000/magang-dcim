@@ -15,7 +15,7 @@ class VisitorController extends Controller
      */
     public function index()
     {
-        $visitors = Visitor::latest()->paginate(5);
+        $visitors = Visitor::with('visitor_category')->latest()->paginate(5);
         $all = Visitor::all();
 
         return response()->json([
@@ -42,12 +42,12 @@ class VisitorController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
-                'errors' => $validator->errors(),
+                'message' => $validator->errors(),
             ]);
         }
 
         $letter = $request->file('letter');
-        $letter->storeAs('public/application-letters', $letter->hashName());
+        $letter->storeAs('public/documents/application-letters', $letter->hashName());
 
         $validated = $validator->validated();
         $validated['application_letter'] = $letter->hashName();
@@ -64,7 +64,7 @@ class VisitorController extends Controller
      */
     public function show(string $id)
     {
-        $visitor = Visitor::find($id);
+        $visitor = Visitor::with('visitor_category')->find($id);
 
         if (!$visitor) {
             return response()->json([
@@ -84,7 +84,7 @@ class VisitorController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $visitor = Visitor::find($id);
+        $visitor = Visitor::with('visitor_category')->find($id);
 
         if (!$visitor) {
             return response()->json([
@@ -105,7 +105,7 @@ class VisitorController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
-                'errors' => $validator->errors(),
+                'message' => $validator->errors(),
             ]);
         }
 
@@ -113,8 +113,8 @@ class VisitorController extends Controller
 
         if ($request->hasFile('letter')) {
             $letter = $request->file('letter');
-            $letter->storeAs('public/application-letters', $letter->hashName());
-            Storage::delete('public/application-letters' . basename($visitor->application_letter));
+            $letter->storeAs('public/documents/application-letters', $letter->hashName());
+            Storage::delete('public/documents/application-letters/' . basename($visitor->application_letter));
             $validated['application_letter'] = $letter->hashName();
             $visitor->update($validated);
         } else {

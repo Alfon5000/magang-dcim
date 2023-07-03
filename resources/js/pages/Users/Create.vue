@@ -7,24 +7,51 @@ export default {
         return {
             user: {
                 name: "",
+                role_id: "",
+                image: "",
                 email: "",
-                role: "",
                 password: "",
             },
+            roles: [],
             errors: [],
+            config: {
+                headers: {
+                    "content-type": "multipart/form-data",
+                },
+            },
         };
     },
     methods: {
         async storeUser() {
             await api
-                .post(`/users`, this.user)
-                .then(() => {
-                    this.$router.push({ name: "users.index" });
+                .post(`/users`, this.user, this.config)
+                .then((response) => {
+                    if (response.data.success === true) {
+                        this.$router.push({ name: "users.index" });
+                    } else {
+                        this.errors = response.data.message;
+                    }
                 })
                 .catch((error) => {
-                    errors = error.response.data.errors;
+                    console.log(error);
                 });
         },
+        async getRoles() {
+            await api
+                .get("/roles")
+                .then((response) => {
+                    this.roles = response.data.data;
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
+        handleFileChange(event) {
+            this.user.image = event.target.files[0];
+        },
+    },
+    mounted() {
+        this.getRoles();
     },
 };
 </script>
@@ -44,11 +71,11 @@ export default {
                         <input
                             type="text"
                             class="form-control"
-                            v-model="name"
+                            v-model="user.name"
                             placeholder="User name"
                         />
-                        <div v-if="errors.name" class="alert alert-danger mt-2">
-                            <span>{{ errors.name[0] }}</span>
+                        <div v-if="errors.name" class="text-danger mt-2">
+                            {{ errors.name[0] }}
                         </div>
                     </div>
                     <div class="mb-3">
@@ -56,26 +83,34 @@ export default {
                         <input
                             type="email"
                             class="form-control"
-                            v-model="email"
+                            v-model="user.email"
                             placeholder="User email"
                         />
-                        <div
-                            v-if="errors.email"
-                            class="alert alert-danger mt-2"
-                        >
-                            <span>{{ errors.email[0] }}</span>
+                        <div v-if="errors.email" class="text-danger mt-2">
+                            {{ errors.email[0] }}
                         </div>
                     </div>
                     <div class="mb-3">
                         <label class="form-label fw-bold">Role</label>
+                        <select class="form-control" v-model="user.role_id">
+                            <option
+                                v-for="(role, index) in roles"
+                                :key="index"
+                                :value="role.id"
+                            >
+                                {{ role.name }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Image</label>
                         <input
-                            type="text"
+                            type="file"
                             class="form-control"
-                            v-model="role"
-                            placeholder="User role"
+                            @change="handleFileChange($event)"
                         />
-                        <div v-if="errors.role" class="alert alert-danger mt-2">
-                            <span>{{ errors.role[0] }}</span>
+                        <div v-if="errors.image" class="text-danger mt-2">
+                            {{ errors.image[0] }}
                         </div>
                     </div>
                     <div class="mb-3">
@@ -83,14 +118,11 @@ export default {
                         <input
                             type="password"
                             class="form-control"
-                            v-model="password"
+                            v-model="user.password"
                             placeholder="User password"
                         />
-                        <div
-                            v-if="errors.password"
-                            class="alert alert-danger mt-2"
-                        >
-                            <span>{{ errors.password[0] }}</span>
+                        <div v-if="errors.password" class="text-danger mt-2">
+                            {{ errors.password[0] }}
                         </div>
                     </div>
                     <div class="mb-3">

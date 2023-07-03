@@ -2,8 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\LoginController;
+use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\API\LoginController;
 use App\Http\Controllers\API\VisitorController;
 use App\Http\Controllers\API\MagneticDoorController;
 use App\Http\Controllers\API\TemperatureHumidityController;
@@ -26,6 +27,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::apiResources([
     '/users' => UserController::class,
     '/visitors' => VisitorController::class,
+    '/roles' => RoleController::class,
 ]);
 
 Route::get('/magnetic-door', [MagneticDoorController::class, 'read']);

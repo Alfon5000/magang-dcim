@@ -61,6 +61,7 @@ export default {
                     <thead class="bg-navy text-white">
                         <tr>
                             <th scope="col">No</th>
+                            <th scope="col">Image</th>
                             <th scope="col">Name</th>
                             <th scope="col">Email</th>
                             <th scope="col">Role</th>
@@ -75,11 +76,18 @@ export default {
                             :key="index"
                         >
                             <td>{{ ++index }}</td>
+                            <td class="text-center">
+                                <img
+                                    :src="`storage/images/users/${user.image}`"
+                                    alt="user-image"
+                                    width="150"
+                                />
+                            </td>
                             <td>{{ user.name }}</td>
                             <td>{{ user.email }}</td>
-                            <td>{{ user.role }}</td>
+                            <td>{{ user.role.name }}</td>
                             <td>{{ user.created_at }}</td>
-                            <td class="d-flex">
+                            <td class="text-center">
                                 <router-link
                                     :to="{
                                         name: 'users.edit',
@@ -99,7 +107,7 @@ export default {
                             </td>
                         </tr>
                         <tr v-else>
-                            <td colspan="6" class="text-center">
+                            <td colspan="7" class="text-center">
                                 <div class="alert alert-danger mb-0">
                                     User is not available.
                                 </div>
@@ -107,11 +115,11 @@ export default {
                         </tr>
                     </tbody>
                 </table>
+                <Bootstrap4Pagination
+                    :data="users"
+                    @pagination-change-page="getUsers"
+                />
             </div>
-            <Bootstrap4Pagination
-                :data="users"
-                @pagination-change-page="getUsers"
-            />
         </div>
     </div>
 </template>

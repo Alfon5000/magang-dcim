@@ -13,14 +13,14 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email' => ['required', 'email'],
-            'password' => ['required'],
+            'email' => 'required|email',
+            'password' => 'required|min:6',
         ]);
 
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
-                'errors' => $validator->errors(),
+                'message' => $validator->errors(),
             ]);
         }
 
@@ -37,7 +37,7 @@ class LoginController extends Controller
 
         return response()->json([
             'success' => true,
-            'user' => $user,
+            'data' => $user,
             'token' => $token,
         ]);
     }
@@ -47,7 +47,7 @@ class LoginController extends Controller
         auth()->logout();
         return response()->json([
             'success' => true,
-            'message' => 'Logout successfully.',
+            'message' => 'Log out successfully.',
         ], 200);
     }
 }
