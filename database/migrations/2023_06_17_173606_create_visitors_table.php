@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('visitors', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->date('visiting_date');
+            $table->date('start_date');
+            $table->date('end_date');
+            $table->string('application_letter');
             $table->string('status');
             $table->text('description');
             $table->timestamps();

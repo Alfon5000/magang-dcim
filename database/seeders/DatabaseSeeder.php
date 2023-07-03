@@ -16,12 +16,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(20)->create();
-        Visitor::factory(20)->create();
-
         $this->call([
+            RoleSeeder::class,
             UserSeeder::class,
+            VisitorCategorySeeder::class,
             SensorSeeder::class,
         ]);
+
+        // User::factory(20)->create();
+        // Visitor::factory(20)->create();
     }
 }

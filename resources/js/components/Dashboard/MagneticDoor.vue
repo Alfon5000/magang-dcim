@@ -12,24 +12,26 @@ export default {
     },
     methods: {
         async readData() {
-            await api
-                .get(`/magnetic-door`)
-                .then((response) => {
-                    if (response.data.success === true) {
-                        if (response.data.data.status === 0) {
-                            this.status = "Open";
-                            this.color = "bg-danger";
-                            this.icon = "fas fa-door-open";
-                        } else {
-                            this.status = "Closed";
-                            this.color = "bg-success";
-                            this.icon = "fas fa-door-closed";
+            if (this.$route.name === "dashboard") {
+                await api
+                    .get(`/magnetic-door`)
+                    .then((response) => {
+                        if (response.data.success === true) {
+                            if (response.data.data.status === 1) {
+                                this.status = response.data.data.description;
+                                this.color = "bg-danger";
+                                this.icon = "fas fa-door-open";
+                            } else {
+                                this.status = response.data.data.description;
+                                this.color = "bg-success";
+                                this.icon = "fas fa-door-closed";
+                            }
                         }
-                    }
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            }
         },
     },
     mounted() {

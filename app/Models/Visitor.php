@@ -11,8 +11,15 @@ class Visitor extends Model
 
     protected $fillable = [
         'name',
-        'visiting_date',
-        'status',
+        'visitor_category_id',
+        'start_date',
+        'end_date',
+        'application_letter',
         'description',
     ];
+
+    public function visitor_category()
+    {
+        return $this->belongsTo(VisitorCategory::class);
+    }
 }

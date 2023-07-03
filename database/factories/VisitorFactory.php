@@ -19,8 +19,10 @@ class VisitorFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'visiting_date' => fake()->date(max: now()),
-            'status' => Arr::random(['Accepted', 'Rejected']),
+            'visitor_category_id' => Arr::random([1, 2]),
+            'start_date' => fake()->date(max: now()),
+            'end_date' => fake()->date(max: now()),
+            'application_letter' => fake()->word(),
             'description' => fake()->paragraph(),
         ];
     }
