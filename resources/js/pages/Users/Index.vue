@@ -19,8 +19,8 @@ export default {
                 .get(`/users`, {
                     params: {
                         page,
-                        // search: this.keyword.length > 0 ? this.keyword : "",
-                        role: this.keyword.length > 0 ? this.keyword : "",
+                        search: this.keyword.length > 0 ? this.keyword : "",
+                        // role: this.keyword.length > 0 ? this.keyword : "",
                     },
                 })
                 .then((response) => {
@@ -56,13 +56,18 @@ export default {
                         >
                     </div>
                     <div class="float-right">
-                        <form @submit.prevent="getUsers()">
+                        <form @submit.prevent="getUsers()" method="GET">
                             <div class="input-group">
                                 <input
                                     type="text"
                                     class="form-control mb-3"
                                     placeholder="Search here..."
                                     v-model="keyword"
+                                />
+                                <input
+                                    type="hidden"
+                                    name="role"
+                                    :value="keyword"
                                 />
                             </div>
                         </form>

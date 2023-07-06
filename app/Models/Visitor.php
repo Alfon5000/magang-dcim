@@ -34,10 +34,10 @@ class Visitor extends Model
                 ->orWhere('description', 'like', '%' . $search . '%');
         });
 
-        // $query->when($filter['visitor_category'] ?? false, function ($query, $visitor_category) {
-        //     return $query->whereHas('visitor_category', function ($query) use ($visitor_category) {
-        //         $query->where('name', 'like', '%' . $visitor_category . '%');
-        //     });
-        // });
+        $query->when($filter['visitor_category'] ?? false, function ($query, $visitor_category) {
+            return $query->whereHas('visitor_category', function ($query) use ($visitor_category) {
+                $query->where('name', 'like', '%' . $visitor_category . '%');
+            });
+        });
     }
 }
