@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\VisitorCategory;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,6 +14,7 @@ return new class extends Migration
     {
         Schema::create('visitors', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(VisitorCategory::class);
             $table->string('name');
             $table->date('start_date');
             $table->date('end_date');

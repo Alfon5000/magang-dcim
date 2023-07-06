@@ -24,6 +24,6 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::factory(20)->create();
-        // Visitor::factory(20)->create();
+        Visitor::factory(20)->create();
     }
 }

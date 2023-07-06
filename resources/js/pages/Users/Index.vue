@@ -19,7 +19,8 @@ export default {
                 .get(`/users`, {
                     params: {
                         page,
-                        search: this.keyword.length > 0 ? this.keyword : "",
+                        // search: this.keyword.length > 0 ? this.keyword : "",
+                        role: this.keyword.length > 0 ? this.keyword : "",
                     },
                 })
                 .then((response) => {

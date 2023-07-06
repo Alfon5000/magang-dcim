@@ -15,7 +15,8 @@ class VisitorController extends Controller
      */
     public function index()
     {
-        $visitors = Visitor::with('visitor_category')->latest()->paginate(5);
+
+        $visitors = Visitor::filter(request(['search', 'visitor_category']))->latest()->paginate(5);
         $all = Visitor::all();
 
         return response()->json([
@@ -64,7 +65,7 @@ class VisitorController extends Controller
      */
     public function show(string $id)
     {
-        $visitor = Visitor::with('visitor_category')->find($id);
+        $visitor = Visitor::find($id);
 
         if (!$visitor) {
             return response()->json([
@@ -84,7 +85,7 @@ class VisitorController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $visitor = Visitor::with('visitor_category')->find($id);
+        $visitor = Visitor::find($id);
 
         if (!$visitor) {
             return response()->json([

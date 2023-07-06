@@ -25,6 +25,8 @@ class User extends Authenticatable
         'image',
     ];
 
+    protected $with = ['role'];
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -48,5 +50,19 @@ class User extends Authenticatable
     public function role()
     {
         return $this->belongsTo(Role::class);
+    }
+
+    public function scopeFilter($query, array $filter)
+    {
+        $query->when($filter['search'] ?? false, function ($query, $search) {
+            return $query->where('name', 'like', '%' . $search . '%')
+                ->orWhere('email', 'like', '%' . $search . '%');
+        });
+
+        // $query->when($filter['role'] ?? false, function ($query, $role) {
+        //     return $query->whereHas('role', function ($query) use ($role) {
+        //         $query->where('name', 'like', '%' . $role . '%');
+        //     });
+        // });
     }
 }

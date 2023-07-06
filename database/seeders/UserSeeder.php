@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
             'role_id' => 1,
             'image' => 'image.jpg',
             'email' => 'alfonso@gmail.com',
-            'password' => Hash::make('password'),
+            'password' => Hash::make('15041997'),
         ];
 
         User::create($user);

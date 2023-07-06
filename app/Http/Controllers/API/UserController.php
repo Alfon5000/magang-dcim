@@ -16,15 +16,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        if (request('search')) {
-            $users = User::with('role')
-                ->where('name', 'like', '%' . request('search') . '%')
-                ->orWhere('email', 'like', '%' . request('search') . '%')
-                ->latest()->paginate(5);
-        } else {
-            $users = User::with('role')->latest()->paginate(5);
-        }
-
+        $users = User::filter(request(['search', 'role']))->latest()->paginate(5);
         $all = User::all();
 
         return response()->json([
@@ -73,7 +65,7 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        $user = User::with('role')->find($id);
+        $user = User::find($id);
 
         if (!$user) {
             return response()->json([
@@ -93,7 +85,7 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $user = User::with('role')->find($id);
+        $user = User::find($id);
 
         if (!$user) {
             return response()->json([

@@ -10,13 +10,21 @@ export default {
     data() {
         return {
             visitors: [],
+            keyword: "",
         };
     },
     methods: {
         async getVisitors(page = 1) {
-            await api.get(`/visitors?page=${page}`).then((response) => {
-                this.visitors = response.data.data;
-            });
+            await api
+                .get(`/visitors`, {
+                    params: {
+                        page,
+                        search: this.keyword.length > 0 ? this.keyword : "",
+                    },
+                })
+                .then((response) => {
+                    this.visitors = response.data.data;
+                });
         },
         async deleteVisitor(id) {
             await api.delete(`/visitors/${id}`).then(() => {
@@ -48,12 +56,13 @@ export default {
                         >
                     </div>
                     <div class="float-right">
-                        <form>
+                        <form @submit.prevent="getVisitors()">
                             <div class="input-group">
                                 <input
                                     type="text"
                                     class="form-control mb-3 mr-2"
                                     placeholder="Search here..."
+                                    v-model="keyword"
                                 />
                             </div>
                         </form>
@@ -64,8 +73,9 @@ export default {
                         <tr>
                             <th scope="col">No</th>
                             <th scope="col">Name</th>
-                            <th scope="col">Visiting Date</th>
-                            <th scope="col">Status</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Start Date</th>
+                            <th scope="col">End Date</th>
                             <th scope="col">Description</th>
                             <th scope="col">Actions</th>
                         </tr>
@@ -78,12 +88,9 @@ export default {
                         >
                             <td>{{ ++index }}</td>
                             <td>{{ visitor.name }}</td>
-                            <td>{{ visitor.visiting_date }}</td>
-                            <td>
-                                <div class="badge badge-secondary">
-                                    {{ visitor.status }}
-                                </div>
-                            </td>
+                            <td>{{ visitor.visitor_category.name }}</td>
+                            <td>{{ visitor.start_date }}</td>
+                            <td>{{ visitor.end_date }}</td>
                             <td>{{ visitor.description.slice(0, 50) }}...</td>
                             <td class="d-flex">
                                 <router-link
@@ -105,7 +112,7 @@ export default {
                             </td>
                         </tr>
                         <tr v-else>
-                            <td colspan="6" class="text-center">
+                            <td colspan="7" class="text-center">
                                 <div class="alert alert-danger mb-0">
                                     Visitor is not available.
                                 </div>
