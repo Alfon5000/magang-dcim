@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
             SensorSeeder::class,
         ]);
 
-        // User::factory(20)->create();
+        User::factory(20)->create();
         // Visitor::factory(20)->create();
     }
 }

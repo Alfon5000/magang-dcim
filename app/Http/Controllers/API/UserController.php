@@ -16,7 +16,15 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::with('role')->latest()->paginate(5);
+        if (request('search')) {
+            $users = User::with('role')
+                ->where('name', 'like', '%' . request('search') . '%')
+                ->orWhere('email', 'like', '%' . request('search') . '%')
+                ->latest()->paginate(5);
+        } else {
+            $users = User::with('role')->latest()->paginate(5);
+        }
+
         $all = User::all();
 
         return response()->json([

@@ -90,10 +90,10 @@ export default {
                             {{ errors.password[0] }}
                         </div>
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <a href="#">Forgot password?</a>
-                    </div>
-                    <div class="form-group mt-3">
+                    </div> -->
+                    <div class="form-group mt-4">
                         <button
                             type="submit"
                             class="btn btn-lg btn-block bg-navy"

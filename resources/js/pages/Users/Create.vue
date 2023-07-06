@@ -93,6 +93,7 @@ export default {
                     <div class="mb-3">
                         <label class="form-label fw-bold">Role</label>
                         <select class="form-control" v-model="user.role_id">
+                            <option value="">----- Choose Role -----</option>
                             <option
                                 v-for="(role, index) in roles"
                                 :key="index"

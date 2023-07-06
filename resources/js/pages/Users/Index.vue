@@ -10,13 +10,22 @@ export default {
     data() {
         return {
             users: [],
+            keyword: "",
         };
     },
     methods: {
         async getUsers(page = 1) {
             await api
-                .get(`/users?page=${page}`)
-                .then((response) => (this.users = response.data.data));
+                .get(`/users`, {
+                    params: {
+                        page,
+                        search: this.keyword.length > 0 ? this.keyword : "",
+                    },
+                })
+                .then((response) => {
+                    this.users = response.data.data;
+                    console.log(this.users);
+                });
         },
         async deleteUser(id) {
             await api.delete(`/users/${id}`).then(() => this.getUsers());
@@ -46,12 +55,13 @@ export default {
                         >
                     </div>
                     <div class="float-right">
-                        <form>
+                        <form @submit.prevent="getUsers()">
                             <div class="input-group">
                                 <input
                                     type="text"
                                     class="form-control mb-3"
                                     placeholder="Search here..."
+                                    v-model="keyword"
                                 />
                             </div>
                         </form>
