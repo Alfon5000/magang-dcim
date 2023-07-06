@@ -56,18 +56,13 @@ export default {
                         >
                     </div>
                     <div class="float-right">
-                        <form @submit.prevent="getVisitors()" method="GET">
+                        <form @submit.prevent="getVisitors()">
                             <div class="input-group">
                                 <input
                                     type="text"
                                     class="form-control mb-3 mr-2"
                                     placeholder="Search here..."
                                     v-model="keyword"
-                                />
-                                <input
-                                    type="hidden"
-                                    name="visitor_category"
-                                    :value="keyword"
                                 />
                             </div>
                         </form>

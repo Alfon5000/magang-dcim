@@ -56,18 +56,13 @@ export default {
                         >
                     </div>
                     <div class="float-right">
-                        <form @submit.prevent="getUsers()" method="GET">
+                        <form @submit.prevent="getUsers()">
                             <div class="input-group">
                                 <input
                                     type="text"
                                     class="form-control mb-3"
                                     placeholder="Search here..."
                                     v-model="keyword"
-                                />
-                                <input
-                                    type="hidden"
-                                    name="role"
-                                    :value="keyword"
                                 />
                             </div>
                         </form>
