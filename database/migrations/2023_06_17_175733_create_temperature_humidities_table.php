@@ -14,9 +14,9 @@ return new class extends Migration
     {
         Schema::create('temperature_humidities', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(Sensor::class);
             $table->float('temperature');
             $table->float('humidity');
-            $table->foreignIdFor(Sensor::class);
             $table->timestamp('created_at');
         });
     }

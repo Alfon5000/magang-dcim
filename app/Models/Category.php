@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Sensor extends Model
+class Category extends Model
 {
     use HasFactory;
 
     protected $fillable = ['name'];
 
-    public function temperatureHumidities()
+    public function visitors()
     {
-        return $this->hasMany(TemperatureHumidity::class);
+        return $this->hasMany(Visitor::class);
     }
 }

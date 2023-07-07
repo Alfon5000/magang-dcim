@@ -98,7 +98,7 @@ export default {
                                     <MagneticDoor />
                                 </div>
                             </div>
-                            <div class="row">
+                            <!-- <div class="row">
                                 <h4 class="px-2">Temperature & Humidity</h4>
                             </div>
                             <div class="row">
@@ -162,7 +162,7 @@ export default {
                                         title="Temperature Humidity 8"
                                     />
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <div class="col-12 col-sm-4 col-md-3 bg-navy">

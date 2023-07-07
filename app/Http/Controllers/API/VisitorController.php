@@ -15,8 +15,7 @@ class VisitorController extends Controller
      */
     public function index()
     {
-
-        $visitors = Visitor::filter(request(['search', 'visitor_category']))->latest()->paginate(5);
+        $visitors = Visitor::filter(request(['search', 'category']))->latest()->paginate(5);
         $all = Visitor::all();
 
         return response()->json([
@@ -33,7 +32,8 @@ class VisitorController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'visitor_category_id' => 'required',
+            'category_id' => 'required',
+            'status_id' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
             'application_letter' => 'required|file|max:2048',
@@ -52,6 +52,7 @@ class VisitorController extends Controller
 
         $validated = $validator->validated();
         $validated['application_letter'] = $letter->hashName();
+
         Visitor::create($validated);
 
         return response()->json([
@@ -96,7 +97,8 @@ class VisitorController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'visitor_category_id' => 'required',
+            'category_id' => 'required',
+            'status_id' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
             'application_letter' => 'file|max:2048',
@@ -144,6 +146,7 @@ class VisitorController extends Controller
 
         Storage::delete('public/application-letters/' . basename($visitor->application_letter));
         $visitor->delete();
+
         return response()->json([
             'success' => true,
             'message' => 'Visitor has been deleted.'

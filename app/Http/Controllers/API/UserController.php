@@ -52,6 +52,7 @@ class UserController extends Controller
         $validated = $validator->validated();
         $validated['password'] = Hash::make($validated['password']);
         $validated['image'] = $image->hashName();
+
         User::create($validated);
 
         return response()->json([
@@ -144,6 +145,7 @@ class UserController extends Controller
 
         Storage::delete('public/images/users/' . basename($user->image));
         $user->delete();
+
         return response()->json([
             'success' => true,
             'message' => 'User has been deleted.'

@@ -3,21 +3,21 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\Role;
+use App\Models\Status;
 use Illuminate\Http\Request;
 
-class RoleController extends Controller
+class StatusController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $roles = Role::all();
+        $statuses = Status::all();
 
         return response()->json([
             'success' => true,
-            'data' => $roles,
+            'data' => $statuses,
         ]);
     }
 

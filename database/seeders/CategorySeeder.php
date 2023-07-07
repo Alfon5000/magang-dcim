@@ -2,18 +2,18 @@
 
 namespace Database\Seeders;
 
-use App\Models\VisitorCategory;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Category;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-class VisitorCategorySeeder extends Seeder
+class CategorySeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        $visitor_categories = [
+        $categories = [
             [
                 'name' => 'Installation',
             ],
@@ -25,8 +25,8 @@ class VisitorCategorySeeder extends Seeder
             ],
         ];
 
-        foreach ($visitor_categories as $visitor_category) {
-            VisitorCategory::create($visitor_category);
+        foreach ($categories as $category) {
+            Category::create($category);
         }
     }
 }

@@ -20,37 +20,35 @@ export default {
                 .get(`/visitors`)
                 .then((response) => {
                     this.visitors = response.data.all;
+
+                    if (this.status == "-1") {
+                        this.total = this.visitors.filter((visitor) => {
+                            const today = new Date();
+                            const startDate = new Date(visitor.start_date);
+                            return startDate < today;
+                        }).length;
+                    } else if (this.status == "0") {
+                        this.total = this.visitors.filter((visitor) => {
+                            const today = new Date();
+                            const startDate = new Date(visitor.start_date);
+                            const endDate = new Date(visitor.end_date);
+                            return startDate >= today && endDate <= today;
+                        }).length;
+                    } else if (this.status == "1") {
+                        this.total = this.visitors.filter((visitor) => {
+                            const today = new Date();
+                            const endDate = new Date(visitor.end_date);
+                            return endDate > today;
+                        }).length;
+                    }
                 })
                 .catch((error) => {
                     console.log(error);
                 });
         },
-        visitorsStatus() {
-            switch (this.status) {
-                case "-1":
-                    this.total = this.visitors.filter((visitor) => {
-                        return visitor.end_start < Date();
-                    }).length;
-                    break;
-                case "0":
-                    this.total = this.visitors.filter((visitor) => {
-                        return (
-                            visitor.start_date >= Date() &&
-                            visitor.end_date <= Date()
-                        );
-                    }).length;
-                    break;
-                case "1":
-                    this.total = this.visitors.filter((visitor) => {
-                        return visitor.end_date > Date();
-                    }).length;
-                    break;
-            }
-        },
     },
     mounted() {
         this.countVisitors();
-        this.visitorsStatus();
     },
 };
 </script>

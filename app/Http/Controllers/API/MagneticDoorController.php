@@ -11,6 +11,7 @@ class MagneticDoorController extends Controller
     public function read()
     {
         $data = MagneticDoor::latest()->first();
+
         return response()->json([
             'success' => true,
             'data' => $data,

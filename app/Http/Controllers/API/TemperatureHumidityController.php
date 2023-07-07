@@ -10,10 +10,11 @@ class TemperatureHumidityController extends Controller
 {
     public function read(string $sensor_id)
     {
-        $temperature_humidity = TemperatureHumidity::where('sensor_id', $sensor_id)->latest()->first();
+        $temperature_humidities = TemperatureHumidity::where('sensor_id', $sensor_id)->latest()->first();
+
         return response()->json([
             'success' => true,
-            'data' => $temperature_humidity,
+            'data' => $temperature_humidities,
         ]);
     }
 }
