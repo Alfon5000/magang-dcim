@@ -66,34 +66,27 @@ export default {
             </div>
             <div class="content">
                 <form @submit.prevent="storeUser()">
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Name</label>
+                    <div class="form-group">
+                        <label for="name">Name</label>
                         <input
                             type="text"
                             class="form-control"
-                            v-model="user.name"
                             placeholder="User name"
+                            id="name"
+                            v-model="user.name"
                         />
                         <div v-if="errors.name" class="text-danger mt-2">
                             {{ errors.name[0] }}
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Email</label>
-                        <input
-                            type="email"
+                    <div class="form-group">
+                        <label for="role">Role</label>
+                        <select
                             class="form-control"
-                            v-model="user.email"
-                            placeholder="User email"
-                        />
-                        <div v-if="errors.email" class="text-danger mt-2">
-                            {{ errors.email[0] }}
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Role</label>
-                        <select class="form-control" v-model="user.role_id">
-                            <option value="">----- Choose Role -----</option>
+                            v-model="user.role_id"
+                            id="role"
+                        >
+                            <option value="">-- Choose role --</option>
                             <option
                                 v-for="(role, index) in roles"
                                 :key="index"
@@ -103,30 +96,53 @@ export default {
                             </option>
                         </select>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Image</label>
-                        <input
-                            type="file"
-                            class="form-control"
-                            @change="handleFileChange($event)"
-                        />
+                    <div class="form-group">
+                        <label for="image">Image</label>
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input
+                                    type="file"
+                                    class="custom-file-input"
+                                    id="image"
+                                    @change="handleFileChange($event)"
+                                />
+                                <label class="custom-file-label" for="image"
+                                    >Choose image</label
+                                >
+                            </div>
+                        </div>
+
                         <div v-if="errors.image" class="text-danger mt-2">
                             {{ errors.image[0] }}
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Password</label>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input
+                            type="email"
+                            class="form-control"
+                            placeholder="User email"
+                            id="email"
+                            v-model="user.email"
+                        />
+                        <div v-if="errors.email" class="text-danger mt-2">
+                            {{ errors.email[0] }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
                         <input
                             type="password"
                             class="form-control"
                             v-model="user.password"
                             placeholder="User password"
+                            id="password"
                         />
                         <div v-if="errors.password" class="text-danger mt-2">
                             {{ errors.password[0] }}
                         </div>
                     </div>
-                    <div class="mb-3">
+                    <div class="form-group">
                         <button type="submit" class="btn bg-teal mr-2">
                             <i class="fas fa-save mr-2"></i>Save
                         </button>

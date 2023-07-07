@@ -5,7 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\LoginController;
+use App\Http\Controllers\API\StatusController;
 use App\Http\Controllers\API\VisitorController;
+use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\MagneticDoorController;
 use App\Http\Controllers\API\TemperatureHumidityController;
 
@@ -24,10 +26,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/visitors/download/{file_name}', [VisitorController::class, 'download']);
+Route::patch('/visitors/accept/{id}', [VisitorController::class, 'accept']);
+Route::patch('/visitors/reject/{id}', [VisitorController::class, 'reject']);
+
 Route::apiResources([
     '/users' => UserController::class,
     '/visitors' => VisitorController::class,
     '/roles' => RoleController::class,
+    '/categories' => CategoryController::class,
+    '/statuses' => StatusController::class,
 ]);
 
 Route::get('/magnetic-door', [MagneticDoorController::class, 'read']);

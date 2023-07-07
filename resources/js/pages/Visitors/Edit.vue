@@ -7,11 +7,21 @@ export default {
         return {
             visitor: {
                 name: "",
-                visiting_date: "",
-                status: "",
+                category_id: "",
+                status_id: 1,
+                start_date: "",
+                end_date: "",
+                application_letter: "",
                 description: "",
             },
+            categories: [],
+            statuses: [],
             errors: [],
+            config: {
+                headers: {
+                    "content-type": "multipart/form-data",
+                },
+            },
         };
     },
     methods: {
@@ -20,25 +30,61 @@ export default {
                 .get(`/visitors/${this.$route.params.id}`)
                 .then((response) => {
                     this.visitor.name = response.data.data.name;
-                    this.visitor.visiting_date =
-                        response.data.data.visiting_date;
-                    this.visitor.status = response.data.data.status;
+                    this.visitor.category_id = response.data.data.category_id;
+                    this.visitor.status_id = response.data.data.status_id;
+                    this.visitor.start_date = response.data.data.start_date;
+                    this.visitor.end_date = response.data.data.end_date;
+                    this.visitor.application_letter =
+                        response.data.data.application_letter;
                     this.visitor.description = response.data.data.description;
                 });
         },
         async updateVisitor() {
             await api
-                .put(`/visitors/${this.$route.params.id}`, this.visitor)
-                .then(() => {
-                    this.$router.push({ name: "visitors.index" });
+                .put(
+                    `/visitors/${this.$route.params.id}`,
+                    this.visitor,
+                    this.config
+                )
+                .then((response) => {
+                    if (response.data.success === true) {
+                        this.$router.push({ name: "visitors.index" });
+                    } else {
+                        this.errors = response.data.message;
+                    }
                 })
                 .catch((error) => {
-                    this.errors = error.response.data.errors;
+                    console.log(error);
                 });
+        },
+        async getCategories() {
+            await api
+                .get("/categories")
+                .then((response) => {
+                    this.categories = response.data.data;
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
+        async getStatuses() {
+            await api
+                .get("/statuses")
+                .then((response) => {
+                    this.statuses = response.data.data;
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
+        handleFileChange(event) {
+            this.visitor.application_letter = event.target.files[0];
         },
     },
     mounted() {
         this.getVisitor();
+        this.getCategories();
+        this.getStatuses();
     },
 };
 </script>
@@ -53,63 +99,103 @@ export default {
             </div>
             <div class="content">
                 <form @submit.prevent="updateVisitor()">
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Name</label>
+                    <div class="form-group">
+                        <label for="name">Name</label>
                         <input
                             type="text"
                             class="form-control"
+                            placeholder="Visitor name"
+                            id="name"
                             v-model="visitor.name"
-                            placeholder="Visitor name..."
                         />
-                        <div v-if="errors.name" class="alert alert-danger mt-2">
-                            <span>{{ errors.name[0] }}</span>
+                        <div v-if="errors.name" class="text-danger mt-2">
+                            {{ errors.name[0] }}
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Visiting Date</label>
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <select
+                            class="form-control"
+                            v-model="visitor.category_id"
+                            id="category"
+                        >
+                            <option value="">-- Choose category --</option>
+                            <option
+                                v-for="(category, index) in categories"
+                                :key="index"
+                                :value="category.id"
+                            >
+                                {{ category.name }}
+                            </option>
+                        </select>
+                        <div v-if="errors.category_id" class="text-danger mt-2">
+                            {{ errors.category_id[0] }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="start_date">Start Date</label>
                         <input
                             type="date"
                             class="form-control"
-                            v-model="visitor.visiting_date"
+                            id="start_date"
+                            v-model="visitor.start_date"
                         />
-                        <div
-                            v-if="errors.visiting_date"
-                            class="alert alert-danger mt-2"
-                        >
-                            <span>{{ errors.visiting_date[0] }}</span>
+                        <div v-if="errors.start_date" class="text-danger mt-2">
+                            {{ errors.start_date[0] }}
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Status</label>
+                    <div class="form-group">
+                        <label for="end_date">End Date</label>
                         <input
-                            type="text"
+                            type="date"
                             class="form-control"
-                            v-model="visitor.status"
-                            placeholder="Visitor status..."
+                            id="end_date"
+                            v-model="visitor.end_date"
                         />
-                        <div
-                            v-if="errors.status"
-                            class="alert alert-danger mt-2"
-                        >
-                            <span>{{ errors.status[0] }}</span>
+                        <div v-if="errors.end_date" class="text-danger mt-2">
+                            {{ errors.end_date[0] }}
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Description</label>
-                        <input
-                            type="text"
+                    <div class="form-group">
+                        <label for="application_letter"
+                            >Application Letter</label
+                        >
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input
+                                    type="file"
+                                    class="custom-file-input"
+                                    id="application_letter"
+                                    @change="handleFileChange($event)"
+                                />
+                                <label
+                                    class="custom-file-label"
+                                    for="application_letter"
+                                    >Choose file</label
+                                >
+                            </div>
+                        </div>
+                        <div
+                            v-if="errors.application_letter"
+                            class="text-danger mt-2"
+                        >
+                            {{ errors.application_letter[0] }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea
+                            id="description"
                             class="form-control"
                             v-model="visitor.description"
                             placeholder="Visitor description..."
-                        />
-                        <div
-                            v-if="errors.description"
-                            class="alert alert-danger mt-2"
-                        >
-                            <span>{{ errors.description[0] }}</span>
+                            rows="6"
+                        ></textarea>
+                        <div v-if="errors.description" class="text-danger mt-2">
+                            {{ errors.description[0] }}
                         </div>
                     </div>
-                    <div class="mb-3">
+                    <div class="form-group">
                         <button type="submit" class="btn bg-teal mr-2">
                             <i class="fas fa-save mr-2"></i>Update
                         </button>

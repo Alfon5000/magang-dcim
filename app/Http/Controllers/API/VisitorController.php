@@ -47,7 +47,7 @@ class VisitorController extends Controller
             ]);
         }
 
-        $letter = $request->file('letter');
+        $letter = $request->file('application_letter');
         $letter->storeAs('public/documents/application-letters', $letter->hashName());
 
         $validated = $validator->validated();
@@ -115,7 +115,7 @@ class VisitorController extends Controller
         $validated = $validator->validated();
 
         if ($request->hasFile('letter')) {
-            $letter = $request->file('letter');
+            $letter = $request->file('application_letter');
             $letter->storeAs('public/documents/application-letters', $letter->hashName());
             Storage::delete('public/documents/application-letters/' . basename($visitor->application_letter));
             $validated['application_letter'] = $letter->hashName();
@@ -144,12 +144,43 @@ class VisitorController extends Controller
             ], 404);
         }
 
-        Storage::delete('public/application-letters/' . basename($visitor->application_letter));
+        Storage::delete('public/documents/application-letters/' . basename($visitor->application_letter));
         $visitor->delete();
 
         return response()->json([
             'success' => true,
             'message' => 'Visitor has been deleted.'
+        ]);
+    }
+
+    public function download($file_name)
+    {
+        $file = public_path('/storage/documents/application-letters/' . $file_name);
+
+        return response()->download($file);
+    }
+
+    public function accept($id)
+    {
+        $visitor = Visitor::find($id);
+        $visitor->status_id = 2;
+        $visitor->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'The visitor has been accepted.',
+        ]);
+    }
+
+    public function reject($id)
+    {
+        $visitor = Visitor::find($id);
+        $visitor->status_id = 3;
+        $visitor->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'The visitor has been rejected.',
         ]);
     }
 }

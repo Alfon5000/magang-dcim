@@ -20,9 +20,9 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'role_id',
+        'image',
         'email',
         'password',
-        'image',
     ];
 
     protected $with = ['role'];
@@ -56,7 +56,8 @@ class User extends Authenticatable
     {
         $query->when($filter['search'] ?? false, function ($query, $search) {
             return $query->where('name', 'like', '%' . $search . '%')
-                ->orWhere('email', 'like', '%' . $search . '%');
+                ->orWhere('email', 'like', '%' . $search . '%')
+                ->orWhere('created_at', 'like', '%' . $search . '%');
         });
 
         // $query->when($filter['role'] ?? false, function ($query, $role) {

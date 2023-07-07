@@ -20,12 +20,10 @@ export default {
                     params: {
                         page,
                         search: this.keyword.length > 0 ? this.keyword : "",
-                        // role: this.keyword.length > 0 ? this.keyword : "",
                     },
                 })
                 .then((response) => {
                     this.users = response.data.data;
-                    console.log(this.users);
                 });
         },
         async deleteUser(id) {
@@ -77,7 +75,7 @@ export default {
                 </div>
                 <table class="table table-bordered">
                     <thead class="bg-navy text-white">
-                        <tr>
+                        <tr class="text-center">
                             <th scope="col">No</th>
                             <th scope="col">Image</th>
                             <th scope="col">Name</th>
@@ -92,9 +90,10 @@ export default {
                             v-if="users.total > 0"
                             v-for="(user, index) in users.data"
                             :key="index"
+                            class="text-center"
                         >
                             <td>{{ ++index }}</td>
-                            <td class="text-center">
+                            <td>
                                 <img
                                     :src="`storage/images/users/${user.image}`"
                                     alt="user-image"
@@ -105,7 +104,7 @@ export default {
                             <td>{{ user.email }}</td>
                             <td>{{ user.role.name }}</td>
                             <td>{{ timestampToDate(user.created_at) }}</td>
-                            <td class="text-center">
+                            <td>
                                 <router-link
                                     :to="{
                                         name: 'users.edit',

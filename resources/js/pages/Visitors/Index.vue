@@ -31,6 +31,25 @@ export default {
                 this.getVisitors();
             });
         },
+        async acceptVisitor(id) {
+            await api.patch(`/visitors/accept/${id}`).then(() => {
+                this.getVisitors();
+            });
+        },
+        async rejectVisitor(id) {
+            await api.patch(`/visitors/reject/${id}`).then(() => {
+                this.getVisitors();
+            });
+        },
+        setBadgeColor(status_id) {
+            if (status_id == 1) {
+                return "badge-secondary";
+            } else if (status_id == 2) {
+                return "badge-primary";
+            } else {
+                return "badge-danger";
+            }
+        },
     },
     mounted() {
         this.getVisitors();
@@ -70,13 +89,15 @@ export default {
                 </div>
                 <table class="table table-bordered">
                     <thead class="bg-navy text-white">
-                        <tr>
+                        <tr class="text-center">
                             <th scope="col">No</th>
                             <th scope="col">Name</th>
                             <th scope="col">Category</th>
                             <th scope="col">Start Date</th>
                             <th scope="col">End Date</th>
+                            <th scope="col">Application Letter</th>
                             <th scope="col">Description</th>
+                            <th scope="col">Status</th>
                             <th scope="col">Actions</th>
                         </tr>
                     </thead>
@@ -85,14 +106,30 @@ export default {
                             v-if="visitors.total > 0"
                             v-for="(visitor, index) in visitors.data"
                             :key="index"
+                            class="text-center"
                         >
                             <td>{{ ++index }}</td>
                             <td>{{ visitor.name }}</td>
-                            <td>{{ visitor.visitor_category.name }}</td>
+                            <td>{{ visitor.category.name }}</td>
                             <td>{{ visitor.start_date }}</td>
                             <td>{{ visitor.end_date }}</td>
-                            <td>{{ visitor.description.slice(0, 50) }}...</td>
-                            <td class="d-flex">
+                            <td>
+                                <a
+                                    :href="`api/visitors/download/${visitor.application_letter}`"
+                                    target="_blank"
+                                    >Download file</a
+                                >
+                            </td>
+                            <td>{{ visitor.description }}</td>
+                            <td>
+                                <span
+                                    class="badge badge-pill"
+                                    :class="setBadgeColor(visitor.status_id)"
+                                >
+                                    {{ visitor.status.name }}
+                                </span>
+                            </td>
+                            <td>
                                 <router-link
                                     :to="{
                                         name: 'visitors.edit',
@@ -109,10 +146,24 @@ export default {
                                     <i class="fas fa-trash-alt mr-2"></i>
                                     Delete
                                 </button>
+                                <button
+                                    @click.prevent="acceptVisitor(visitor.id)"
+                                    class="btn bg-primary"
+                                >
+                                    <i class="fas fa-check mr-2"></i>
+                                    Accept
+                                </button>
+                                <button
+                                    @click.prevent="rejectVisitor(visitor.id)"
+                                    class="btn bg-danger"
+                                >
+                                    <i class="fas fa-times mr-2"></i>
+                                    Reject
+                                </button>
                             </td>
                         </tr>
                         <tr v-else>
-                            <td colspan="7" class="text-center">
+                            <td colspan="9" class="text-center">
                                 <div class="alert alert-danger mb-0">
                                     Visitor is not available.
                                 </div>
@@ -120,11 +171,11 @@ export default {
                         </tr>
                     </tbody>
                 </table>
+                <Bootstrap4Pagination
+                    :data="visitors"
+                    @pagination-change-page="getVisitors"
+                />
             </div>
-            <Bootstrap4Pagination
-                :data="visitors"
-                @pagination-change-page="getVisitors"
-            />
         </div>
     </div>
 </template>
