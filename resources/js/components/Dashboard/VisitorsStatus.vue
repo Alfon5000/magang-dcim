@@ -21,24 +21,17 @@ export default {
                 .then((response) => {
                     this.visitors = response.data.all;
 
-                    if (this.status == "-1") {
+                    if (this.status == "1") {
                         this.total = this.visitors.filter((visitor) => {
-                            const today = new Date();
-                            const startDate = new Date(visitor.start_date);
-                            return startDate < today;
+                            return visitor.status_id === 1;
                         }).length;
-                    } else if (this.status == "0") {
+                    } else if (this.status == "2") {
                         this.total = this.visitors.filter((visitor) => {
-                            const today = new Date();
-                            const startDate = new Date(visitor.start_date);
-                            const endDate = new Date(visitor.end_date);
-                            return startDate >= today && endDate <= today;
+                            return visitor.status_id === 2;
                         }).length;
-                    } else if (this.status == "1") {
+                    } else if (this.status == "3") {
                         this.total = this.visitors.filter((visitor) => {
-                            const today = new Date();
-                            const endDate = new Date(visitor.end_date);
-                            return endDate > today;
+                            return visitor.status_id === 3;
                         }).length;
                     }
                 })

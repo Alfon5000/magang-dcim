@@ -11,6 +11,7 @@ export default {
                 image: "",
                 email: "",
                 password: "",
+                password_confirmation: "",
             },
             roles: [],
             errors: [],
@@ -137,6 +138,21 @@ export default {
                             v-model="user.password"
                             placeholder="User password"
                             id="password"
+                        />
+                        <div v-if="errors.password" class="text-danger mt-2">
+                            {{ errors.password[0] }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password_confirmation"
+                            >Password Confirmation</label
+                        >
+                        <input
+                            type="password"
+                            class="form-control"
+                            v-model="user.password_confirmation"
+                            placeholder="User password confirmation"
+                            id="password_confirmation"
                         />
                         <div v-if="errors.password" class="text-danger mt-2">
                             {{ errors.password[0] }}

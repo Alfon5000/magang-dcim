@@ -13,6 +13,7 @@ class Visitor extends Model
         'name',
         'category_id',
         'status_id',
+        'application_date',
         'start_date',
         'end_date',
         'application_letter',

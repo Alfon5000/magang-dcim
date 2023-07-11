@@ -9,10 +9,12 @@ export default {
                 name: "",
                 category_id: "",
                 status_id: 1,
+                application_date: "",
                 start_date: "",
                 end_date: "",
                 application_letter: "",
                 description: "",
+                _method: "PUT",
             },
             categories: [],
             statuses: [],
@@ -41,7 +43,7 @@ export default {
         },
         async updateVisitor() {
             await api
-                .put(
+                .post(
                     `/visitors/${this.$route.params.id}`,
                     this.visitor,
                     this.config

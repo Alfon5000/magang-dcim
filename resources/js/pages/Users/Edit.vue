@@ -11,6 +11,8 @@ export default {
                 image: "",
                 email: "",
                 password: "",
+                password_confirmation: "",
+                _method: "PUT",
             },
             roles: [],
             errors: [],
@@ -31,6 +33,8 @@ export default {
                     this.user.image = response.data.data.image;
                     this.user.email = response.data.data.email;
                     this.user.password = response.data.data.password;
+                    this.user.password_confirmation =
+                        response.data.data.password;
                 });
         },
         async getRoles() {
@@ -45,7 +49,7 @@ export default {
         },
         async updateUser() {
             await api
-                .put(`/users/${this.$route.params.id}`, this.user, this.config)
+                .post(`/users/${this.$route.params.id}`, this.user, this.config)
                 .then((response) => {
                     if (response.data.success === true) {
                         this.$router.push({ name: "users.index" });
@@ -151,6 +155,21 @@ export default {
                             v-model="user.password"
                             placeholder="User password"
                             id="password"
+                        />
+                        <div v-if="errors.password" class="text-danger mt-2">
+                            {{ errors.password[0] }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password_confirmation"
+                            >Password Confirmation</label
+                        >
+                        <input
+                            type="password"
+                            class="form-control"
+                            v-model="user.password_confirmation"
+                            placeholder="User password confirmation"
+                            id="password_confirmation"
                         />
                         <div v-if="errors.password" class="text-danger mt-2">
                             {{ errors.password[0] }}

@@ -38,8 +38,14 @@ Route::apiResources([
     '/statuses' => StatusController::class,
 ]);
 
-Route::get('/magnetic-door', [MagneticDoorController::class, 'read']);
-Route::get('/temperature-humidity/{id}', [TemperatureHumidityController::class, 'read']);
+Route::get('/magnetic-doors', [MagneticDoorController::class, 'read']);
+
+
+Route::get('/temperature-humidities', [TemperatureHumidityController::class, 'readAll']);
+Route::get('/temperature-humidities/avg', [TemperatureHumidityController::class, 'readAvg']);
+Route::get('/temperature-humidities/min', [TemperatureHumidityController::class, 'readMin']);
+Route::get('/temperature-humidities/max', [TemperatureHumidityController::class, 'readMax']);
+Route::get('/temperature-humidities/{id}', [TemperatureHumidityController::class, 'readBySensorId']);
 
 Route::post('/login', [LoginController::class, 'login']);
 Route::get('/logout', [LoginController::class, 'logout']);

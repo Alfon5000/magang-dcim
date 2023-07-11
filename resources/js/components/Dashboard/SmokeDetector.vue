@@ -2,28 +2,28 @@
 import api from "../../api";
 
 export default {
-    name: "MagneticDoor",
+    name: "SmokeDetector",
     data() {
         return {
-            status: "Closed",
+            status: "No Smoke",
             color: "bg-success",
-            icon: "fas fa-door-closed",
+            icon: "fas fa-smoking-ban",
         };
     },
     methods: {
         async readData() {
             await api
-                .get(`/magnetic-doors`)
+                .get(`/smoke-detectors`)
                 .then((response) => {
                     if (response.data.success === true) {
                         if (response.data.data.status === 1) {
                             this.status = response.data.data.description;
                             this.color = "bg-danger";
-                            this.icon = "fas fa-door-open";
+                            this.icon = "fas fa-smoking";
                         } else {
                             this.status = response.data.data.description;
                             this.color = "bg-success";
-                            this.icon = "fas fa-door-closed";
+                            this.icon = "fas fa-smoking-ban";
                         }
                     }
                 })
@@ -42,7 +42,7 @@ export default {
     <div class="small-box" :class="color">
         <div class="inner">
             <h3>{{ status }}</h3>
-            <p>Magnetic Door</p>
+            <p>Smoke Detector</p>
         </div>
         <div class="icon">
             <i :class="icon"></i>

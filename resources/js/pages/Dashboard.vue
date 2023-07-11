@@ -1,6 +1,7 @@
 <script>
 import Alerts from "../components/Alerts.vue";
 import MagneticDoor from "../components/Dashboard/MagneticDoor.vue";
+import SmokeDetector from "../components/Dashboard/SmokeDetector.vue";
 import TemperatureHumidity from "../components/Dashboard/TemperatureHumidity.vue";
 import UsersStatus from "../components/Dashboard/UsersStatus.vue";
 import VisitorsStatus from "../components/Dashboard/VisitorsStatus.vue";
@@ -19,6 +20,7 @@ export default {
         TemperatureHumidity,
         UsersStatus,
         VisitorsStatus,
+        SmokeDetector,
     },
     beforeMount() {
         if (this.loggedIn === null && this.token === null) {
@@ -44,17 +46,17 @@ export default {
                                 <h4 class="px-2">Total Users</h4>
                             </div>
                             <div class="row">
-                                <div class="col-12 col-sm-4">
+                                <div class="col-12 col-sm-6">
                                     <UsersStatus
-                                        title="Admin"
+                                        title="Admins"
                                         color="bg-teal"
                                         icon="fas fa-user-cog"
                                         role_id="1"
                                     />
                                 </div>
-                                <div class="col-12 col-sm-4">
+                                <div class="col-12 col-sm-6">
                                     <UsersStatus
-                                        title="User"
+                                        title="Users"
                                         color="bg-indigo"
                                         icon="fas fa-users"
                                         role_id="2"
@@ -67,38 +69,40 @@ export default {
                             <div class="row">
                                 <div class="col-12 col-sm-4">
                                     <VisitorsStatus
-                                        title="Not Visited"
-                                        color="bg-danger"
-                                        icon="fas fa-walking"
-                                        status="-1"
-                                    />
-                                </div>
-                                <div class="col-12 col-sm-4">
-                                    <VisitorsStatus
-                                        title="On Visiting"
+                                        title="Waiting"
                                         color="bg-secondary"
-                                        icon="fas fa-walking"
-                                        status="0"
-                                    />
-                                </div>
-                                <div class="col-12 col-sm-4">
-                                    <VisitorsStatus
-                                        title="Visited"
-                                        color="bg-success"
                                         icon="fas fa-walking"
                                         status="1"
                                     />
                                 </div>
-                            </div>
-                            <div class="row">
-                                <h4 class="px-2">Magnetic Door</h4>
-                            </div>
-                            <div class="row">
                                 <div class="col-12 col-sm-4">
-                                    <MagneticDoor />
+                                    <VisitorsStatus
+                                        title="Accepted"
+                                        color="bg-success"
+                                        icon="fas fa-walking"
+                                        status="2"
+                                    />
+                                </div>
+                                <div class="col-12 col-sm-4">
+                                    <VisitorsStatus
+                                        title="Rejected"
+                                        color="bg-danger"
+                                        icon="fas fa-walking"
+                                        status="3"
+                                    />
                                 </div>
                             </div>
-                            <!-- <div class="row">
+                            <div class="row">
+                                <div class="col-12 col-sm-6">
+                                    <h4 class="px-2">Magnetic Door</h4>
+                                    <MagneticDoor />
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <h4 class="px-2">Smoke Detector</h4>
+                                    <SmokeDetector />
+                                </div>
+                            </div>
+                            <div class="row">
                                 <h4 class="px-2">Temperature & Humidity</h4>
                             </div>
                             <div class="row">
@@ -147,7 +151,7 @@ export default {
                                     />
                                 </div>
                             </div>
-                            <div class="row">
+                            <!-- <div class="row">
                                 <div class="col-12 col-sm-4">
                                     <TemperatureHumidity
                                         sensor_id="12"

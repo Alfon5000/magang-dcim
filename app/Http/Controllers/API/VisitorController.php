@@ -101,7 +101,7 @@ class VisitorController extends Controller
             'status_id' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
-            'application_letter' => 'file|max:2048',
+            'application_letter' => 'required|max:2048',
             'description' => 'required',
         ]);
 

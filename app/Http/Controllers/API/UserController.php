@@ -35,7 +35,7 @@ class UserController extends Controller
             'name' => 'required',
             'role_id' => 'required',
             'email' => 'required|unique:users',
-            'password' => 'required|min:6',
+            'password' => 'required|min:6|confirmed',
             'image' => 'required|image|max:2048',
         ]);
 
@@ -99,8 +99,8 @@ class UserController extends Controller
             'name' => 'required',
             'role_id' => 'required',
             'email' => 'required',
-            'password' => 'required|min:6',
-            'image' => 'image|max:2048',
+            'password' => 'required|min:6|confirmed',
+            'image' => 'required|max:2048',
         ]);
 
         if ($validator->fails()) {

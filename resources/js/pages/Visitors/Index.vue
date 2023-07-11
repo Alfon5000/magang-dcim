@@ -41,6 +41,22 @@ export default {
                 this.getVisitors();
             });
         },
+        timestampToDate(timestamp) {
+            const dateTime = new Date(timestamp);
+            const year = dateTime.getFullYear();
+            let month = (dateTime.getMonth() + 1).toString();
+            let date = dateTime.getDate().toString();
+
+            if (month.length === 1) {
+                month = "0" + month;
+            }
+
+            if (date.length === 1) {
+                date = "0" + date;
+            }
+
+            return `${date}-${month}-${year}`;
+        },
         setBadgeColor(status_id) {
             if (status_id == 1) {
                 return "badge-secondary";
@@ -93,6 +109,7 @@ export default {
                             <th scope="col">No</th>
                             <th scope="col">Name</th>
                             <th scope="col">Category</th>
+                            <th scope="col">Application Date</th>
                             <th scope="col">Start Date</th>
                             <th scope="col">End Date</th>
                             <th scope="col">Application Letter</th>
@@ -111,14 +128,15 @@ export default {
                             <td>{{ ++index }}</td>
                             <td>{{ visitor.name }}</td>
                             <td>{{ visitor.category.name }}</td>
-                            <td>{{ visitor.start_date }}</td>
-                            <td>{{ visitor.end_date }}</td>
+                            <td>{{ timestampToDate(visitor.created_at) }}</td>
+                            <td>{{ timestampToDate(visitor.start_date) }}</td>
+                            <td>{{ timestampToDate(visitor.end_date) }}</td>
                             <td>
                                 <a
                                     :href="`api/visitors/download/${visitor.application_letter}`"
                                     target="_blank"
-                                    >Download file</a
-                                >
+                                    ><i class="fas fa-download"></i
+                                ></a>
                             </td>
                             <td>{{ visitor.description }}</td>
                             <td>
@@ -163,7 +181,7 @@ export default {
                             </td>
                         </tr>
                         <tr v-else>
-                            <td colspan="9" class="text-center">
+                            <td colspan="10" class="text-center">
                                 <div class="alert alert-danger mb-0">
                                     Visitor is not available.
                                 </div>

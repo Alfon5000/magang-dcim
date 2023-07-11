@@ -10,6 +10,8 @@ class TemperatureHumidity extends Model
 {
     use HasFactory;
 
+    protected $casts = ['created:d-m-Y'];
+
     public function sensor()
     {
         return $this->belongsTo(Sensor::class);
