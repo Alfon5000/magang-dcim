@@ -9,6 +9,8 @@ use App\Http\Controllers\API\StatusController;
 use App\Http\Controllers\API\VisitorController;
 use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\MagneticDoorController;
+use App\Http\Controllers\API\NotificationController;
+use App\Http\Controllers\API\SmokeDetectorController;
 use App\Http\Controllers\API\TemperatureHumidityController;
 
 /*
@@ -39,13 +41,22 @@ Route::apiResources([
 ]);
 
 Route::get('/magnetic-doors', [MagneticDoorController::class, 'read']);
-
+Route::get('/smoke-detectors', [SmokeDetectorController::class, 'read']);
 
 Route::get('/temperature-humidities', [TemperatureHumidityController::class, 'readAll']);
 Route::get('/temperature-humidities/avg', [TemperatureHumidityController::class, 'readAvg']);
 Route::get('/temperature-humidities/min', [TemperatureHumidityController::class, 'readMin']);
 Route::get('/temperature-humidities/max', [TemperatureHumidityController::class, 'readMax']);
 Route::get('/temperature-humidities/{id}', [TemperatureHumidityController::class, 'readBySensorId']);
+
+Route::get('/notifications', [NotificationController::class, 'getAll']);
+Route::get('/notifications/unread', [NotificationController::class, 'getUnread']);
+Route::patch('/notifications/read', [NotificationController::class, 'readAll']);
+Route::patch('/notifications/unread', [NotificationController::class, 'unreadAll']);
+Route::patch('/notifications/read/{id}', [NotificationController::class, 'readOne']);
+Route::patch('/notifications/unread/{id}', [NotificationController::class, 'unreadOne']);
+Route::delete('/notifications', [NotificationController::class, 'deleteAll']);
+Route::delete('/notifications/{id}', [NotificationController::class, 'deleteOne']);
 
 Route::post('/login', [LoginController::class, 'login']);
 Route::get('/logout', [LoginController::class, 'logout']);
