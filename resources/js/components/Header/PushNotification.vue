@@ -14,21 +14,12 @@ export default {
             await api
                 .get("/notifications")
                 .then((response) => {
-                    this.countUnread = response.data.data.data.filter(
+                    this.notifications = response.data.all.filter(
                         (notification) => {
                             return notification.is_read === 0;
                         }
-                    ).length;
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        },
-        async getUnreadNotifications() {
-            await api
-                .get("notifications/unread")
-                .then((response) => {
-                    this.notifications = response.data.data;
+                    );
+                    this.countUnread = this.notifications.length;
                 })
                 .catch((error) => {
                     console.log(error);
@@ -58,7 +49,6 @@ export default {
     },
     mounted() {
         this.getNotifications();
-        this.getUnreadNotifications();
     },
 };
 </script>
@@ -68,22 +58,25 @@ export default {
         <a class="nav-link" data-toggle="dropdown" href="#">
             <i class="far fa-bell"></i>
             <span
-                v-if="notifications > 0"
+                v-if="countUnread > 0"
                 class="badge badge-danger navbar-badge"
                 >{{ countUnread > 99 ? "99+" : countUnread }}</span
             >
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-            <span v-if="notifications > 0" class="dropdown-item dropdown-header"
+            <span v-if="countUnread > 0" class="dropdown-item dropdown-header"
                 >{{
                     countUnread > 99 ? "99+" : countUnread
                 }}
                 Notifications</span
             >
-            <span class="dropdown-item dropdown-header" v-else
-                >No notifications</span
+            <span v-else class="dropdown-item dropdown-header"
+                >No new notifications</span
             >
-            <div v-for="(notification, index) in notifications" :key="index">
+            <div
+                v-for="(notification, index) in notifications.slice(1, 10)"
+                :key="index"
+            >
                 <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item">
                     {{ notification.message.substring(0, 25) }}...
@@ -96,7 +89,6 @@ export default {
             <router-link
                 :to="{ name: 'notifications' }"
                 class="dropdown-item dropdown-footer"
-                v-if="notifications.length > 0"
                 >See All Notifications</router-link
             >
         </div>

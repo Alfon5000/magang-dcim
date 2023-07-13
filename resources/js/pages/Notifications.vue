@@ -1,14 +1,10 @@
 <script>
-import Header from "../components/Header.vue";
-import Sidebar from "../components/Sidebar.vue";
-import { Bootstrap4Pagination } from "laravel-vue-pagination";
 import api from "../api";
+import { Bootstrap4Pagination } from "laravel-vue-pagination";
 
 export default {
     name: "Notifications",
     components: {
-        Header,
-        Sidebar,
         Bootstrap4Pagination,
     },
     data() {
@@ -127,7 +123,7 @@ export default {
         <Header />
         <Sidebar />
         <div class="content-wrapper px-3">
-            <div class="d-flex justify-content-between py-3">
+            <div class="content-header d-flex justify-content-between py-3">
                 <h2>Notifications</h2>
                 <div class="d-flex" v-if="notifications.total > 0">
                     <button
@@ -142,65 +138,70 @@ export default {
                     >
                         Mark all as unread
                     </button>
-                    <button
-                        @click.prevent="deleteAll()"
-                        class="btn btn-danger mr-2"
-                    >
+                    <button @click.prevent="deleteAll()" class="btn btn-danger">
                         Delete all
                     </button>
                 </div>
             </div>
-            <ul class="list-group">
-                <li
-                    v-if="notifications.total > 0"
-                    v-for="(notification, index) in notifications.data"
-                    :key="index"
-                    class="list-group-item list-group-item-action"
-                >
-                    <div class="row">
-                        <div class="col-6 text-left">
-                            <span :class="isNotRead(notification.is_read)">{{
-                                notification.message
-                            }}</span>
+            <div class="content">
+                <ul class="list-group">
+                    <li
+                        v-if="notifications.total > 0"
+                        v-for="(notification, index) in notifications.data"
+                        :key="index"
+                        class="list-group-item list-group-item-action"
+                    >
+                        <div class="row">
+                            <div class="col-6 text-left">
+                                <span
+                                    :class="isNotRead(notification.is_read)"
+                                    >{{ notification.message }}</span
+                                >
+                            </div>
+                            <div class="col-3 text-center">
+                                <span
+                                    :class="isNotRead(notification.is_read)"
+                                    >{{
+                                        timestampToDateTime(
+                                            notification.created_at
+                                        )
+                                    }}</span
+                                >
+                            </div>
+                            <div class="col-3 text-right">
+                                <button
+                                    @click.prevent="readOne(notification.id)"
+                                    class="btn btn-sm btn-outline-primary"
+                                    v-if="notification.is_read === 0"
+                                >
+                                    Mark as read
+                                </button>
+                                <button
+                                    @click.prevent="unreadOne(notification.id)"
+                                    class="btn btn-sm btn-outline-warning"
+                                    v-if="notification.is_read === 1"
+                                >
+                                    Mark as unread
+                                </button>
+                                <button
+                                    @click.prevent="deleteOne(notification.id)"
+                                    class="btn btn-sm btn-outline-danger ml-2"
+                                >
+                                    Delete
+                                </button>
+                            </div>
                         </div>
-                        <div class="col-3 text-center">
-                            <span :class="isNotRead(notification.is_read)">{{
-                                timestampToDateTime(notification.created_at)
-                            }}</span>
-                        </div>
-                        <div class="col-3 text-right">
-                            <button
-                                @click.prevent="readOne(notification.id)"
-                                class="btn btn-sm btn-outline-primary"
-                                v-if="notification.is_read === 0"
-                            >
-                                Mark as read
-                            </button>
-                            <button
-                                @click.prevent="unreadOne(notification.id)"
-                                class="btn btn-sm btn-outline-warning"
-                                v-if="notification.is_read === 1"
-                            >
-                                Mark as unread
-                            </button>
-                            <button
-                                @click.prevent="deleteOne(notification.id)"
-                                class="btn btn-sm btn-outline-danger ml-2"
-                            >
-                                Delete
-                            </button>
-                        </div>
+                    </li>
+                    <div v-else class="alert alert-danger text-md">
+                        No notifications
                     </div>
-                </li>
-                <div v-else class="alert alert-danger text-md">
-                    No notifications
+                </ul>
+                <div class="py-3 w-100 overflow-auto">
+                    <Bootstrap4Pagination
+                        :data="notifications"
+                        @pagination-change-page="getNotifications"
+                    />
                 </div>
-            </ul>
-            <div class="py-3 w-100 overflow-auto">
-                <Bootstrap4Pagination
-                    :data="notifications"
-                    @pagination-change-page="getNotifications"
-                />
             </div>
         </div>
     </div>

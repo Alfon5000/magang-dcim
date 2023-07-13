@@ -6,10 +6,10 @@ export default {
     props: ["title", "color", "icon", "role_id"],
     data() {
         return {
-            title: this.title,
-            color: this.color,
-            icon: this.icon,
-            role_id: this.role_id,
+            titleData: this.title,
+            colorData: this.color,
+            iconData: this.icon,
+            roleId: this.role_id,
             users: [],
             total: 0,
         };
@@ -21,7 +21,7 @@ export default {
                 .then((response) => {
                     this.users = response.data.all;
                     this.total = this.users.filter((user) => {
-                        return user.role_id == this.role_id;
+                        return user.role_id == this.roleId;
                     }).length;
                 })
                 .catch((error) => {
@@ -36,13 +36,13 @@ export default {
 </script>
 
 <template>
-    <div class="small-box" :class="color">
+    <div class="small-box" :class="colorData">
         <div class="inner">
             <h3>{{ total }}</h3>
-            <p>{{ title }}</p>
+            <p>{{ titleData }}</p>
         </div>
         <div class="icon">
-            <i :class="icon"></i>
+            <i :class="iconData"></i>
         </div>
         <router-link :to="{ name: 'users.index' }" class="small-box-footer"
             >More info <i class="fas fa-arrow-circle-right"></i>

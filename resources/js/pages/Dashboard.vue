@@ -22,7 +22,7 @@ export default {
         VisitorsStatus,
         SmokeDetector,
     },
-    beforeMount() {
+    mounted() {
         if (this.loggedIn === null && this.token === null) {
             this.$router.push({ name: "login" });
         }
@@ -102,7 +102,7 @@ export default {
                                     <SmokeDetector />
                                 </div>
                             </div>
-                            <div class="row">
+                            <!-- <div class="row">
                                 <h4 class="px-2">Temperature & Humidity</h4>
                             </div>
                             <div class="row">
@@ -110,21 +110,21 @@ export default {
                                     <TemperatureHumidity
                                         sensor_id="6"
                                         element_id="th1"
-                                        title="Temperature Humidity 1"
+                                        title="Upper Back"
                                     />
                                 </div>
                                 <div class="col-12 col-sm-4">
                                     <TemperatureHumidity
                                         sensor_id="7"
                                         element_id="th2"
-                                        title="Temperature Humidity 2"
+                                        title="Lower Back"
                                     />
                                 </div>
                                 <div class="col-12 col-sm-4">
                                     <TemperatureHumidity
                                         sensor_id="8"
                                         element_id="th3"
-                                        title="Temperature Humidity 3"
+                                        title="Lower Front"
                                     />
                                 </div>
                             </div>
@@ -133,24 +133,24 @@ export default {
                                     <TemperatureHumidity
                                         sensor_id="9"
                                         element_id="th4"
-                                        title="Temperature Humidity 4"
+                                        title="Upper Front"
                                     />
                                 </div>
                                 <div class="col-12 col-sm-4">
                                     <TemperatureHumidity
                                         sensor_id="10"
                                         element_id="th5"
-                                        title="Temperature Humidity 5"
+                                        title="Top Front"
                                     />
                                 </div>
                                 <div class="col-12 col-sm-4">
                                     <TemperatureHumidity
                                         sensor_id="11"
                                         element_id="th6"
-                                        title="Temperature Humidity 6"
+                                        title="Top Back"
                                     />
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <div class="col-12 col-sm-4 col-md-3 bg-navy">

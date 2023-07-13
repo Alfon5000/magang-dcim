@@ -1,4 +1,5 @@
 <script>
+import api from "../api";
 import PushNotification from "./Header/PushNotification.vue";
 
 export default {
@@ -8,7 +9,7 @@ export default {
     },
     methods: {
         logout() {
-            api.get(`/logout`).then(() => {
+            api.get("/logout").then(() => {
                 localStorage.removeItem("loggedIn");
                 localStorage.removeItem("token");
                 this.$router.push({ name: "login" });
@@ -41,14 +42,13 @@ export default {
             <PushNotification />
 
             <!-- Messages Dropdown Menu -->
-            <li class="nav-item dropdown">
+            <!-- <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#">
                     <i class="far fa-comment"></i>
                     <span class="badge badge-warning navbar-badge">3</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                     <a href="#" class="dropdown-item">
-                        <!-- Message Start -->
                         <div class="media">
                             <img
                                 src="dist/img/user1-128x128.jpg"
@@ -72,11 +72,9 @@ export default {
                                 </p>
                             </div>
                         </div>
-                        <!-- Message End -->
                     </a>
                     <div class="dropdown-divider"></div>
                     <a href="#" class="dropdown-item">
-                        <!-- Message Start -->
                         <div class="media">
                             <img
                                 src="dist/img/user8-128x128.jpg"
@@ -97,11 +95,9 @@ export default {
                                 </p>
                             </div>
                         </div>
-                        <!-- Message End -->
                     </a>
                     <div class="dropdown-divider"></div>
                     <a href="#" class="dropdown-item">
-                        <!-- Message Start -->
                         <div class="media">
                             <img
                                 src="dist/img/user3-128x128.jpg"
@@ -123,7 +119,6 @@ export default {
                                 </p>
                             </div>
                         </div>
-                        <!-- Message End -->
                     </a>
                     <div class="dropdown-divider"></div>
                     <router-link
@@ -132,7 +127,7 @@ export default {
                         >See All Messages</router-link
                     >
                 </div>
-            </li>
+            </li> -->
 
             <!-- User Dropdown Menu -->
             <li class="nav-item dropdown">
@@ -147,7 +142,7 @@ export default {
                         <i class="fas fa-user mr-2"></i> Profile
                     </router-link>
                     <div class="dropdown-divider"></div>
-                    <button @click.prevent="logout" class="dropdown-item">
+                    <button @click.prevent="logout()" class="dropdown-item">
                         <i class="fas fa-sign-out-alt mr-2"></i>
                         Log Out
                     </button>

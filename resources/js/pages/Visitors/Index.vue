@@ -138,7 +138,7 @@ export default {
                                     ><i class="fas fa-download"></i
                                 ></a>
                             </td>
-                            <td>{{ visitor.description }}</td>
+                            <td class="text-left">{{ visitor.description }}</td>
                             <td>
                                 <span
                                     class="badge badge-pill"

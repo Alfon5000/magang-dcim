@@ -6,10 +6,10 @@ export default {
     props: ["title", "color", "icon", "status"],
     data() {
         return {
-            title: this.title,
-            color: this.color,
-            icon: this.icon,
-            status: this.status,
+            titleData: this.title,
+            colorData: this.color,
+            iconData: this.icon,
+            statusData: this.status,
             visitors: [],
             total: 0,
         };
@@ -21,15 +21,15 @@ export default {
                 .then((response) => {
                     this.visitors = response.data.all;
 
-                    if (this.status == "1") {
+                    if (this.statusData == "1") {
                         this.total = this.visitors.filter((visitor) => {
                             return visitor.status_id === 1;
                         }).length;
-                    } else if (this.status == "2") {
+                    } else if (this.statusData == "2") {
                         this.total = this.visitors.filter((visitor) => {
                             return visitor.status_id === 2;
                         }).length;
-                    } else if (this.status == "3") {
+                    } else if (this.statusData == "3") {
                         this.total = this.visitors.filter((visitor) => {
                             return visitor.status_id === 3;
                         }).length;
@@ -47,13 +47,13 @@ export default {
 </script>
 
 <template>
-    <div class="small-box" :class="color">
+    <div class="small-box" :class="colorData">
         <div class="inner">
             <h3>{{ total }}</h3>
-            <p>{{ title }}</p>
+            <p>{{ titleData }}</p>
         </div>
         <div class="icon">
-            <i :class="icon"></i>
+            <i :class="iconData"></i>
         </div>
         <router-link :to="{ name: 'visitors.index' }" class="small-box-footer"
             >More info <i class="fas fa-arrow-circle-right"></i>

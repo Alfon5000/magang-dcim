@@ -1,6 +1,13 @@
 <script>
+import api from "../api";
+
 export default {
     name: "Alerts",
+    data() {
+        return {
+            notifications: [],
+        };
+    },
     methods: {
         createDateTime() {
             if (this.$route.name === "dashboard") {
@@ -25,9 +32,43 @@ export default {
         updateTime() {
             setInterval(this.createDateTime, 1000);
         },
+        async getNotifications() {
+            await api
+                .get("/notifications")
+                .then((response) => {
+                    this.notifications = response.data.all.filter(
+                        (notification) => {
+                            return notification.is_read === 0;
+                        }
+                    );
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
+        timestampToDateTime(timestamp) {
+            const dateTime = new Date(timestamp);
+            let day = dateTime.getUTCDate();
+            let month = dateTime.getUTCMonth() + 1;
+            const year = dateTime.getUTCFullYear();
+            const hour = dateTime.getUTCHours();
+            const minute = dateTime.getUTCMinutes();
+            const second = dateTime.getUTCSeconds();
+
+            if (day.toString().length === 1) {
+                day = "0" + day;
+            }
+
+            if (month.toString().length === 1) {
+                month = "0" + month;
+            }
+
+            return `${day}-${month}-${year} ${hour}:${minute}:${second}`;
+        },
     },
     mounted() {
         this.updateTime();
+        this.getNotifications();
     },
 };
 </script>
@@ -42,49 +83,27 @@ export default {
         </div>
         <hr class="bg-light" />
         <div class="container-fluid my-3">
-            <h5 class="text-center mb-3">Alerts</h5>
-            <div class="card" style="height: 250px">
-                <div class="card-header bg-danger text-center">Important</div>
-                <div class="card-body text-danger overflow-auto">
-                    <p>Important 1</p>
-                    <hr class="bg-danger" />
-                    <p>Important 2</p>
-                    <hr class="bg-danger" />
-                    <p>Important 3</p>
-                    <hr class="bg-danger" />
-                    <p>Important 4</p>
-                    <hr class="bg-danger" />
-                    <p>Important 5</p>
-                </div>
-            </div>
-            <div class="card" style="height: 250px">
-                <div class="card-header bg-warning text-center">Warning</div>
-                <div class="card-body text-warning overflow-auto">
-                    <p>Warning 1</p>
-                    <hr class="bg-warning" />
-                    <p>Warning 2</p>
-                    <hr class="bg-warning" />
-                    <p>Warning 3</p>
-                    <hr class="bg-warning" />
-                    <p>Warning 4</p>
-                    <hr class="bg-warning" />
-                    <p>Warning 5</p>
-                </div>
-            </div>
-            <div class="card" style="height: 250px">
-                <div class="card-header bg-info text-center">Informational</div>
-                <div class="card-body text-info overflow-auto">
-                    <p>Informational 1</p>
-                    <hr class="bg-info" />
-                    <p>Informational 2</p>
-                    <hr class="bg-info" />
-                    <p>Informational 3</p>
-                    <hr class="bg-info" />
-                    <p>Informational 4</p>
-                    <hr class="bg-info" />
-                    <p>Informational 5</p>
-                </div>
-            </div>
+            <h5 class="text-center text-light my-3">Alerts</h5>
+            <ul class="list-group text-navy">
+                <li
+                    v-if="notifications.length > 0"
+                    v-for="(notification, index) in notifications.slice(1, 10)"
+                    :key="index"
+                    class="list-group-item text-danger"
+                >
+                    {{ notification.message }} at
+                    {{ timestampToDateTime(notification.created_at) }}
+                </li>
+                <span v-else class="alert alert-primary text-center"
+                    >No alerts</span
+                >
+            </ul>
+            <router-link
+                :to="{ name: 'notifications' }"
+                v-show="notifications.length > 0"
+                class="btn btn-primary btn-block mt-3"
+                >See more alerts</router-link
+            >
         </div>
     </div>
 </template>

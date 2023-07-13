@@ -11,20 +11,12 @@ class NotificationController extends Controller
     public function getAll()
     {
         $notifications = Notification::latest()->paginate(10);
+        $all = Notification::all();
 
         return response()->json([
             'success' => true,
             'data' => $notifications,
-        ]);
-    }
-
-    public function getUnread()
-    {
-        $notifications = Notification::where('is_read', 0)->latest()->limit(5)->get();
-
-        return response()->json([
-            'success' => true,
-            'data' => $notifications,
+            'all' => $all,
         ]);
     }
 

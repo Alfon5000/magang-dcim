@@ -6,7 +6,15 @@ export default {
 
 <template>
     <div class="wrapper">
-        <h2>Messages</h2>
-        <p>This is messages page.</p>
+        <Header />
+        <Sidebar />
+        <div class="content-wrapper px-3">
+            <div class="content-header">
+                <h2>Messages</h2>
+            </div>
+            <div class="content">
+                <p>This is messages page.</p>
+            </div>
+        </div>
     </div>
 </template>
