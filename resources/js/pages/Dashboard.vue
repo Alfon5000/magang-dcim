@@ -102,7 +102,7 @@ export default {
                                     <SmokeDetector />
                                 </div>
                             </div>
-                            <!-- <div class="row">
+                            <div class="row">
                                 <h4 class="px-2">Temperature & Humidity</h4>
                             </div>
                             <div class="row">
@@ -140,17 +140,17 @@ export default {
                                     <TemperatureHumidity
                                         sensor_id="10"
                                         element_id="th5"
-                                        title="Top Front"
+                                        title="Front Top"
                                     />
                                 </div>
                                 <div class="col-12 col-sm-4">
                                     <TemperatureHumidity
                                         sensor_id="11"
                                         element_id="th6"
-                                        title="Top Back"
+                                        title="Back Top"
                                     />
                                 </div>
-                            </div> -->
+                            </div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-4 col-md-3 bg-navy">

@@ -15,8 +15,9 @@ export default {
     methods: {
         async readData() {
             await api
-                .get(`/temperature-humidities/${this.sensorId}`)
+                .get(`temperature-humidities/${this.sensorId}`)
                 .then((response) => {
+                    console.log("Test!");
                     this.temperature = response.data.data.temperature;
                     this.humidity = response.data.data.humidity;
                 })
@@ -46,7 +47,7 @@ export default {
 
             chart.draw(data, options);
 
-            setInterval(() => {
+            this.intervalId = setInterval(() => {
                 this.readData();
                 data.setValue(0, 1, this.temperature);
                 data.setValue(1, 1, this.humidity);
@@ -58,6 +59,9 @@ export default {
         google.charts
             .load("current", { packages: ["gauge"] })
             .then(this.drawChart);
+    },
+    unmounted() {
+        clearInterval(this.intervalId);
     },
 };
 </script>

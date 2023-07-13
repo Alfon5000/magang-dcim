@@ -8,12 +8,13 @@ export default {
             status: "No Smoke",
             color: "bg-success",
             icon: "fas fa-smoking-ban",
+            intervalId: null,
         };
     },
     methods: {
         async readData() {
             await api
-                .get(`/smoke-detectors`)
+                .get("/smoke-detectors")
                 .then((response) => {
                     if (response.data.success === true) {
                         if (response.data.data.status === 1) {
@@ -33,7 +34,10 @@ export default {
         },
     },
     mounted() {
-        setInterval(this.readData, 1000);
+        this.intervalId = setInterval(this.readData, 2000);
+    },
+    unmounted() {
+        clearInterval(this.intervalId);
     },
 };
 </script>
