@@ -44,9 +44,7 @@ Route::get('/magnetic-doors', [MagneticDoorController::class, 'read']);
 Route::get('/smoke-detectors', [SmokeDetectorController::class, 'read']);
 
 Route::get('/temperature-humidities', [TemperatureHumidityController::class, 'readAll']);
-Route::get('/temperature-humidities/avg', [TemperatureHumidityController::class, 'readAvg']);
-Route::get('/temperature-humidities/min', [TemperatureHumidityController::class, 'readMin']);
-Route::get('/temperature-humidities/max', [TemperatureHumidityController::class, 'readMax']);
+Route::get('/temperature-humidities/aggregate', [TemperatureHumidityController::class, 'readAggregate']);
 Route::get('/temperature-humidities/{id}', [TemperatureHumidityController::class, 'readBySensorId']);
 
 Route::get('/notifications', [NotificationController::class, 'getAll']);

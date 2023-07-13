@@ -36,19 +36,19 @@ export default {
         },
         timestampToDate(timestamp) {
             const dateTime = new Date(timestamp);
-            const year = dateTime.getFullYear();
-            let month = dateTime.getMonth() + 1;
-            let date = dateTime.getDate();
-
-            if (month.toString().length === 1) {
-                month = `0${month}`;
-            }
+            let date = dateTime.getUTCDate();
+            let month = dateTime.getUTCMonth() + 1;
+            const year = dateTime.getUTCFullYear();
 
             if (date.toString().length === 1) {
-                date = `0${date}`;
+                date = "0" + date;
             }
 
-            return `${year}-${month}-${date}`;
+            if (month.toString().length === 1) {
+                month = "0" + month;
+            }
+
+            return `${date}-${month}-${year}`;
         },
         isNotRead(read) {
             if (read === 0) {
@@ -67,12 +67,14 @@ export default {
     <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
             <i class="far fa-bell"></i>
-            <span class="badge badge-danger navbar-badge">{{
-                countUnread > 99 ? "99+" : countUnread
-            }}</span>
+            <span
+                v-if="notifications > 0"
+                class="badge badge-danger navbar-badge"
+                >{{ countUnread > 99 ? "99+" : countUnread }}</span
+            >
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-            <span class="dropdown-item dropdown-header" v-if="notifications > 0"
+            <span v-if="notifications > 0" class="dropdown-item dropdown-header"
                 >{{
                     countUnread > 99 ? "99+" : countUnread
                 }}
@@ -94,7 +96,7 @@ export default {
             <router-link
                 :to="{ name: 'notifications' }"
                 class="dropdown-item dropdown-footer"
-                v-if="notifications.total > 0"
+                v-if="notifications.length > 0"
                 >See All Notifications</router-link
             >
         </div>

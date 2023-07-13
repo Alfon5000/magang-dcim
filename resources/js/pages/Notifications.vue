@@ -93,22 +93,22 @@ export default {
         },
         timestampToDateTime(timestamp) {
             const dateTime = new Date(timestamp);
-            const year = dateTime.getFullYear();
-            let month = dateTime.getMonth() + 1;
-            let date = dateTime.getDate();
-            const hour = dateTime.getHours();
-            const minute = dateTime.getMinutes();
-            const second = dateTime.getSeconds();
-
-            if (month.toString().length === 1) {
-                month = `0${month}`;
-            }
+            let date = dateTime.getUTCDate();
+            let month = dateTime.getUTCMonth() + 1;
+            const year = dateTime.getUTCFullYear();
+            const hour = dateTime.getUTCHours();
+            const minute = dateTime.getUTCMinutes();
+            const second = dateTime.getUTCSeconds();
 
             if (date.toString().length === 1) {
-                date = `0${date}`;
+                date = "0" + date;
             }
 
-            return `${year}-${month}-${date} ${hour}:${minute}:${second}`;
+            if (month.toString().length === 1) {
+                month = "0" + month;
+            }
+
+            return `${date}-${month}-${year} ${hour}:${minute}:${second}`;
         },
         isNotRead(read) {
             if (read === 0) {

@@ -31,16 +31,16 @@ export default {
         },
         timestampToDate(timestamp) {
             const dateTime = new Date(timestamp);
-            const year = dateTime.getFullYear();
-            let month = (dateTime.getMonth() + 1).toString();
-            let date = dateTime.getDate().toString();
+            let date = dateTime.getUTCDate();
+            let month = dateTime.getUTCMonth() + 1;
+            const year = dateTime.getUTCFullYear();
 
-            if (month.length === 1) {
-                month = "0" + month;
+            if (date.toString().length === 1) {
+                date = "0" + date;
             }
 
-            if (date.length === 1) {
-                date = "0" + date;
+            if (month.toString().length === 1) {
+                month = "0" + month;
             }
 
             return `${date}-${month}-${year}`;

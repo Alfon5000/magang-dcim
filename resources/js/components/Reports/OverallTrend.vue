@@ -10,37 +10,11 @@ export default {
         };
     },
     methods: {
-        async getAvg() {
+        async getAggregate() {
             await api
-                .get("/temperature-humidities/avg")
+                .get("/temperature-humidities/aggregate")
                 .then((response) => {
-                    this.temperatureHumidities = response.data.data;
-                    this.tableData = this.temperatureHumidities.map((data) => {
-                        return [data.date, data.temperature, data.humidity];
-                    });
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        },
-        async getMin() {
-            await api
-                .get("/temperature-humidities/min")
-                .then((response) => {
-                    this.temperatureHumidities = response.data.data;
-                    this.tableData = this.temperatureHumidities.map((data) => {
-                        return [data.date, data.temperature, data.humidity];
-                    });
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        },
-        async getMax() {
-            await api
-                .get("/temperature-humidities/max")
-                .then((response) => {
-                    this.temperatureHumidities = response.data.data;
+                    this.temperatureHumidities = response.data.data.avg;
                     this.tableData = this.temperatureHumidities.map((data) => {
                         return [data.date, data.temperature, data.humidity];
                     });
@@ -50,12 +24,10 @@ export default {
                 });
         },
         async drawChart() {
-            await this.getAvg();
-            await this.getMin();
-            await this.getMax();
+            await this.getAggregate();
 
             const data = new google.visualization.DataTable();
-            data.addColumn("date", "Date");
+            data.addColumn("string", "Date");
             data.addColumn("number", "Temperature");
             data.addColumn("number", "Humidity");
 

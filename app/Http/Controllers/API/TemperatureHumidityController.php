@@ -28,33 +28,21 @@ class TemperatureHumidityController extends Controller
         ]);
     }
 
-    public function readAvg()
+    public function readAggregate()
     {
         $avg = TemperatureHumidity::selectRaw('AVG(temperature) AS temperature, AVG(humidity) AS humidity, DATE(created_at) AS date')->groupByRaw('date')->orderByRaw('date ASC')->get();
 
-        return response()->json([
-            'success' => true,
-            'data' => $avg,
-        ]);
-    }
-
-    public function readMin()
-    {
         $min = TemperatureHumidity::selectRaw('MIN(temperature) AS temperature, MIN(humidity) AS humidity, DATE(created_at) AS date')->groupByRaw('date')->orderByRaw('date ASC')->get();
 
-        return response()->json([
-            'success' => true,
-            'data' => $min,
-        ]);
-    }
-
-    public function readMax()
-    {
         $max = TemperatureHumidity::selectRaw('MAX(temperature) AS temperature, MAX(humidity) AS humidity, DATE(created_at) AS date')->groupByRaw('date')->orderByRaw('date ASC')->get();
 
         return response()->json([
             'success' => true,
-            'data' => $max,
+            'data' => [
+                'avg' => $avg,
+                'min' => $min,
+                'max' => $max,
+            ],
         ]);
     }
 }

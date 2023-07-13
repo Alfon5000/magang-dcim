@@ -56,7 +56,7 @@ export default {
                                 </div>
                                 <div class="col-12 col-sm-6">
                                     <UsersStatus
-                                        title="Users"
+                                        title="Operators"
                                         color="bg-indigo"
                                         icon="fas fa-users"
                                         role_id="2"
@@ -151,22 +151,6 @@ export default {
                                     />
                                 </div>
                             </div>
-                            <!-- <div class="row">
-                                <div class="col-12 col-sm-4">
-                                    <TemperatureHumidity
-                                        sensor_id="12"
-                                        element_id="th7"
-                                        title="Temperature Humidity 7"
-                                    />
-                                </div>
-                                <div class="col-12 col-sm-4">
-                                    <TemperatureHumidity
-                                        sensor_id="13"
-                                        element_id="th8"
-                                        title="Temperature Humidity 8"
-                                    />
-                                </div>
-                            </div> -->
                         </div>
                     </div>
                     <div class="col-12 col-sm-4 col-md-3 bg-navy">
