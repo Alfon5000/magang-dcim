@@ -2,7 +2,7 @@
 import api from "../../api";
 
 export default {
-    name: "TemperatureTrendlines",
+    name: "HumidityTrendlines",
     data() {
         return {
             id: 6,
@@ -37,7 +37,7 @@ export default {
         },
         async getAggregate(id = this.id, year = this.year, month = this.month) {
             await api
-                .get("/temperature-humidities/temperature-aggregate", {
+                .get("/temperature-humidities/humidity-aggregate", {
                     params: {
                         id,
                         year,
@@ -71,7 +71,7 @@ export default {
             };
 
             const chart = new google.charts.Line(
-                document.getElementById("temperature_trendlines")
+                document.getElementById("humidity_trendlines")
             );
 
             chart.draw(data, google.charts.Line.convertOptions(options));
@@ -166,7 +166,7 @@ export default {
             </form>
         </div>
         <div class="card-body">
-            <div id="temperature_trendlines"></div>
+            <div id="humidity_trendlines"></div>
         </div>
     </div>
 </template>
