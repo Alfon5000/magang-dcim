@@ -2,7 +2,7 @@
 import api from "../../api";
 
 export default {
-    name: "MagneticDoorTrendlines",
+    name: "SmokeDetectorTrendlines",
     data() {
         return {
             year: new Date().getFullYear(),
@@ -15,7 +15,7 @@ export default {
     methods: {
         async getAll() {
             await api
-                .get("/magnetic-doors")
+                .get("/smoke-detectors")
                 .then((response) => {
                     this.years = response.data.years.map((year) => {
                         return year.year;
@@ -31,7 +31,7 @@ export default {
         },
         async getAggregate(year = this.year, month = this.month) {
             await api
-                .get("/magnetic-doors/aggregate", {
+                .get("/smoke-detectors/aggregate", {
                     params: {
                         year,
                         month,
@@ -51,7 +51,7 @@ export default {
 
             const data = new google.visualization.DataTable();
             data.addColumn("number", "Day");
-            data.addColumn("number", "Open");
+            data.addColumn("number", "Smoky");
 
             data.addRows(this.tableData);
 
@@ -62,7 +62,7 @@ export default {
             };
 
             const chart = new google.charts.Line(
-                document.getElementById("magnetic_door_trendlines")
+                document.getElementById("smoke_detector_trendlines")
             );
 
             chart.draw(data, google.charts.Line.convertOptions(options));
@@ -145,7 +145,7 @@ export default {
             </form>
         </div>
         <div class="card-body">
-            <div id="magnetic_door_trendlines"></div>
+            <div id="smoke_detector_trendlines"></div>
         </div>
     </div>
 </template>

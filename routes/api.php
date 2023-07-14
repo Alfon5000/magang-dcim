@@ -49,7 +49,9 @@ Route::get('/magnetic-doors', [MagneticDoorController::class, 'readAll']);
 Route::get('/magnetic-doors/one', [MagneticDoorController::class, 'readOne']);
 Route::get('/magnetic-doors/aggregate', [MagneticDoorController::class, 'readAggregate']);
 
-Route::get('/smoke-detectors', [SmokeDetectorController::class, 'read']);
+Route::get('/smoke-detectors', [SmokeDetectorController::class, 'readAll']);
+Route::get('/smoke-detectors/one', [SmokeDetectorController::class, 'readOne']);
+Route::get('/smoke-detectors/aggregate', [SmokeDetectorController::class, 'readAggregate']);
 
 Route::get('/temperature-humidities', [TemperatureHumidityController::class, 'readAll']);
 Route::get('/temperature-humidities/temperature-aggregate', [TemperatureHumidityController::class, 'temperatureAggregate']);

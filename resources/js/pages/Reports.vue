@@ -2,6 +2,7 @@
 import TemperatureTrendlines from "../components/Reports/TemperatureTrendlines.vue";
 import HumidityTrendlines from "../components/Reports/HumidityTrendlines.vue";
 import MagneticDoorTrendlines from "../components/Reports/MagneticDoorTrendlines.vue";
+import SmokeDetectorTrendlines from "../components/Reports/SmokeDetectorTrendlines.vue";
 
 export default {
     name: "Reports",
@@ -9,6 +10,7 @@ export default {
         TemperatureTrendlines,
         HumidityTrendlines,
         MagneticDoorTrendlines,
+        SmokeDetectorTrendlines,
     },
 };
 </script>
@@ -28,6 +30,8 @@ export default {
                 <HumidityTrendlines />
                 <h4 class="mt-4 mb-2">Magnetic Door Trendlines</h4>
                 <MagneticDoorTrendlines />
+                <h4 class="mt-4 mb-2">Smoke Detector Trendlines</h4>
+                <SmokeDetectorTrendlines />
             </div>
         </div>
     </div>

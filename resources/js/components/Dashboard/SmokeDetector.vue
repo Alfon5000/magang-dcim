@@ -14,7 +14,7 @@ export default {
     methods: {
         async readData() {
             await api
-                .get("/smoke-detectors")
+                .get("/smoke-detectors/one")
                 .then((response) => {
                     if (response.data.success === true) {
                         if (response.data.data.status === 1) {
