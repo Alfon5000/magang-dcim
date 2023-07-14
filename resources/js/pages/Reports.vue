@@ -1,10 +1,10 @@
 <script>
-import OverallTrend from "../components/Reports/OverallTrend.vue";
+import TemperatureTrendlines from "../components/Reports/TemperatureTrendlines.vue";
 
 export default {
     name: "Reports",
     components: {
-        OverallTrend,
+        TemperatureTrendlines,
     },
 };
 </script>
@@ -18,7 +18,7 @@ export default {
                 <h2>Reports</h2>
             </div>
             <div class="content">
-                <OverallTrend />
+                <TemperatureTrendlines />
             </div>
         </div>
     </div>

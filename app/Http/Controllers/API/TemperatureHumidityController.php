@@ -11,10 +11,16 @@ class TemperatureHumidityController extends Controller
     public function readAll()
     {
         $temperature_humidities = TemperatureHumidity::latest()->get();
+        $sensor_id = TemperatureHumidity::select('sensor_id')->groupBy('sensor_id')->orderBy('sensor_id')->get();
+        $years = TemperatureHumidity::selectRaw('YEAR(created_at) as year')->groupByRaw('year')->orderByRaw('year ASC')->get();
+        $months = TemperatureHumidity::selectRaw('MONTH(created_at) as month')->groupByRaw('month')->orderByRaw('month ASC')->get();
 
         return response()->json([
             'success' => true,
             'data' => $temperature_humidities,
+            'sensor_id' => $sensor_id,
+            'years' => $years,
+            'months' => $months,
         ]);
     }
 
@@ -28,19 +34,23 @@ class TemperatureHumidityController extends Controller
         ]);
     }
 
-    public function readAggregate()
+    public function temperatureAggregate()
     {
-        $avg = TemperatureHumidity::selectRaw('AVG(temperature) AS temperature, AVG(humidity) AS humidity, DATE(created_at) AS date')->filter(request(['year', 'month', 'day']))->groupByRaw('date')->orderByRaw('date ASC')->get();
-        $min = TemperatureHumidity::selectRaw('MIN(temperature) AS temperature, MIN(humidity) AS humidity, DATE(created_at) AS date')->filter(request(['year', 'month', 'day']))->groupByRaw('date')->orderByRaw('date ASC')->get();
-        $max = TemperatureHumidity::selectRaw('MAX(temperature) AS temperature, MAX(humidity) AS humidity, DATE(created_at) AS date')->filter(request(['year', 'month', 'day']))->groupByRaw('date')->orderByRaw('date ASC')->get();
+        $data = TemperatureHumidity::selectRaw('DAY(created_at) as day, MIN(temperature) AS min, MAX(temperature) AS max, AVG(temperature) AS avg')->filter(request(['id', 'year', 'month']))->groupByRaw('day')->orderByRaw('day ASC')->get();
 
         return response()->json([
             'success' => true,
-            'data' => [
-                'avg' => $avg,
-                'min' => $min,
-                'max' => $max,
-            ],
+            'data' => $data,
+        ]);
+    }
+
+    public function humidityAggregate()
+    {
+        $data = TemperatureHumidity::selectRaw('DAY(created_at) as day, MIN(humidity) AS min, MAX(humidity) AS max, AVG(humidity) AS avg')->filter(request(['id', 'year', 'month']))->groupByRaw('day')->orderByRaw('day ASC')->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $data,
         ]);
     }
 }

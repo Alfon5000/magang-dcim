@@ -19,16 +19,16 @@ class TemperatureHumidity extends Model
 
     public function scopeFilter($query, array $filter)
     {
+        $query->when($filter['id'] ?? false, function ($query, $id) {
+            return $query->where('sensor_id', $id);
+        });
+
         $query->when($filter['year'] ?? false, function ($query, $year) {
             return $query->whereYear('created_at', $year);
         });
 
         $query->when($filter['month'] ?? false, function ($query, $month) {
             return $query->whereMonth('created_at', $month);
-        });
-
-        $query->when($filter['day'] ?? false, function ($query, $day) {
-            return $query->whereDay('created_at', $day);
         });
     }
 }

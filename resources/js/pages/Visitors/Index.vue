@@ -138,7 +138,9 @@ export default {
                                     ><i class="fas fa-download"></i
                                 ></a>
                             </td>
-                            <td class="text-left">{{ visitor.description }}</td>
+                            <td class="text-left">
+                                {{ visitor.description.substring(0, 75) }}...
+                            </td>
                             <td>
                                 <span
                                     class="badge badge-pill"
@@ -148,36 +150,56 @@ export default {
                                 </span>
                             </td>
                             <td>
-                                <router-link
-                                    :to="{
-                                        name: 'visitors.edit',
-                                        params: { id: visitor.id },
-                                    }"
-                                    class="btn bg-indigo mr-2"
-                                    ><i class="fas fa-edit mr-2"></i
-                                    >Edit</router-link
-                                >
-                                <button
-                                    @click.prevent="deleteVisitor(visitor.id)"
-                                    class="btn bg-pink"
-                                >
-                                    <i class="fas fa-trash-alt mr-2"></i>
-                                    Delete
-                                </button>
-                                <button
-                                    @click.prevent="acceptVisitor(visitor.id)"
-                                    class="btn bg-primary"
-                                >
-                                    <i class="fas fa-check mr-2"></i>
-                                    Accept
-                                </button>
-                                <button
-                                    @click.prevent="rejectVisitor(visitor.id)"
-                                    class="btn bg-danger"
-                                >
-                                    <i class="fas fa-times mr-2"></i>
-                                    Reject
-                                </button>
+                                <div class="row mb-2">
+                                    <div class="col-6">
+                                        <router-link
+                                            :to="{
+                                                name: 'visitors.edit',
+                                                params: { id: visitor.id },
+                                            }"
+                                            class="btn bg-indigo"
+                                            ><i class="fas fa-edit mr-2"></i
+                                            >Edit</router-link
+                                        >
+                                    </div>
+                                    <div class="col-6">
+                                        <button
+                                            @click.prevent="
+                                                deleteVisitor(visitor.id)
+                                            "
+                                            class="btn bg-pink"
+                                        >
+                                            <i
+                                                class="fas fa-trash-alt mr-2"
+                                            ></i>
+                                            Delete
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <button
+                                            @click.prevent="
+                                                acceptVisitor(visitor.id)
+                                            "
+                                            class="btn bg-primary"
+                                        >
+                                            <i class="fas fa-check mr-2"></i>
+                                            Accept
+                                        </button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button
+                                            @click.prevent="
+                                                rejectVisitor(visitor.id)
+                                            "
+                                            class="btn bg-danger"
+                                        >
+                                            <i class="fas fa-times mr-2"></i>
+                                            Reject
+                                        </button>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                         <tr v-else>

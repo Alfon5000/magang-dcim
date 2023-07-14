@@ -20,8 +20,8 @@ class TemperatureHumidityFactory extends Factory
             'sensor_id' => rand(6, 11),
             'temperature' => rand(20, 28),
             'humidity' => rand(40, 55),
-            'created_at' => fake()->dateTimeBetween('-1 months', 'now')->format('Y-m-d H:i:s'),
-            'updated_at' => fake()->dateTimeBetween('-1 months', 'now')->format('Y-m-d H:i:s'),
+            'created_at' => fake()->dateTimeBetween('-6 months', 'now')->format('Y-m-d H:i:s'),
+            'updated_at' => fake()->dateTimeBetween('-6 months', 'now')->format('Y-m-d H:i:s'),
         ];
     }
 }
