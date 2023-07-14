@@ -25,12 +25,7 @@ use App\Http\Controllers\API\TemperatureHumidityController;
 */
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/user', function (Request $request) {
-        return response()->json([
-            'success' => true,
-            'data' => $request->user(),
-        ]);
-    });
+    Route::get('/user', [UserController::class, 'getAuth']);
 
     Route::get('/visitors/download/{file_name}', [VisitorController::class, 'download']);
     Route::patch('/visitors/accept/{id}', [VisitorController::class, 'accept']);
@@ -64,8 +59,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch('/notifications/unread/{id}', [NotificationController::class, 'unreadOne']);
     Route::delete('/notifications', [NotificationController::class, 'deleteAll']);
     Route::delete('/notifications/{id}', [NotificationController::class, 'deleteOne']);
-
-    Route::get('/logout', [LoginController::class, 'logout']);
 });
 
 Route::post('/login', [LoginController::class, 'login']);
+Route::get('/logout', [LoginController::class, 'logout']);

@@ -18,7 +18,7 @@ export default {
     methods: {
         async login() {
             if (this.user.email && this.user.password) {
-                await api.get("/sanctum/csrf-cookie").then(async (response) => {
+                await api.get("/sanctum/csrf-cookie").then(async () => {
                     await api
                         .post("/login", this.user)
                         .then((response) => {

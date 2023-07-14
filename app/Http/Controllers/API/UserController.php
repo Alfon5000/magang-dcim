@@ -36,7 +36,7 @@ class UserController extends Controller
             'role_id' => 'required',
             'email' => 'required|unique:users',
             'password' => 'required|min:6|confirmed',
-            'image' => 'required|image|max:2048',
+            'image' => 'required|image|mimes:jpg,bmp,png',
         ]);
 
         if ($validator->fails()) {
@@ -100,7 +100,7 @@ class UserController extends Controller
             'role_id' => 'required',
             'email' => 'required',
             'password' => 'required|min:6|confirmed',
-            'image' => 'required|max:2048',
+            'image' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -149,6 +149,14 @@ class UserController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'User has been deleted.'
+        ]);
+    }
+
+    public function getAuth(Request $request)
+    {
+        return response()->json([
+            'success' => true,
+            'data' => $request->user(),
         ]);
     }
 }

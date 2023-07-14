@@ -181,7 +181,7 @@ export default {
                                 ></a>
                             </td>
                             <td class="text-left">
-                                {{ visitor.description.substring(0, 75) }}...
+                                {{ visitor.description }}
                             </td>
                             <td>
                                 <span
@@ -191,57 +191,50 @@ export default {
                                     {{ visitor.status.name }}
                                 </span>
                             </td>
-                            <td v-show="role_id == 1">
-                                <div class="row mb-2">
-                                    <div class="col-6">
-                                        <router-link
-                                            :to="{
-                                                name: 'visitors.edit',
-                                                params: { id: visitor.id },
-                                            }"
-                                            class="btn bg-indigo"
-                                            ><i class="fas fa-edit mr-2"></i
-                                            >Edit</router-link
-                                        >
-                                    </div>
-                                    <div class="col-6">
-                                        <button
-                                            @click.prevent="
-                                                deleteVisitor(visitor.id)
-                                            "
-                                            class="btn bg-pink"
-                                        >
-                                            <i
-                                                class="fas fa-trash-alt mr-2"
-                                            ></i>
-                                            Delete
-                                        </button>
-                                    </div>
+                            <td v-show="role_id == 1" class="text-center">
+                                <div class="row mb-1">
+                                    <button class="btn btn-info">
+                                        <i class="fas fa-info mr-2"></i>
+                                        Info
+                                    </button>
                                 </div>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <button
-                                            @click.prevent="
-                                                acceptVisitor(visitor.id)
-                                            "
-                                            class="btn bg-primary"
-                                        >
-                                            <i class="fas fa-check mr-2"></i>
-                                            Accept
-                                        </button>
-                                    </div>
-                                    <div class="col-6">
-                                        <button
-                                            @click.prevent="
-                                                rejectVisitor(visitor.id)
-                                            "
-                                            class="btn bg-danger"
-                                        >
-                                            <i class="fas fa-times mr-2"></i>
-                                            Reject
-                                        </button>
-                                    </div>
+                                <div class="row mb-1">
+                                    <router-link
+                                        :to="{
+                                            name: 'visitors.edit',
+                                            params: { id: visitor.id },
+                                        }"
+                                        class="btn bg-indigo"
+                                        ><i class="fas fa-edit mr-2"></i
+                                        >Edit</router-link
+                                    >
                                 </div>
+                                <div class="row mb-1">
+                                    <button
+                                        @click.prevent="
+                                            deleteVisitor(visitor.id)
+                                        "
+                                        class="btn bg-pink"
+                                    >
+                                        <i class="fas fa-trash-alt mr-2"></i
+                                        >Delete
+                                    </button>
+                                </div>
+
+                                <!-- <button
+                                    @click.prevent="acceptVisitor(visitor.id)"
+                                    class="btn bg-primary"
+                                >
+                                    <i class="fas fa-check mr-2"></i>
+                                    Accept
+                                </button>
+                                <button
+                                    @click.prevent="rejectVisitor(visitor.id)"
+                                    class="btn bg-danger"
+                                >
+                                    <i class="fas fa-times mr-2"></i>
+                                    Reject
+                                </button> -->
                             </td>
                         </tr>
                         <tr v-else>

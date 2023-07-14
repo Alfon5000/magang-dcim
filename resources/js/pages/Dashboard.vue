@@ -78,7 +78,7 @@ export default {
                                 <div class="col-12 col-sm-4">
                                     <VisitorsStatus
                                         title="Accepted"
-                                        color="bg-success"
+                                        color="bg-primary"
                                         icon="fas fa-walking"
                                         status="2"
                                     />

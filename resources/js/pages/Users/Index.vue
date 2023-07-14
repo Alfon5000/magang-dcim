@@ -47,14 +47,28 @@ export default {
                 });
         },
         async deleteUser(id) {
-            await api
-                .delete(`/users/${id}`, {
-                    headers: {
-                        Authorization:
-                            "Bearer " + localStorage.getItem("token"),
-                    },
-                })
-                .then(() => this.getUsers());
+            Swal.fire({
+                title: "Delete Confirmation",
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonText: "Delete",
+                cancelButtonText: "Cancel",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    api.delete(`/users/${id}`, {
+                        headers: {
+                            Authorization:
+                                "Bearer " + localStorage.getItem("token"),
+                        },
+                    }).then(() => {
+                        Swal.fire({
+                            title: "Delete Successful",
+                            icon: "success",
+                        });
+                        this.getUsers();
+                    });
+                }
+            });
         },
         timestampToDate(timestamp) {
             const dateTime = new Date(timestamp);
