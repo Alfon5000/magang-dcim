@@ -9,14 +9,30 @@ export default {
     },
     data() {
         return {
+            role_id: 0,
             visitors: [],
             keyword: "",
         };
     },
     methods: {
+        async getAuthUser() {
+            await api
+                .get("/user", {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                    },
+                })
+                .then((response) => {
+                    this.role_id = response.data.data.role_id;
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
         async getVisitors(page = 1) {
             await api
-                .get(`/visitors`, {
+                .get("/visitors", {
                     headers: {
                         Authorization:
                             "Bearer " + localStorage.getItem("token"),
@@ -83,9 +99,9 @@ export default {
             return `${date}-${month}-${year}`;
         },
         setBadgeColor(status_id) {
-            if (status_id == 1) {
+            if (status_id === 1) {
                 return "badge-secondary";
-            } else if (status_id == 2) {
+            } else if (status_id === 2) {
                 return "badge-primary";
             } else {
                 return "badge-danger";
@@ -93,6 +109,7 @@ export default {
         },
     },
     mounted() {
+        this.getAuthUser();
         this.getVisitors();
     },
 };
@@ -140,7 +157,7 @@ export default {
                             <th scope="col">Application Letter</th>
                             <th scope="col">Description</th>
                             <th scope="col">Status</th>
-                            <th scope="col">Actions</th>
+                            <th scope="col" v-show="role_id == 1">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -174,7 +191,7 @@ export default {
                                     {{ visitor.status.name }}
                                 </span>
                             </td>
-                            <td>
+                            <td v-show="role_id == 1">
                                 <div class="row mb-2">
                                     <div class="col-6">
                                         <router-link

@@ -9,14 +9,30 @@ export default {
     },
     data() {
         return {
+            role_id: 0,
             users: [],
             keyword: "",
         };
     },
     methods: {
+        async getAuthUser() {
+            await api
+                .get("/user", {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                    },
+                })
+                .then((response) => {
+                    this.role_id = response.data.data.role_id;
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
         async getUsers(page = 1) {
             await api
-                .get(`/users`, {
+                .get("/users", {
                     headers: {
                         Authorization:
                             "Bearer " + localStorage.getItem("token"),
@@ -58,6 +74,7 @@ export default {
         },
     },
     mounted() {
+        this.getAuthUser();
         this.getUsers();
     },
 };
@@ -102,7 +119,7 @@ export default {
                             <th scope="col">Email</th>
                             <th scope="col">Role</th>
                             <th scope="col">Created At</th>
-                            <th scope="col">Actions</th>
+                            <th scope="col" v-show="role_id === 1">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -124,7 +141,7 @@ export default {
                             <td>{{ user.email }}</td>
                             <td>{{ user.role.name }}</td>
                             <td>{{ timestampToDate(user.created_at) }}</td>
-                            <td>
+                            <td v-show="role_id === 1">
                                 <router-link
                                     :to="{
                                         name: 'users.edit',

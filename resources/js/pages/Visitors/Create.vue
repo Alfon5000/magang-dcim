@@ -27,7 +27,7 @@ export default {
     },
     methods: {
         async storeVisitor() {
-            api.post(`/visitors`, this.visitor, this.config)
+            api.post("/visitors", this.visitor, this.config)
                 .then((response) => {
                     if (response.data.success === true) {
                         this.$router.push({ name: "visitors.index" });

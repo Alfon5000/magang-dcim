@@ -26,7 +26,7 @@ export default {
     methods: {
         async storeUser() {
             await api
-                .post(`/users`, this.user, this.config)
+                .post("/users", this.user, this.config)
                 .then((response) => {
                     if (response.data.success === true) {
                         this.$router.push({ name: "users.index" });

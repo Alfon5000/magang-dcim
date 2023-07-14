@@ -93,7 +93,7 @@ export default {
         },
         async deleteAll() {
             await api
-                .delete(`notifications`, {
+                .delete("notifications", {
                     headers: {
                         Authorization:
                             "Bearer " + localStorage.getItem("token"),

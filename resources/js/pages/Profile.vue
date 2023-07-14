@@ -15,7 +15,7 @@ export default {
         };
     },
     methods: {
-        async getUser() {
+        async getAuthUser() {
             await api
                 .get("/user", {
                     headers: {
@@ -37,7 +37,7 @@ export default {
         },
     },
     mounted() {
-        this.getUser();
+        this.getAuthUser();
     },
 };
 </script>
