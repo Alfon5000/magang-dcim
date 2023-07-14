@@ -12,7 +12,12 @@ export default {
     methods: {
         async getNotifications() {
             await api
-                .get("/notifications")
+                .get("/notifications", {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                    },
+                })
                 .then((response) => {
                     this.notifications = response.data.all.filter(
                         (notification) => {

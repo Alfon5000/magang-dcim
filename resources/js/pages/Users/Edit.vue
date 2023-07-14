@@ -19,6 +19,7 @@ export default {
             config: {
                 headers: {
                     "content-type": "multipart/form-data",
+                    Authorization: "Bearer " + localStorage.getItem("token"),
                 },
             },
         };

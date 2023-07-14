@@ -14,7 +14,12 @@ export default {
     methods: {
         async readData() {
             await api
-                .get("/magnetic-doors/one")
+                .get("/magnetic-doors/one", {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                    },
+                })
                 .then((response) => {
                     if (response.data.success === true) {
                         if (response.data.data.status === 1) {

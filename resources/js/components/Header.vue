@@ -9,7 +9,11 @@ export default {
     },
     methods: {
         logout() {
-            api.get("/logout").then(() => {
+            api.get("/logout", {
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("token"),
+                },
+            }).then(() => {
                 localStorage.removeItem("loggedIn");
                 localStorage.removeItem("token");
                 this.$router.push({ name: "login" });

@@ -20,6 +20,7 @@ export default {
             config: {
                 headers: {
                     "content-type": "multipart/form-data",
+                    Authorization: "Bearer " + localStorage.getItem("token"),
                 },
             },
         };
@@ -40,7 +41,12 @@ export default {
         },
         async getCategories() {
             await api
-                .get("/categories")
+                .get("/categories", {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                    },
+                })
                 .then((response) => {
                     this.categories = response.data.data;
                 })
@@ -50,7 +56,12 @@ export default {
         },
         async getStatuses() {
             await api
-                .get("/statuses")
+                .get("/statuses", {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                    },
+                })
                 .then((response) => {
                     this.statuses = response.data.data;
                 })

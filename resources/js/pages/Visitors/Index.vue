@@ -17,6 +17,10 @@ export default {
         async getVisitors(page = 1) {
             await api
                 .get(`/visitors`, {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                    },
                     params: {
                         page,
                         search: this.keyword.length > 0 ? this.keyword : "",
@@ -27,19 +31,40 @@ export default {
                 });
         },
         async deleteVisitor(id) {
-            await api.delete(`/visitors/${id}`).then(() => {
-                this.getVisitors();
-            });
+            await api
+                .delete(`/visitors/${id}`, {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                    },
+                })
+                .then(() => {
+                    this.getVisitors();
+                });
         },
         async acceptVisitor(id) {
-            await api.patch(`/visitors/accept/${id}`).then(() => {
-                this.getVisitors();
-            });
+            await api
+                .patch(`/visitors/accept/${id}`, {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                    },
+                })
+                .then(() => {
+                    this.getVisitors();
+                });
         },
         async rejectVisitor(id) {
-            await api.patch(`/visitors/reject/${id}`).then(() => {
-                this.getVisitors();
-            });
+            await api
+                .patch(`/visitors/reject/${id}`, {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                    },
+                })
+                .then(() => {
+                    this.getVisitors();
+                });
         },
         timestampToDate(timestamp) {
             const dateTime = new Date(timestamp);

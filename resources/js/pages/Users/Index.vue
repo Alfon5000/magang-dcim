@@ -17,6 +17,10 @@ export default {
         async getUsers(page = 1) {
             await api
                 .get(`/users`, {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                    },
                     params: {
                         page,
                         search: this.keyword.length > 0 ? this.keyword : "",
@@ -27,7 +31,14 @@ export default {
                 });
         },
         async deleteUser(id) {
-            await api.delete(`/users/${id}`).then(() => this.getUsers());
+            await api
+                .delete(`/users/${id}`, {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                    },
+                })
+                .then(() => this.getUsers());
         },
         timestampToDate(timestamp) {
             const dateTime = new Date(timestamp);

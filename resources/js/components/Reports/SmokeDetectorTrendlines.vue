@@ -15,7 +15,12 @@ export default {
     methods: {
         async getAll() {
             await api
-                .get("/smoke-detectors")
+                .get("/smoke-detectors", {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                    },
+                })
                 .then((response) => {
                     this.years = response.data.years.map((year) => {
                         return year.year;
@@ -32,6 +37,10 @@ export default {
         async getAggregate(year = this.year, month = this.month) {
             await api
                 .get("/smoke-detectors/aggregate", {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                    },
                     params: {
                         year,
                         month,

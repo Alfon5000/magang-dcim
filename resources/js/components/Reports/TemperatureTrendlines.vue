@@ -17,7 +17,12 @@ export default {
     methods: {
         async getAll() {
             await api
-                .get("/temperature-humidities")
+                .get("/temperature-humidities", {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                    },
+                })
                 .then((response) => {
                     this.ids = response.data.sensor_id.map((id) => {
                         return id.sensor_id;
@@ -38,6 +43,10 @@ export default {
         async getAggregate(id = this.id, year = this.year, month = this.month) {
             await api
                 .get("/temperature-humidities/temperature-aggregate", {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                    },
                     params: {
                         id,
                         year,
