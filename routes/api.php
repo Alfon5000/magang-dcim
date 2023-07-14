@@ -45,7 +45,10 @@ Route::apiResources([
     '/statuses' => StatusController::class,
 ]);
 
-Route::get('/magnetic-doors', [MagneticDoorController::class, 'read']);
+Route::get('/magnetic-doors', [MagneticDoorController::class, 'readAll']);
+Route::get('/magnetic-doors/one', [MagneticDoorController::class, 'readOne']);
+Route::get('/magnetic-doors/aggregate', [MagneticDoorController::class, 'readAggregate']);
+
 Route::get('/smoke-detectors', [SmokeDetectorController::class, 'read']);
 
 Route::get('/temperature-humidities', [TemperatureHumidityController::class, 'readAll']);

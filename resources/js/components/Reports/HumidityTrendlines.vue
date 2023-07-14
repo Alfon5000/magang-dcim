@@ -99,7 +99,7 @@ export default {
                 case 10:
                     return "October";
                 case 11:
-                    return "Nopember";
+                    return "November";
                 case 12:
                     return "December";
             }
@@ -116,7 +116,7 @@ export default {
 </script>
 
 <template>
-    <div class="card">
+    <div class="card p-3">
         <div class="card-header">
             <form @submit.prevent="drawChart()">
                 <div class="row">

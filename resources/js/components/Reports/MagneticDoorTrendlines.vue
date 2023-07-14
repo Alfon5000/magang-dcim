@@ -2,13 +2,11 @@
 import api from "../../api";
 
 export default {
-    name: "TemperatureTrendlines",
+    name: "MagneticDoorTrendlines",
     data() {
         return {
-            id: 6,
             year: new Date().getFullYear(),
             month: new Date().getMonth() + 1,
-            ids: [],
             years: [],
             months: [],
             tableData: [],
@@ -17,12 +15,8 @@ export default {
     methods: {
         async getAll() {
             await api
-                .get("/temperature-humidities")
+                .get("/magnetic-doors")
                 .then((response) => {
-                    this.ids = response.data.sensor_id.map((id) => {
-                        return id.sensor_id;
-                    });
-
                     this.years = response.data.years.map((year) => {
                         return year.year;
                     });
@@ -35,18 +29,17 @@ export default {
                     console.log(error);
                 });
         },
-        async getAggregate(id = this.id, year = this.year, month = this.month) {
+        async getAggregate(year = this.year, month = this.month) {
             await api
-                .get("/temperature-humidities/temperature-aggregate", {
+                .get("/magnetic-doors/aggregate", {
                     params: {
-                        id,
                         year,
                         month,
                     },
                 })
                 .then((response) => {
                     this.tableData = response.data.data.map((td) => {
-                        return [td.day, td.min, td.max, td.avg];
+                        return [td.day, td.count];
                     });
                 })
                 .catch((error) => {
@@ -58,9 +51,7 @@ export default {
 
             const data = new google.visualization.DataTable();
             data.addColumn("number", "Day");
-            data.addColumn("number", "Min");
-            data.addColumn("number", "Max");
-            data.addColumn("number", "Avg");
+            data.addColumn("number", "Door Open");
 
             data.addRows(this.tableData);
 
@@ -71,7 +62,7 @@ export default {
             };
 
             const chart = new google.charts.Line(
-                document.getElementById("temperature_trendlines")
+                document.getElementById("magnetic_door_trendlines")
             );
 
             chart.draw(data, google.charts.Line.convertOptions(options));
@@ -121,18 +112,6 @@ export default {
             <form @submit.prevent="drawChart()">
                 <div class="row">
                     <div class="col text-center">
-                        <label for="id">Sensor ID</label>
-                        <select class="form-control" id="id" v-model="id">
-                            <option
-                                :value="id"
-                                v-for="(id, index) in ids"
-                                :key="index"
-                            >
-                                {{ id }}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="col text-center">
                         <label for="year">Year</label>
                         <select class="form-control" id="year" v-model="year">
                             <option
@@ -166,7 +145,7 @@ export default {
             </form>
         </div>
         <div class="card-body">
-            <div id="temperature_trendlines"></div>
+            <div id="magnetic_door_trendlines"></div>
         </div>
     </div>
 </template>

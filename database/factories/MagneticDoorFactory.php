@@ -21,6 +21,8 @@ class MagneticDoorFactory extends Factory
             'sensor_id' => 5,
             'status' => Arr::random([0, 1]),
             'description' => Arr::random(['Closed', 'Open']),
+            'created_at' => fake()->dateTimeBetween('-1 year', 'now'),
+            'updated_at' => fake()->dateTimeBetween('-1 year', 'now'),
         ];
     }
 }
