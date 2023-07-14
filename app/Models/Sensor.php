@@ -9,10 +9,20 @@ class Sensor extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $guarded = [];
 
     public function temperatureHumidities()
     {
         return $this->hasMany(TemperatureHumidity::class);
+    }
+
+    public function magneticDoors()
+    {
+        return $this->hasMany(MagneticDoor::class);
+    }
+
+    public function smokeDetectors()
+    {
+        return $this->hasMany(SmokeDetector::class);
     }
 }

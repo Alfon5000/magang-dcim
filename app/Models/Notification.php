@@ -9,5 +9,5 @@ class Notification extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['is_read'];
+    protected $guarded = ['id'];
 }

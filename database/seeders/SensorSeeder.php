@@ -15,41 +15,37 @@ class SensorSeeder extends Seeder
     {
         $sensors = [
             [
+                'id' => 5,
+                'name' => 'Dry Contact Input Module RS485 Modbus',
+            ],
+            [
                 'id' => 6,
-                'Sensor 1',
+                'name' => 'SHT20-MD01',
             ],
             [
                 'id' => 7,
-                'Sensor 2',
+                'name' => 'SHT20-MD01',
             ],
             [
                 'id' => 8,
-                'Sensor 3',
+                'name' => 'SHT20-MD01',
             ],
             [
                 'id' => 9,
-                'Sensor 4',
+                'name' => 'SHT20-MD01',
             ],
             [
                 'id' => 10,
-                'Sensor 5',
+                'name' => 'SHT20-MD01',
             ],
             [
                 'id' => 11,
-                'Sensor 6',
-            ],
-            [
-                'id' => 12,
-                'Sensor 7',
-            ],
-            [
-                'id' => 13,
-                'Sensor 8',
+                'name' => 'SHT20-MD01',
             ],
         ];
 
         foreach ($sensors as $sensor) {
-            Sensor::created($sensor);
+            Sensor::create($sensor);
         }
     }
 }

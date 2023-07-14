@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Sensor;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,9 +14,10 @@ return new class extends Migration
     {
         Schema::create('magnetic_doors', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(Sensor::class);
             $table->boolean('status');
             $table->string('description');
-            $table->timestamp('created_at');
+            $table->timestamps();
         });
     }
 

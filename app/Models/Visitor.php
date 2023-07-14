@@ -9,16 +9,7 @@ class Visitor extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'name',
-        'category_id',
-        'status_id',
-        'application_date',
-        'start_date',
-        'end_date',
-        'application_letter',
-        'description',
-    ];
+    protected $guarded = ['id'];
 
     protected $with = ['category', 'status'];
 

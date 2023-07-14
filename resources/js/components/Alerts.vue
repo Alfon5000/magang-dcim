@@ -89,7 +89,7 @@ export default {
                     v-if="notifications.length > 0"
                     v-for="(notification, index) in notifications.slice(1, 10)"
                     :key="index"
-                    class="list-group-item text-danger"
+                    class="list-group-item text-navy"
                 >
                     {{ notification.message }} at
                     {{ timestampToDateTime(notification.created_at) }}

@@ -7,16 +7,27 @@ export default {
         return {
             temperatureHumidities: [],
             tableData: [],
+            year: new Date().getFullYear(),
+            month: new Date().getMonth() + 1,
         };
     },
     methods: {
-        async getAggregate() {
+        async getAggregate(year = this.year, month = this.month) {
             await api
-                .get("/temperature-humidities/aggregate")
+                .get("/temperature-humidities/aggregate", {
+                    params: {
+                        year,
+                        month,
+                    },
+                })
                 .then((response) => {
                     this.temperatureHumidities = response.data.data.avg;
                     this.tableData = this.temperatureHumidities.map((data) => {
-                        return [data.date, data.temperature, data.humidity];
+                        return [
+                            data.date.toString(),
+                            data.temperature,
+                            data.humidity,
+                        ];
                     });
                 })
                 .catch((error) => {
