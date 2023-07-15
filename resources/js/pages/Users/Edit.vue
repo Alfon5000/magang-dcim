@@ -16,11 +16,6 @@ export default {
             },
             roles: [],
             errors: [],
-            config: {
-                headers: {
-                    "content-type": "multipart/form-data",
-                },
-            },
         };
     },
     methods: {
@@ -49,7 +44,7 @@ export default {
         },
         async updateUser() {
             await api
-                .post(`/users/${this.$route.params.id}`, this.user, this.config)
+                .post(`/users/${this.$route.params.id}`, this.user)
                 .then((response) => {
                     if (response.data.success === true) {
                         this.$router.push({ name: "users.index" });

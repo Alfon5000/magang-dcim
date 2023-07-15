@@ -179,10 +179,7 @@ export default {
                                     ><i class="fas fa-download"></i
                                 ></a>
                             </td>
-                            <td
-                                class="text-left"
-                                style="max-width: 700px; word-wrap: break-word"
-                            >
+                            <td class="text-left text-break">
                                 {{ visitor.description }}
                             </td>
                             <td>

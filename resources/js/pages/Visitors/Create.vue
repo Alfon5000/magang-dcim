@@ -17,16 +17,11 @@ export default {
             categories: [],
             statuses: [],
             errors: [],
-            config: {
-                headers: {
-                    "content-type": "multipart/form-data",
-                },
-            },
         };
     },
     methods: {
         async storeVisitor() {
-            api.post("/visitors", this.visitor, this.config)
+            api.post("/visitors", this.visitor)
                 .then((response) => {
                     if (response.data.success === true) {
                         this.$router.push({ name: "visitors.index" });

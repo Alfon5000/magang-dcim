@@ -15,17 +15,12 @@ export default {
             },
             roles: [],
             errors: [],
-            config: {
-                headers: {
-                    "content-type": "multipart/form-data",
-                },
-            },
         };
     },
     methods: {
         async storeUser() {
             await api
-                .post("/users", this.user, this.config)
+                .post("/users", this.user)
                 .then((response) => {
                     if (response.data.success === true) {
                         this.$router.push({ name: "users.index" });

@@ -19,11 +19,6 @@ export default {
             categories: [],
             statuses: [],
             errors: [],
-            config: {
-                headers: {
-                    "content-type": "multipart/form-data",
-                },
-            },
         };
     },
     methods: {
@@ -43,11 +38,7 @@ export default {
         },
         async updateVisitor() {
             await api
-                .post(
-                    `/visitors/${this.$route.params.id}`,
-                    this.visitor,
-                    this.config
-                )
+                .post(`/visitors/${this.$route.params.id}`, this.visitor)
                 .then((response) => {
                     if (response.data.success === true) {
                         this.$router.push({ name: "visitors.index" });
