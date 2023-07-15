@@ -18,18 +18,14 @@ export default {
             },
             roles: [],
             errors: [],
-            config: {
-                headers: {
-                    "content-type": "multipart/form-data",
-                },
-            },
         };
     },
     methods: {
-        async getUser() {
+        async getAuth() {
             await api
                 .get("/user")
                 .then((response) => {
+                    console.log(response.data.data);
                     this.user.id = response.data.data.id;
                     this.user.name = response.data.data.name;
                     this.user.role_id = response.data.data.role_id;
@@ -53,7 +49,7 @@ export default {
         },
         async updateUser() {
             await api
-                .post(`/users/${this.user.id}`, this.user, this.config)
+                .post(`/users/${this.user.id}`, this.user)
                 .then((response) => {
                     if (response.data.success === true) {
                         this.$router.push({ name: "dashboard" });
@@ -70,7 +66,7 @@ export default {
         },
     },
     mounted() {
-        this.getUser();
+        this.getAuth();
         this.getRoles();
     },
 };
@@ -93,9 +89,14 @@ export default {
                             </div>
                             <div class="card-body text-center">
                                 <img
+                                    v-if="user.image !== null"
                                     :src="`storage/images/users/${user.image}`"
-                                    alt="user-image"
-                                    width="200"
+                                    width="300"
+                                />
+                                <img
+                                    v-else
+                                    src="../../../public/images/user.jpg"
+                                    width="300"
                                 />
                             </div>
                         </div>
@@ -225,20 +226,30 @@ export default {
                                             {{ errors.password[0] }}
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <button
-                                            type="submit"
-                                            class="btn bg-teal mr-2"
-                                        >
-                                            <i class="fas fa-save mr-2"></i
-                                            >Update
-                                        </button>
-                                        <router-link
-                                            :to="{ name: 'dashboard' }"
-                                            class="btn btn-danger"
-                                            ><i class="fas fa-times mr-2"></i
-                                            >Cancel</router-link
-                                        >
+                                    <div class="form-group mt-4">
+                                        <div class="row">
+                                            <div class="col">
+                                                <button
+                                                    type="submit"
+                                                    class="btn btn-block bg-teal"
+                                                >
+                                                    <i
+                                                        class="fas fa-save mr-2"
+                                                    ></i
+                                                    >Update
+                                                </button>
+                                            </div>
+                                            <div class="col">
+                                                <router-link
+                                                    :to="{ name: 'dashboard' }"
+                                                    class="btn btn-block btn-danger"
+                                                    ><i
+                                                        class="fas fa-times mr-2"
+                                                    ></i
+                                                    >Cancel</router-link
+                                                >
+                                            </div>
+                                        </div>
                                     </div>
                                 </form>
                             </div>

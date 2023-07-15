@@ -132,8 +132,13 @@ export default {
                             <td>{{ ++index }}</td>
                             <td>
                                 <img
+                                    v-if="user.image !== null"
                                     :src="`storage/images/users/${user.image}`"
-                                    alt="user-image"
+                                    width="150"
+                                />
+                                <img
+                                    v-else
+                                    src="../../../../public/images/user.jpg"
                                     width="150"
                                 />
                             </td>
@@ -142,28 +147,32 @@ export default {
                             <td>{{ user.role.name }}</td>
                             <td>{{ timestampToDate(user.created_at) }}</td>
                             <td v-show="role_id === 1">
-                                <router-link
-                                    :to="{
-                                        name: 'users.edit',
-                                        params: { id: user.id },
-                                    }"
-                                    class="btn bg-indigo mr-2"
-                                    ><i class="fas fa-edit mr-2"></i
-                                    >Edit</router-link
-                                >
-                                <button
-                                    @click.prevent="deleteUser(user.id)"
-                                    class="btn bg-pink"
-                                >
-                                    <i class="fas fa-trash-alt mr-2"></i>
-                                    Delete
-                                </button>
+                                <div class="row mb-1">
+                                    <router-link
+                                        :to="{
+                                            name: 'users.edit',
+                                            params: { id: user.id },
+                                        }"
+                                        class="btn bg-indigo btn-block"
+                                        ><i class="fas fa-edit mr-2"></i
+                                        >Edit</router-link
+                                    >
+                                </div>
+                                <div class="row">
+                                    <button
+                                        @click.prevent="deleteUser(user.id)"
+                                        class="btn bg-pink btn-block"
+                                    >
+                                        <i class="fas fa-trash-alt mr-2"></i>
+                                        Delete
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                         <tr v-else>
                             <td colspan="7" class="text-center">
                                 <div class="alert alert-danger mb-0">
-                                    User is not available.
+                                    Users is not available
                                 </div>
                             </td>
                         </tr>

@@ -36,7 +36,7 @@ class UserController extends Controller
             'role_id' => 'required',
             'email' => 'required|unique:users',
             'password' => 'required|min:6|confirmed',
-            'image' => 'required|image|mimes:jpg,bmp,png',
+            'image' => 'image|max:2048',
         ]);
 
         if ($validator->fails()) {
@@ -100,7 +100,7 @@ class UserController extends Controller
             'role_id' => 'required',
             'email' => 'required',
             'password' => 'required|min:6|confirmed',
-            'image' => 'required',
+            'image' => 'max:2048',
         ]);
 
         if ($validator->fails()) {
@@ -152,11 +152,11 @@ class UserController extends Controller
         ]);
     }
 
-    public function getAuth(Request $request)
+    public function getAuth()
     {
         return response()->json([
             'success' => true,
-            'data' => $request->user(),
+            'data' => auth()->user(),
         ]);
     }
 }

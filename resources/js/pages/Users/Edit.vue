@@ -111,7 +111,7 @@ export default {
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="image">Image</label>
+                        <label for="image">Image (Optional)</label>
                         <div class="input-group">
                             <div class="custom-file">
                                 <input

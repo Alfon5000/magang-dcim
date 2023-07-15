@@ -179,7 +179,10 @@ export default {
                                     ><i class="fas fa-download"></i
                                 ></a>
                             </td>
-                            <td class="text-left text-break">
+                            <td
+                                class="text-left text-break"
+                                style="max-width: 500px"
+                            >
                                 {{ visitor.description }}
                             </td>
                             <td>
@@ -229,7 +232,7 @@ export default {
                         <tr v-else>
                             <td colspan="10" class="text-center">
                                 <div class="alert alert-danger mb-0">
-                                    Visitor is not available.
+                                    Visitor is not available
                                 </div>
                             </td>
                         </tr>

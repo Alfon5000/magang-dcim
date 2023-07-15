@@ -89,7 +89,7 @@ export default {
                                     />
                                 </div>
                             </div>
-                            <div class="row">
+                            <!-- <div class="row">
                                 <div class="col-12 col-sm-6">
                                     <h4 class="px-2">Magnetic Door</h4>
                                     <MagneticDoor />
@@ -147,7 +147,7 @@ export default {
                                         title="Back Top"
                                     />
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <div class="col-12 col-sm-4 col-md-3 bg-navy">
