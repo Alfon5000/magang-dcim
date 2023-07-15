@@ -22,7 +22,6 @@ export default {
             config: {
                 headers: {
                     "content-type": "multipart/form-data",
-                    Authorization: "Bearer " + localStorage.getItem("token"),
                 },
             },
         };
@@ -30,12 +29,7 @@ export default {
     methods: {
         async getVisitor() {
             await api
-                .get(`/visitors/${this.$route.params.id}`, {
-                    headers: {
-                        Authorization:
-                            "Bearer " + localStorage.getItem("token"),
-                    },
-                })
+                .get(`/visitors/${this.$route.params.id}`)
                 .then((response) => {
                     this.visitor.name = response.data.data.name;
                     this.visitor.category_id = response.data.data.category_id;
@@ -67,12 +61,7 @@ export default {
         },
         async getCategories() {
             await api
-                .get("/categories", {
-                    headers: {
-                        Authorization:
-                            "Bearer " + localStorage.getItem("token"),
-                    },
-                })
+                .get("/categories")
                 .then((response) => {
                     this.categories = response.data.data;
                 })
@@ -82,12 +71,7 @@ export default {
         },
         async getStatuses() {
             await api
-                .get("/statuses", {
-                    headers: {
-                        Authorization:
-                            "Bearer " + localStorage.getItem("token"),
-                    },
-                })
+                .get("/statuses")
                 .then((response) => {
                     this.statuses = response.data.data;
                 })

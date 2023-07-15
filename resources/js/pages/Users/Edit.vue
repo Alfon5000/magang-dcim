@@ -19,7 +19,6 @@ export default {
             config: {
                 headers: {
                     "content-type": "multipart/form-data",
-                    Authorization: "Bearer " + localStorage.getItem("token"),
                 },
             },
         };
@@ -27,12 +26,7 @@ export default {
     methods: {
         async getUser() {
             await api
-                .get(`/users/${this.$route.params.id}`, {
-                    headers: {
-                        Authorization:
-                            "Bearer " + localStorage.getItem("token"),
-                    },
-                })
+                .get(`/users/${this.$route.params.id}`)
                 .then((response) => {
                     this.user.name = response.data.data.name;
                     this.user.role_id = response.data.data.role.id;
@@ -45,12 +39,7 @@ export default {
         },
         async getRoles() {
             await api
-                .get("/roles", {
-                    headers: {
-                        Authorization:
-                            "Bearer " + localStorage.getItem("token"),
-                    },
-                })
+                .get("/roles")
                 .then((response) => {
                     this.roles = response.data.data;
                 })

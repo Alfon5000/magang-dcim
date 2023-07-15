@@ -17,12 +17,7 @@ export default {
     methods: {
         async getAuthUser() {
             await api
-                .get("/user", {
-                    headers: {
-                        Authorization:
-                            "Bearer " + localStorage.getItem("token"),
-                    },
-                })
+                .get("/user")
                 .then((response) => {
                     this.role_id = response.data.data.role_id;
                 })
@@ -33,10 +28,6 @@ export default {
         async getVisitors(page = 1) {
             await api
                 .get("/visitors", {
-                    headers: {
-                        Authorization:
-                            "Bearer " + localStorage.getItem("token"),
-                    },
                     params: {
                         page,
                         search: this.keyword.length > 0 ? this.keyword : "",
@@ -47,40 +38,48 @@ export default {
                 });
         },
         async deleteVisitor(id) {
-            await api
-                .delete(`/visitors/${id}`, {
-                    headers: {
-                        Authorization:
-                            "Bearer " + localStorage.getItem("token"),
-                    },
-                })
-                .then(() => {
-                    this.getVisitors();
-                });
+            Swal.fire({
+                title: "Delete Confirmation",
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonText: "Delete",
+                cancelButtonText: "Cancel",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    api.delete(`/visitors/${id}`).then(() => {
+                        Swal.fire({
+                            title: "Delete Successful",
+                            icon: "success",
+                        });
+                        this.getVisitors();
+                    });
+                }
+            });
+        },
+        async confirmation(id) {
+            Swal.fire({
+                title: "Change Status",
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonText: "Accept",
+                cancelButtonText: "Reject",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.acceptVisitor(id);
+                } else {
+                    this.rejectVisitor(id);
+                }
+            });
         },
         async acceptVisitor(id) {
-            await api
-                .patch(`/visitors/accept/${id}`, {
-                    headers: {
-                        Authorization:
-                            "Bearer " + localStorage.getItem("token"),
-                    },
-                })
-                .then(() => {
-                    this.getVisitors();
-                });
+            await api.patch(`/visitors/accept/${id}`).then(() => {
+                this.getVisitors();
+            });
         },
         async rejectVisitor(id) {
-            await api
-                .patch(`/visitors/reject/${id}`, {
-                    headers: {
-                        Authorization:
-                            "Bearer " + localStorage.getItem("token"),
-                    },
-                })
-                .then(() => {
-                    this.getVisitors();
-                });
+            await api.patch(`/visitors/reject/${id}`).then(() => {
+                this.getVisitors();
+            });
         },
         timestampToDate(timestamp) {
             const dateTime = new Date(timestamp);
@@ -180,7 +179,10 @@ export default {
                                     ><i class="fas fa-download"></i
                                 ></a>
                             </td>
-                            <td class="text-left">
+                            <td
+                                class="text-left"
+                                style="max-width: 700px; word-wrap: break-word"
+                            >
                                 {{ visitor.description }}
                             </td>
                             <td>
@@ -193,9 +195,14 @@ export default {
                             </td>
                             <td v-show="role_id == 1" class="text-center">
                                 <div class="row mb-1">
-                                    <button class="btn btn-info">
-                                        <i class="fas fa-info mr-2"></i>
-                                        Info
+                                    <button
+                                        @click.prevent="
+                                            confirmation(visitor.id)
+                                        "
+                                        class="btn btn-info btn-block"
+                                    >
+                                        <i class="fas fa-question mr-2"></i>
+                                        Status
                                     </button>
                                 </div>
                                 <div class="row mb-1">
@@ -204,7 +211,7 @@ export default {
                                             name: 'visitors.edit',
                                             params: { id: visitor.id },
                                         }"
-                                        class="btn bg-indigo"
+                                        class="btn bg-indigo btn-block"
                                         ><i class="fas fa-edit mr-2"></i
                                         >Edit</router-link
                                     >
@@ -214,27 +221,12 @@ export default {
                                         @click.prevent="
                                             deleteVisitor(visitor.id)
                                         "
-                                        class="btn bg-pink"
+                                        class="btn bg-pink btn-block"
                                     >
                                         <i class="fas fa-trash-alt mr-2"></i
                                         >Delete
                                     </button>
                                 </div>
-
-                                <!-- <button
-                                    @click.prevent="acceptVisitor(visitor.id)"
-                                    class="btn bg-primary"
-                                >
-                                    <i class="fas fa-check mr-2"></i>
-                                    Accept
-                                </button>
-                                <button
-                                    @click.prevent="rejectVisitor(visitor.id)"
-                                    class="btn bg-danger"
-                                >
-                                    <i class="fas fa-times mr-2"></i>
-                                    Reject
-                                </button> -->
                             </td>
                         </tr>
                         <tr v-else>

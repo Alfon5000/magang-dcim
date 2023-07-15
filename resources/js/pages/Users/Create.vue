@@ -18,7 +18,6 @@ export default {
             config: {
                 headers: {
                     "content-type": "multipart/form-data",
-                    Authorization: "Bearer " + localStorage.getItem("token"),
                 },
             },
         };
@@ -40,12 +39,7 @@ export default {
         },
         async getRoles() {
             await api
-                .get("/roles", {
-                    headers: {
-                        Authorization:
-                            "Bearer " + localStorage.getItem("token"),
-                    },
-                })
+                .get("/roles")
                 .then((response) => {
                     this.roles = response.data.data;
                 })

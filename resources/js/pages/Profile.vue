@@ -21,7 +21,6 @@ export default {
             config: {
                 headers: {
                     "content-type": "multipart/form-data",
-                    Authorization: "Bearer " + localStorage.getItem("token"),
                 },
             },
         };
@@ -29,12 +28,7 @@ export default {
     methods: {
         async getUser() {
             await api
-                .get("/user", {
-                    headers: {
-                        Authorization:
-                            "Bearer " + localStorage.getItem("token"),
-                    },
-                })
+                .get("/user")
                 .then((response) => {
                     this.user.id = response.data.data.id;
                     this.user.name = response.data.data.name;
@@ -49,12 +43,7 @@ export default {
         },
         async getRoles() {
             await api
-                .get("/roles", {
-                    headers: {
-                        Authorization:
-                            "Bearer " + localStorage.getItem("token"),
-                    },
-                })
+                .get("/roles")
                 .then((response) => {
                     this.roles = response.data.data;
                 })
@@ -96,8 +85,8 @@ export default {
                 <h2>Profile</h2>
             </div>
             <div class="content">
-                <div class="row">
-                    <div class="col-12 col-sm-4">
+                <div class="row mx-5">
+                    <div class="col-12 col-sm-3">
                         <div class="card">
                             <div class="card-header text-center bg-navy">
                                 <h4>Profile Picture</h4>
@@ -111,7 +100,7 @@ export default {
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-8">
+                    <div class="col-12 col-sm-9">
                         <div class="card">
                             <div class="card-header text-center bg-navy">
                                 <h4>User Information</h4>

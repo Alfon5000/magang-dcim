@@ -9,18 +9,13 @@ export default {
     },
     methods: {
         logout() {
-            api.get("/logout", {
-                headers: {
-                    Authorization: "Bearer " + localStorage.getItem("token"),
-                },
-            }).then(() => {
+            api.get("/logout").then(() => {
                 localStorage.removeItem("loggedIn");
                 localStorage.removeItem("token");
                 this.$router.push({ name: "login" });
             });
         },
     },
-    components: { PushNotification },
 };
 </script>
 

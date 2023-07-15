@@ -17,12 +17,7 @@ export default {
     methods: {
         async getAuthUser() {
             await api
-                .get("/user", {
-                    headers: {
-                        Authorization:
-                            "Bearer " + localStorage.getItem("token"),
-                    },
-                })
+                .get("/user")
                 .then((response) => {
                     this.role_id = response.data.data.role_id;
                 })
@@ -33,10 +28,6 @@ export default {
         async getUsers(page = 1) {
             await api
                 .get("/users", {
-                    headers: {
-                        Authorization:
-                            "Bearer " + localStorage.getItem("token"),
-                    },
                     params: {
                         page,
                         search: this.keyword.length > 0 ? this.keyword : "",
@@ -55,12 +46,7 @@ export default {
                 cancelButtonText: "Cancel",
             }).then((result) => {
                 if (result.isConfirmed) {
-                    api.delete(`/users/${id}`, {
-                        headers: {
-                            Authorization:
-                                "Bearer " + localStorage.getItem("token"),
-                        },
-                    }).then(() => {
+                    api.delete(`/users/${id}`).then(() => {
                         Swal.fire({
                             title: "Delete Successful",
                             icon: "success",

@@ -8,12 +8,6 @@ import VisitorsStatus from "../components/Dashboard/VisitorsStatus.vue";
 
 export default {
     name: "Dashboard",
-    data() {
-        return {
-            loggedIn: localStorage.getItem("loggedIn"),
-            token: localStorage.getItem("token"),
-        };
-    },
     components: {
         Alerts,
         MagneticDoor,
@@ -23,7 +17,10 @@ export default {
         SmokeDetector,
     },
     mounted() {
-        if (this.loggedIn === null && this.token === null) {
+        if (
+            localStorage.getItem("loggedIn") === null &&
+            localStorage.getItem("token") === null
+        ) {
             this.$router.push({ name: "login" });
         }
     },

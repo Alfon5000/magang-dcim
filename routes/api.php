@@ -24,7 +24,7 @@ use App\Http\Controllers\API\TemperatureHumidityController;
 |
 */
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', [UserController::class, 'getAuth']);
 
     Route::get('/visitors/download/{file_name}', [VisitorController::class, 'download']);
@@ -53,12 +53,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/temperature-humidities/{id}', [TemperatureHumidityController::class, 'readBySensorId']);
 
     Route::get('/notifications', [NotificationController::class, 'getAll']);
+    Route::delete('/notifications', [NotificationController::class, 'deleteAll']);
+    Route::delete('/notifications/{id}', [NotificationController::class, 'deleteOne']);
     Route::patch('/notifications/read', [NotificationController::class, 'readAll']);
     Route::patch('/notifications/unread', [NotificationController::class, 'unreadAll']);
     Route::patch('/notifications/read/{id}', [NotificationController::class, 'readOne']);
     Route::patch('/notifications/unread/{id}', [NotificationController::class, 'unreadOne']);
-    Route::delete('/notifications', [NotificationController::class, 'deleteAll']);
-    Route::delete('/notifications/{id}', [NotificationController::class, 'deleteOne']);
 });
 
 Route::post('/login', [LoginController::class, 'login']);

@@ -15,12 +15,7 @@ export default {
     methods: {
         async getAll() {
             await api
-                .get("/magnetic-doors", {
-                    headers: {
-                        Authorization:
-                            "Bearer " + localStorage.getItem("token"),
-                    },
-                })
+                .get("/magnetic-doors")
                 .then((response) => {
                     this.years = response.data.years.map((year) => {
                         return year.year;
@@ -37,10 +32,6 @@ export default {
         async getAggregate(year = this.year, month = this.month) {
             await api
                 .get("/magnetic-doors/aggregate", {
-                    headers: {
-                        Authorization:
-                            "Bearer " + localStorage.getItem("token"),
-                    },
                     params: {
                         year,
                         month,

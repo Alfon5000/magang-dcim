@@ -15,12 +15,7 @@ export default {
     methods: {
         async readData() {
             await api
-                .get(`temperature-humidities/${this.sensorId}`, {
-                    headers: {
-                        Authorization:
-                            "Bearer " + localStorage.getItem("token"),
-                    },
-                })
+                .get(`temperature-humidities/${this.sensorId}`)
                 .then((response) => {
                     this.temperature = response.data.data.temperature;
                     this.humidity = response.data.data.humidity;

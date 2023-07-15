@@ -16,10 +16,6 @@ export default {
         async getNotifications(page = 1) {
             await api
                 .get("/notifications", {
-                    headers: {
-                        Authorization:
-                            "Bearer " + localStorage.getItem("token"),
-                    },
                     params: {
                         page,
                     },
@@ -33,12 +29,7 @@ export default {
         },
         async readAll() {
             await api
-                .patch("notifications/read", {
-                    headers: {
-                        Authorization:
-                            "Bearer " + localStorage.getItem("token"),
-                    },
-                })
+                .patch("notifications/read")
                 .then(() => {
                     this.getNotifications();
                 })
@@ -48,12 +39,7 @@ export default {
         },
         async unreadAll() {
             await api
-                .patch("notifications/unread", {
-                    headers: {
-                        Authorization:
-                            "Bearer " + localStorage.getItem("token"),
-                    },
-                })
+                .patch("notifications/unread")
                 .then(() => {
                     this.getNotifications();
                 })
@@ -63,12 +49,7 @@ export default {
         },
         async readOne(id) {
             await api
-                .patch(`notifications/read/${id}`, {
-                    headers: {
-                        Authorization:
-                            "Bearer " + localStorage.getItem("token"),
-                    },
-                })
+                .patch(`notifications/read/${id}`)
                 .then(() => {
                     this.getNotifications();
                 })
@@ -78,12 +59,7 @@ export default {
         },
         async unreadOne(id) {
             await api
-                .patch(`notifications/unread/${id}`, {
-                    headers: {
-                        Authorization:
-                            "Bearer " + localStorage.getItem("token"),
-                    },
-                })
+                .patch(`notifications/unread/${id}`)
                 .then(() => {
                     this.getNotifications();
                 })
@@ -92,34 +68,50 @@ export default {
                 });
         },
         async deleteAll() {
-            await api
-                .delete("notifications", {
-                    headers: {
-                        Authorization:
-                            "Bearer " + localStorage.getItem("token"),
-                    },
-                })
-                .then(() => {
-                    this.getNotifications();
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
+            Swal.fire({
+                title: "Delete Confirmation",
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonText: "Delete",
+                cancelButtonText: "Cancel",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    api.delete("notifications")
+                        .then(() => {
+                            Swal.fire({
+                                title: "Delete Successful",
+                                icon: "success",
+                            });
+                            this.getNotifications();
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
+                }
+            });
         },
         async deleteOne(id) {
-            await api
-                .delete(`notifications/${id}`, {
-                    headers: {
-                        Authorization:
-                            "Bearer " + localStorage.getItem("token"),
-                    },
-                })
-                .then(() => {
-                    this.getNotifications();
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
+            Swal.fire({
+                title: "Delete Confirmation",
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonText: "Delete",
+                cancelButtonText: "Cancel",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    api.delete(`notifications/${id}`)
+                        .then(() => {
+                            Swal.fire({
+                                title: "Delete Successful",
+                                icon: "success",
+                            });
+                            this.getNotifications();
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
+                }
+            });
         },
         timestampToDateTime(timestamp) {
             const dateTime = new Date(timestamp);

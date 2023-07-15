@@ -26,10 +26,10 @@ class DatabaseSeeder extends Seeder
             SensorSeeder::class,
         ]);
 
-        User::factory(20)->create();
-        Visitor::factory(20)->create();
-        TemperatureHumidity::factory(2000)->create();
-        MagneticDoor::factory(500)->create();
-        SmokeDetector::factory(500)->create();
+        // User::factory(20)->create();
+        // Visitor::factory(20)->create();
+        // TemperatureHumidity::factory(2000)->create();
+        // MagneticDoor::factory(500)->create();
+        // SmokeDetector::factory(500)->create();
     }
 }

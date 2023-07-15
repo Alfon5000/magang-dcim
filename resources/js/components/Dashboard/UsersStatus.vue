@@ -17,12 +17,7 @@ export default {
     methods: {
         async countUsers() {
             await api
-                .get("/users", {
-                    headers: {
-                        Authorization:
-                            "Bearer " + localStorage.getItem("token"),
-                    },
-                })
+                .get("/users")
                 .then((response) => {
                     this.users = response.data.all;
                     this.total = this.users.filter((user) => {
