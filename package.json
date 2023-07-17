@@ -18,6 +18,9 @@
     "dependencies": {
         "admin-lte": "3.2",
         "laravel-vue-pagination": "^4.1.0",
-        "vue-router": "^4.0.13"
+        "vue-router": "^4.0.13",
+        "@cloudgeek/playcore-hls": "^0.1.7",
+        "@cloudgeek/vitar": "^0.1.9",
+        "@cloudgeek/vue3-video-player": "^0.3.10"
     }
 }

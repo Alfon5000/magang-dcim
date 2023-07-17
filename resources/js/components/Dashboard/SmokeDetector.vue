@@ -56,8 +56,8 @@ export default {
         <div class="icon">
             <i :class="icon"></i>
         </div>
-        <a href="#" class="small-box-footer">
+        <router-link :to="{ name: 'reports' }" class="small-box-footer">
             More info <i class="fas fa-arrow-circle-right"></i>
-        </a>
+        </router-link>
     </div>
 </template>

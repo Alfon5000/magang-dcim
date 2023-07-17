@@ -16,6 +16,10 @@ export default {
         async getNotifications(page = 1) {
             await api
                 .get("/notifications", {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                    },
                     params: {
                         page,
                     },
@@ -29,7 +33,11 @@ export default {
         },
         async readAll() {
             await api
-                .patch("notifications/read")
+                .patch("notifications/read", {
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem("item"),
+                    },
+                })
                 .then(() => {
                     this.getNotifications();
                 })
@@ -39,7 +47,11 @@ export default {
         },
         async unreadAll() {
             await api
-                .patch("notifications/unread")
+                .patch("notifications/unread", {
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem("item"),
+                    },
+                })
                 .then(() => {
                     this.getNotifications();
                 })
@@ -49,7 +61,11 @@ export default {
         },
         async readOne(id) {
             await api
-                .patch(`notifications/read/${id}`)
+                .patch(`notifications/read/${id}`, {
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem("item"),
+                    },
+                })
                 .then(() => {
                     this.getNotifications();
                 })
@@ -59,7 +75,11 @@ export default {
         },
         async unreadOne(id) {
             await api
-                .patch(`notifications/unread/${id}`)
+                .patch(`notifications/unread/${id}`, {
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem("item"),
+                    },
+                })
                 .then(() => {
                     this.getNotifications();
                 })
@@ -76,7 +96,12 @@ export default {
                 cancelButtonText: "Cancel",
             }).then((result) => {
                 if (result.isConfirmed) {
-                    api.delete("notifications")
+                    api.delete("notifications", {
+                        headers: {
+                            Authorization:
+                                "Bearer " + localStorage.getItem("item"),
+                        },
+                    })
                         .then(() => {
                             Swal.fire({
                                 title: "Delete Successful",
@@ -99,7 +124,12 @@ export default {
                 cancelButtonText: "Cancel",
             }).then((result) => {
                 if (result.isConfirmed) {
-                    api.delete(`notifications/${id}`)
+                    api.delete(`notifications/${id}`, {
+                        headers: {
+                            Authorization:
+                                "Bearer " + localStorage.getItem("item"),
+                        },
+                    })
                         .then(() => {
                             Swal.fire({
                                 title: "Delete Successful",
