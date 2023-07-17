@@ -7,12 +7,18 @@ export default {
         return {
             notifications: [],
             countUnread: 0,
+            intervalId: null,
         };
     },
     methods: {
         async getNotifications() {
             await api
-                .get("/notifications")
+                .get("/notifications", {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                    },
+                })
                 .then((response) => {
                     this.notifications = response.data.all.filter(
                         (notification) => {
@@ -49,6 +55,10 @@ export default {
     },
     mounted() {
         this.getNotifications();
+        this.intervalId = setInterval(this.getNotifications, 10000);
+    },
+    unmounted() {
+        clearInterval(this.intervalId);
     },
 };
 </script>

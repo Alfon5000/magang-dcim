@@ -37,6 +37,10 @@ export default {
         async getAggregate(year = this.year, month = this.month) {
             await api
                 .get("/smoke-detectors/aggregate", {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                    },
                     params: {
                         year,
                         month,

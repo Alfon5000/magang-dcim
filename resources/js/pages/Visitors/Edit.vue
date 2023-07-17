@@ -24,7 +24,12 @@ export default {
     methods: {
         async getVisitor() {
             await api
-                .get(`/visitors/${this.$route.params.id}`)
+                .get(`/visitors/${this.$route.params.id}`, {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                    },
+                })
                 .then((response) => {
                     this.visitor.name = response.data.data.name;
                     this.visitor.category_id = response.data.data.category_id;
@@ -38,7 +43,13 @@ export default {
         },
         async updateVisitor() {
             await api
-                .post(`/visitors/${this.$route.params.id}`, this.visitor)
+                .post(`/visitors/${this.$route.params.id}`, this.visitor, {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                        "Content-Type": "multipart/form-data",
+                    },
+                })
                 .then((response) => {
                     if (response.data.success === true) {
                         this.$router.push({ name: "visitors.index" });
@@ -52,7 +63,12 @@ export default {
         },
         async getCategories() {
             await api
-                .get("/categories")
+                .get("/categories", {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                    },
+                })
                 .then((response) => {
                     this.categories = response.data.data;
                 })
@@ -62,7 +78,12 @@ export default {
         },
         async getStatuses() {
             await api
-                .get("/statuses")
+                .get("/statuses", {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                    },
+                })
                 .then((response) => {
                     this.statuses = response.data.data;
                 })

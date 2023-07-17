@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
-class LoginController extends Controller
+class AuthController extends Controller
 {
     public function login(Request $request)
     {
@@ -29,11 +29,11 @@ class LoginController extends Controller
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response([
                 'success' => false,
-                'message' => 'These credentials do not match our records.',
+                'message' => 'Email address or password is incorrect',
             ], 404);
         }
 
-        $token = $user->createToken('ApiToken')->plainTextToken;
+        $token = $user->createToken('api-token')->plainTextToken;
 
         return response()->json([
             'success' => true,
@@ -42,13 +42,13 @@ class LoginController extends Controller
         ]);
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
-        auth()->logout();
+        $request->user()->currentAccessToken()->delete();
 
         return response()->json([
             'success' => true,
-            'message' => 'Log out successfully.',
+            'message' => 'Log out successful',
         ], 200);
     }
 }

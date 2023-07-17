@@ -1,5 +1,4 @@
 <script>
-import { Swal } from "admin-lte/plugins/sweetalert2/sweetalert2.all";
 import api from "../api";
 
 export default {
@@ -23,15 +22,19 @@ export default {
     methods: {
         async getAuth() {
             await api
-                .get("/user")
+                .get("/user", {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                    },
+                })
                 .then((response) => {
-                    console.log(response.data.data);
-                    this.user.id = response.data.data.id;
-                    this.user.name = response.data.data.name;
-                    this.user.role_id = response.data.data.role_id;
-                    this.user.image = response.data.data.image;
-                    this.user.email = response.data.data.email;
-                    this.user.password = response.data.data.password;
+                    this.user.id = response.data.id;
+                    this.user.name = response.data.name;
+                    this.user.role_id = response.data.role_id;
+                    this.user.image = response.data.image;
+                    this.user.email = response.data.email;
+                    this.user.password = response.data.password;
                 })
                 .catch((error) => {
                     console.log(error);
@@ -39,7 +42,12 @@ export default {
         },
         async getRoles() {
             await api
-                .get("/roles")
+                .get("/roles", {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                    },
+                })
                 .then((response) => {
                     this.roles = response.data.data;
                 })
@@ -49,7 +57,13 @@ export default {
         },
         async updateUser() {
             await api
-                .post(`/users/${this.user.id}`, this.user)
+                .post(`/users/${this.user.id}`, this.user, {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                        "Content-Type": "multipart/form-data",
+                    },
+                })
                 .then((response) => {
                     if (response.data.success === true) {
                         this.$router.push({ name: "dashboard" });
@@ -89,13 +103,11 @@ export default {
                             </div>
                             <div class="card-body text-center">
                                 <img
-                                    v-if="user.image !== null"
-                                    :src="`storage/images/users/${user.image}`"
-                                    width="300"
-                                />
-                                <img
-                                    v-else
-                                    src="../../../public/images/user.jpg"
+                                    :src="
+                                        user.image !== '' || user.image !== null
+                                            ? `storage/images/users/${user.image}`
+                                            : `https://cdn-icons-png.flaticon.com/128/3033/3033143.png`
+                                    "
                                     width="300"
                                 />
                             </div>

@@ -15,11 +15,16 @@ export default {
         };
     },
     methods: {
-        async getAuthUser() {
+        async getAuth() {
             await api
-                .get("/user")
+                .get("/user", {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                    },
+                })
                 .then((response) => {
-                    this.role_id = response.data.data.role_id;
+                    this.role_id = response.data.role_id;
                 })
                 .catch((error) => {
                     console.log(error);
@@ -28,6 +33,10 @@ export default {
         async getVisitors(page = 1) {
             await api
                 .get("/visitors", {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                    },
                     params: {
                         page,
                         search: this.keyword.length > 0 ? this.keyword : "",
@@ -46,7 +55,12 @@ export default {
                 cancelButtonText: "Cancel",
             }).then((result) => {
                 if (result.isConfirmed) {
-                    api.delete(`/visitors/${id}`).then(() => {
+                    api.delete(`/visitors/${id}`, {
+                        headers: {
+                            Authorization:
+                                "Bearer " + localStorage.getItem("token"),
+                        },
+                    }).then(() => {
                         Swal.fire({
                             title: "Delete Successful",
                             icon: "success",
@@ -72,14 +86,28 @@ export default {
             });
         },
         async acceptVisitor(id) {
-            await api.patch(`/visitors/accept/${id}`).then(() => {
-                this.getVisitors();
-            });
+            await api
+                .patch(`/visitors/accept/${id}`, {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                    },
+                })
+                .then(() => {
+                    this.getVisitors();
+                });
         },
         async rejectVisitor(id) {
-            await api.patch(`/visitors/reject/${id}`).then(() => {
-                this.getVisitors();
-            });
+            await api
+                .patch(`/visitors/reject/${id}`, {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                    },
+                })
+                .then(() => {
+                    this.getVisitors();
+                });
         },
         timestampToDate(timestamp) {
             const dateTime = new Date(timestamp);
@@ -108,7 +136,7 @@ export default {
         },
     },
     mounted() {
-        this.getAuthUser();
+        this.getAuth();
         this.getVisitors();
     },
 };
@@ -174,10 +202,15 @@ export default {
                             <td>{{ timestampToDate(visitor.end_date) }}</td>
                             <td>
                                 <a
+                                    v-if="
+                                        visitor.application_letter !== '' ||
+                                        visitor.application_letter !== null
+                                    "
                                     :href="`api/visitors/download/${visitor.application_letter}`"
                                     target="_blank"
                                     ><i class="fas fa-download"></i
                                 ></a>
+                                <span v-else>No application letter</span>
                             </td>
                             <td
                                 class="text-left text-break"
@@ -196,6 +229,7 @@ export default {
                             <td v-show="role_id == 1" class="text-center">
                                 <div class="row mb-1">
                                     <button
+                                        v-show="visitor.status_id === 1"
                                         @click.prevent="
                                             confirmation(visitor.id)
                                         "

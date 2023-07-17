@@ -15,11 +15,16 @@ export default {
         };
     },
     methods: {
-        async getAuthUser() {
+        async getAuth() {
             await api
-                .get("/user")
+                .get("/user", {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                    },
+                })
                 .then((response) => {
-                    this.role_id = response.data.data.role_id;
+                    this.role_id = response.data.role_id;
                 })
                 .catch((error) => {
                     console.log(error);
@@ -28,6 +33,10 @@ export default {
         async getUsers(page = 1) {
             await api
                 .get("/users", {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                    },
                     params: {
                         page,
                         search: this.keyword.length > 0 ? this.keyword : "",
@@ -46,7 +55,12 @@ export default {
                 cancelButtonText: "Cancel",
             }).then((result) => {
                 if (result.isConfirmed) {
-                    api.delete(`/users/${id}`).then(() => {
+                    api.delete(`/users/${id}`, {
+                        headers: {
+                            Authorization:
+                                "Bearer " + localStorage.getItem("token"),
+                        },
+                    }).then(() => {
                         Swal.fire({
                             title: "Delete Successful",
                             icon: "success",
@@ -74,7 +88,7 @@ export default {
         },
     },
     mounted() {
-        this.getAuthUser();
+        this.getAuth();
         this.getUsers();
     },
 };
@@ -132,13 +146,11 @@ export default {
                             <td>{{ ++index }}</td>
                             <td>
                                 <img
-                                    v-if="user.image !== null"
-                                    :src="`storage/images/users/${user.image}`"
-                                    width="150"
-                                />
-                                <img
-                                    v-else
-                                    src="../../../../public/images/user.jpg"
+                                    :src="
+                                        user.image !== '' || user.image !== null
+                                            ? `storage/images/users/${user.image}`
+                                            : `https://cdn-icons-png.flaticon.com/128/3033/3033143.png`
+                                    "
                                     width="150"
                                 />
                             </td>

@@ -43,19 +43,19 @@ export default {
                                 <h4 class="px-2">Total Users</h4>
                             </div>
                             <div class="row">
-                                <div class="col-12 col-sm-6">
+                                <div class="col-12 col-sm-4">
                                     <UsersStatus
                                         title="Admins"
                                         color="bg-teal"
-                                        icon="fas fa-user-cog"
+                                        icon="fas fa-user-shield"
                                         role_id="1"
                                     />
                                 </div>
-                                <div class="col-12 col-sm-6">
+                                <div class="col-12 col-sm-4">
                                     <UsersStatus
                                         title="Operators"
                                         color="bg-indigo"
-                                        icon="fas fa-users"
+                                        icon="fas fa-user-cog"
                                         role_id="2"
                                     />
                                 </div>
@@ -68,7 +68,7 @@ export default {
                                     <VisitorsStatus
                                         title="Waiting"
                                         color="bg-secondary"
-                                        icon="fas fa-walking"
+                                        icon="fas fa-users"
                                         status="1"
                                     />
                                 </div>
@@ -76,7 +76,7 @@ export default {
                                     <VisitorsStatus
                                         title="Accepted"
                                         color="bg-primary"
-                                        icon="fas fa-walking"
+                                        icon="fas fa-users"
                                         status="2"
                                     />
                                 </div>
@@ -84,17 +84,17 @@ export default {
                                     <VisitorsStatus
                                         title="Rejected"
                                         color="bg-danger"
-                                        icon="fas fa-walking"
+                                        icon="fas fa-users"
                                         status="3"
                                     />
                                 </div>
                             </div>
-                            <!-- <div class="row">
-                                <div class="col-12 col-sm-6">
+                            <div class="row">
+                                <div class="col-12 col-sm-4">
                                     <h4 class="px-2">Magnetic Door</h4>
                                     <MagneticDoor />
                                 </div>
-                                <div class="col-12 col-sm-6">
+                                <div class="col-12 col-sm-4">
                                     <h4 class="px-2">Smoke Detector</h4>
                                     <SmokeDetector />
                                 </div>
@@ -140,14 +140,14 @@ export default {
                                         title="Front Top"
                                     />
                                 </div>
-                                <div class="col-12 col-sm-4">
+                                <!-- <div class="col-12 col-sm-4">
                                     <TemperatureHumidity
                                         sensor_id="11"
                                         element_id="th6"
                                         title="Back Top"
                                     />
-                                </div>
-                            </div> -->
+                                </div> -->
+                            </div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-4 col-md-3 bg-navy">

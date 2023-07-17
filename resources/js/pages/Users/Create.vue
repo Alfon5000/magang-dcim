@@ -20,7 +20,13 @@ export default {
     methods: {
         async storeUser() {
             await api
-                .post("/users", this.user)
+                .post("/users", this.user, {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                        "Content-Type": "multipart/form-data",
+                    },
+                })
                 .then((response) => {
                     if (response.data.success === true) {
                         this.$router.push({ name: "users.index" });
@@ -34,7 +40,12 @@ export default {
         },
         async getRoles() {
             await api
-                .get("/roles")
+                .get("/roles", {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                    },
+                })
                 .then((response) => {
                     this.roles = response.data.data;
                 })

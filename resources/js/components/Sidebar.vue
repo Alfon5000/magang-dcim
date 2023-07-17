@@ -10,9 +10,9 @@ export default {
         <!-- Brand Logo -->
         <router-link :to="{ name: 'dashboard' }" class="brand-link">
             <img
-                src="../../../public/images/logo.png"
+                src="https://cdn-icons-png.flaticon.com/128/8142/8142588.png"
                 alt="Brand Logo"
-                class="brand-image img-circle elevation-3"
+                class="brand-image img-circle elevation-3 bg-white"
                 style="opacity: 0.8"
             />
             <span class="brand-text font-weight-light">DCIM</span>

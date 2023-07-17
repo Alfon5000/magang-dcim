@@ -41,7 +41,7 @@ export default {
             }
         },
     },
-    beforeMount() {
+    mounted() {
         if (this.loggedIn === "true") {
             this.$router.push({ name: "dashboard" });
         }
@@ -50,25 +50,24 @@ export default {
 </script>
 
 <template>
-    <div class="container-fluid pt-5">
-        <h2 class="text-center">
+    <div class="container-fluid mt-5">
+        <h1 class="text-center">
             Data Center Infrastructure Management
             <br />
             Digital Otoma Solusi
-        </h2>
+        </h1>
         <div class="card w-25 mx-auto mt-5">
-            <div class="card-header text-center bg-navy">
-                <h3>Log In</h3>
+            <div class="card-header text-center bg-navy py-4">
+                <h3>Please log in</h3>
             </div>
             <div class="card-body">
                 <form @submit.prevent="login()">
-                    <div class="form-group">
+                    <div class="form-group mt-3">
                         <label for="email">Email address</label>
                         <input
                             type="email"
-                            class="form-control"
+                            class="form-control form-control-lg"
                             id="email"
-                            name="email"
                             placeholder="Enter your email"
                             v-model="user.email"
                         />
@@ -76,13 +75,12 @@ export default {
                             {{ errors.email[0] }}
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mt-3">
                         <label for="password">Password</label>
                         <input
                             type="password"
-                            class="form-control"
+                            class="form-control form-control-lg"
                             id="password"
-                            name="password"
                             placeholder="Enter your password"
                             v-model="user.password"
                         />
@@ -90,15 +88,12 @@ export default {
                             {{ errors.password[0] }}
                         </div>
                     </div>
-                    <!-- <div class="form-group">
-                        <a href="#">Forgot password?</a>
-                    </div> -->
-                    <div class="form-group mt-4">
+                    <div class="form-group mt-5">
                         <button
                             type="submit"
-                            class="btn btn-lg btn-block bg-navy"
+                            class="btn btn-lg btn-block bg-navy py-3"
                         >
-                            Log in
+                            <span class="text-lg">Log in</span>
                         </button>
                     </div>
                 </form>

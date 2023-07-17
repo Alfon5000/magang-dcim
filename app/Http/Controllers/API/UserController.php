@@ -151,12 +151,4 @@ class UserController extends Controller
             'message' => 'User has been deleted.'
         ]);
     }
-
-    public function getAuth()
-    {
-        return response()->json([
-            'success' => true,
-            'data' => auth()->user(),
-        ]);
-    }
 }

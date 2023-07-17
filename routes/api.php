@@ -2,9 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\API\UserController;
-use App\Http\Controllers\API\LoginController;
 use App\Http\Controllers\API\StatusController;
 use App\Http\Controllers\API\VisitorController;
 use App\Http\Controllers\API\CategoryController;
@@ -24,20 +24,24 @@ use App\Http\Controllers\API\TemperatureHumidityController;
 |
 */
 
-Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('/user', [UserController::class, 'getAuth']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
 
-    Route::get('/visitors/download/{file_name}', [VisitorController::class, 'download']);
-    Route::patch('/visitors/accept/{id}', [VisitorController::class, 'accept']);
-    Route::patch('/visitors/reject/{id}', [VisitorController::class, 'reject']);
+    Route::middleware('admin')->group(function () {
+        Route::apiResources([
+            '/users' => UserController::class,
+            '/visitors' => VisitorController::class,
+            '/roles' => RoleController::class,
+            '/categories' => CategoryController::class,
+            '/statuses' => StatusController::class,
+        ]);
 
-    Route::apiResources([
-        '/users' => UserController::class,
-        '/visitors' => VisitorController::class,
-        '/roles' => RoleController::class,
-        '/categories' => CategoryController::class,
-        '/statuses' => StatusController::class,
-    ]);
+        Route::get('/visitors/download/{file_name}', [VisitorController::class, 'download']);
+        Route::patch('/visitors/accept/{id}', [VisitorController::class, 'accept']);
+        Route::patch('/visitors/reject/{id}', [VisitorController::class, 'reject']);
+    });
 
     Route::get('/magnetic-doors', [MagneticDoorController::class, 'readAll']);
     Route::get('/magnetic-doors/one', [MagneticDoorController::class, 'readOne']);
@@ -56,10 +60,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/notifications', [NotificationController::class, 'deleteAll']);
     Route::delete('/notifications/{id}', [NotificationController::class, 'deleteOne']);
     Route::patch('/notifications/read', [NotificationController::class, 'readAll']);
-    Route::patch('/notifications/unread', [NotificationController::class, 'unreadAll']);
     Route::patch('/notifications/read/{id}', [NotificationController::class, 'readOne']);
+    Route::patch('/notifications/unread', [NotificationController::class, 'unreadAll']);
     Route::patch('/notifications/unread/{id}', [NotificationController::class, 'unreadOne']);
+
+    Route::get('/logout', [AuthController::class, 'logout']);
 });
 
-Route::post('/login', [LoginController::class, 'login']);
-Route::get('/logout', [LoginController::class, 'logout']);
+Route::post('/login', [AuthController::class, 'login']);

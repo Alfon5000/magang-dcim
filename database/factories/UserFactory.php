@@ -22,7 +22,7 @@ class UserFactory extends Factory
         return [
             'name' => fake()->name(),
             'role_id' => Arr::random([1, 2]),
-            'image' => fake()->word(),
+            'image' => null,
             'email' => fake()->unique()->safeEmail(),
             'password' => Hash::make('password'),
             'email_verified_at' => now(),

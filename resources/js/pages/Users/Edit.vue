@@ -21,7 +21,12 @@ export default {
     methods: {
         async getUser() {
             await api
-                .get(`/users/${this.$route.params.id}`)
+                .get(`/users/${this.$route.params.id}`, {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                    },
+                })
                 .then((response) => {
                     this.user.name = response.data.data.name;
                     this.user.role_id = response.data.data.role.id;
@@ -34,7 +39,12 @@ export default {
         },
         async getRoles() {
             await api
-                .get("/roles")
+                .get("/roles", {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                    },
+                })
                 .then((response) => {
                     this.roles = response.data.data;
                 })
@@ -44,7 +54,13 @@ export default {
         },
         async updateUser() {
             await api
-                .post(`/users/${this.$route.params.id}`, this.user)
+                .post(`/users/${this.$route.params.id}`, this.user, {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                        "Content-Type": "multipart/form-data",
+                    },
+                })
                 .then((response) => {
                     if (response.data.success === true) {
                         this.$router.push({ name: "users.index" });

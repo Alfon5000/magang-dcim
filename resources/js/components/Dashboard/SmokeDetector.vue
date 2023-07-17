@@ -14,7 +14,12 @@ export default {
     methods: {
         async readData() {
             await api
-                .get("/smoke-detectors/one")
+                .get("/smoke-detectors/one", {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                    },
+                })
                 .then((response) => {
                     if (response.data.success === true) {
                         if (response.data.data.status === 1) {

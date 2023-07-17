@@ -6,6 +6,7 @@ export default {
     data() {
         return {
             notifications: [],
+            intervalId: null,
         };
     },
     methods: {
@@ -74,6 +75,10 @@ export default {
     mounted() {
         this.updateTime();
         this.getNotifications();
+        this.intervalId = setInterval(this.getNotifications, 10000);
+    },
+    unmounted() {
+        clearInterval(this.intervalId);
     },
 };
 </script>

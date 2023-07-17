@@ -17,7 +17,12 @@ export default {
     methods: {
         async countVisitors() {
             await api
-                .get("/visitors")
+                .get("/visitors", {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                    },
+                })
                 .then((response) => {
                     this.visitors = response.data.all;
 

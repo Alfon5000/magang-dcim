@@ -20,8 +20,7 @@ export default {
             <div class="content">
                 <video controls autoplay>
                     <source
-                        src="rtsp://admin:admin@192.168.101.41/Streaming/Channels/101"
-                        type="video/mp4"
+                        src="rtsp://admin:admin@192.168.101.42:554/Streaming/Channels/101"
                     />
                     Your browser does not support the video tag.
                 </video>
