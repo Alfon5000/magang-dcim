@@ -10,12 +10,13 @@ export default {
     data() {
         return {
             notifications: [],
+            intervalId: null,
         };
     },
     methods: {
         async getNotifications(page = 1) {
             await api
-                .get("/notifications", {
+                .get("/api/notifications", {
                     headers: {
                         Authorization:
                             "Bearer " + localStorage.getItem("token"),
@@ -33,9 +34,10 @@ export default {
         },
         async readAll() {
             await api
-                .patch("notifications/read", {
+                .put("/api/notifications/read", {
                     headers: {
-                        Authorization: "Bearer " + localStorage.getItem("item"),
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
                     },
                 })
                 .then(() => {
@@ -47,9 +49,10 @@ export default {
         },
         async unreadAll() {
             await api
-                .patch("notifications/unread", {
+                .put("/api/notifications/unread", {
                     headers: {
-                        Authorization: "Bearer " + localStorage.getItem("item"),
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
                     },
                 })
                 .then(() => {
@@ -61,9 +64,10 @@ export default {
         },
         async readOne(id) {
             await api
-                .patch(`notifications/read/${id}`, {
+                .put(`/api/notifications/read/${id}`, {
                     headers: {
-                        Authorization: "Bearer " + localStorage.getItem("item"),
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
                     },
                 })
                 .then(() => {
@@ -75,9 +79,10 @@ export default {
         },
         async unreadOne(id) {
             await api
-                .patch(`notifications/unread/${id}`, {
+                .put(`/api/notifications/unread/${id}`, {
                     headers: {
-                        Authorization: "Bearer " + localStorage.getItem("item"),
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
                     },
                 })
                 .then(() => {
@@ -96,10 +101,10 @@ export default {
                 cancelButtonText: "Cancel",
             }).then((result) => {
                 if (result.isConfirmed) {
-                    api.delete("notifications", {
+                    api.delete("/api/notifications", {
                         headers: {
                             Authorization:
-                                "Bearer " + localStorage.getItem("item"),
+                                "Bearer " + localStorage.getItem("token"),
                         },
                     })
                         .then(() => {
@@ -124,10 +129,10 @@ export default {
                 cancelButtonText: "Cancel",
             }).then((result) => {
                 if (result.isConfirmed) {
-                    api.delete(`notifications/${id}`, {
+                    api.delete(`/api/notifications/${id}`, {
                         headers: {
                             Authorization:
-                                "Bearer " + localStorage.getItem("item"),
+                                "Bearer " + localStorage.getItem("token"),
                         },
                     })
                         .then(() => {
@@ -168,8 +173,17 @@ export default {
             }
         },
     },
+    beforeMount() {
+        if (!localStorage.getItem("isAuth")) {
+            this.$router.push({ name: "login" });
+        }
+    },
     mounted() {
         this.getNotifications();
+        // this.intervalId = setInterval(this.getNotifications, 2000);
+    },
+    unmounted() {
+        // clearInterval(this.intervalId);
     },
 };
 </script>
@@ -200,9 +214,8 @@ export default {
                 </div>
             </div>
             <div class="content">
-                <ul class="list-group">
+                <ul v-if="notifications.total > 0" class="list-group">
                     <li
-                        v-if="notifications.total > 0"
                         v-for="(notification, index) in notifications.data"
                         :key="index"
                         class="list-group-item list-group-item-action"
@@ -248,10 +261,10 @@ export default {
                             </div>
                         </div>
                     </li>
-                    <div v-else class="alert alert-danger text-md">
-                        No notifications
-                    </div>
                 </ul>
+                <div v-else class="alert alert-danger text-md">
+                    No notifications
+                </div>
                 <div class="py-3 w-100 overflow-auto">
                     <Bootstrap4Pagination
                         :data="notifications"

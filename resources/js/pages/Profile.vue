@@ -22,19 +22,19 @@ export default {
     methods: {
         async getAuth() {
             await api
-                .get("/user", {
+                .get("/api/user", {
                     headers: {
                         Authorization:
                             "Bearer " + localStorage.getItem("token"),
                     },
                 })
                 .then((response) => {
-                    this.user.id = response.data.id;
-                    this.user.name = response.data.name;
-                    this.user.role_id = response.data.role_id;
-                    this.user.image = response.data.image;
-                    this.user.email = response.data.email;
-                    this.user.password = response.data.password;
+                    this.user.id = response.data.data.id;
+                    this.user.name = response.data.data.name;
+                    this.user.role_id = response.data.data.role_id;
+                    this.user.image = response.data.data.image;
+                    this.user.email = response.data.data.email;
+                    this.user.password = response.data.data.password;
                 })
                 .catch((error) => {
                     console.log(error);
@@ -42,7 +42,7 @@ export default {
         },
         async getRoles() {
             await api
-                .get("/roles", {
+                .get("/api/roles", {
                     headers: {
                         Authorization:
                             "Bearer " + localStorage.getItem("token"),
@@ -57,7 +57,7 @@ export default {
         },
         async updateUser() {
             await api
-                .post(`/users/${this.user.id}`, this.user, {
+                .post(`/api/users/${this.user.id}`, this.user, {
                     headers: {
                         Authorization:
                             "Bearer " + localStorage.getItem("token"),
@@ -78,6 +78,11 @@ export default {
         handleFileChange(event) {
             this.user.image = event.target.files[0];
         },
+    },
+    beforeMount() {
+        if (!localStorage.getItem("isAuth")) {
+            this.$router.push({ name: "login" });
+        }
     },
     mounted() {
         this.getAuth();
@@ -104,11 +109,11 @@ export default {
                             <div class="card-body text-center">
                                 <img
                                     :src="
-                                        user.image !== '' || user.image !== null
-                                            ? `storage/images/users/${user.image}`
-                                            : `https://cdn-icons-png.flaticon.com/128/3033/3033143.png`
+                                        user.image == '' || user.image == null
+                                            ? `https://cdn-icons-png.flaticon.com/128/560/560277.png`
+                                            : `storage/images/users/${user.image}`
                                     "
-                                    width="300"
+                                    class="img-fluid"
                                 />
                             </div>
                         </div>

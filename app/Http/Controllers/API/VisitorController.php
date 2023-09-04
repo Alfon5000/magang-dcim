@@ -183,4 +183,16 @@ class VisitorController extends Controller
             'message' => 'The visitor has been rejected.',
         ]);
     }
+
+    public function cancel($id)
+    {
+        $visitor = Visitor::find($id);
+        $visitor->status_id = 4;
+        $visitor->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'The visitor has been canceled.',
+        ]);
+    }
 }

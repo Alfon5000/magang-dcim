@@ -13,7 +13,7 @@ export default {
     methods: {
         async getNotifications() {
             await api
-                .get("/notifications", {
+                .get("/api/notifications", {
                     headers: {
                         Authorization:
                             "Bearer " + localStorage.getItem("token"),
@@ -54,11 +54,10 @@ export default {
         },
     },
     mounted() {
-        this.getNotifications();
-        this.intervalId = setInterval(this.getNotifications, 10000);
+        // this.intervalId = setInterval(this.getNotifications, 2000);
     },
     unmounted() {
-        clearInterval(this.intervalId);
+        // clearInterval(this.intervalId);
     },
 };
 </script>
@@ -84,7 +83,7 @@ export default {
                 >No new notifications</span
             >
             <div
-                v-for="(notification, index) in notifications.slice(1, 10)"
+                v-for="(notification, index) in notifications.slice(0, 5)"
                 :key="index"
             >
                 <div class="dropdown-divider"></div>

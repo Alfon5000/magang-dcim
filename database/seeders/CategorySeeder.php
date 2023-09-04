@@ -23,6 +23,9 @@ class CategorySeeder extends Seeder
             [
                 'name' => 'Repair',
             ],
+            [
+                'name' => 'Audit',
+            ],
         ];
 
         foreach ($categories as $category) {

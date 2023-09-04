@@ -24,7 +24,7 @@ export default {
     methods: {
         async getVisitor() {
             await api
-                .get(`/visitors/${this.$route.params.id}`, {
+                .get(`/api/visitors/${this.$route.params.id}`, {
                     headers: {
                         Authorization:
                             "Bearer " + localStorage.getItem("token"),
@@ -43,7 +43,7 @@ export default {
         },
         async updateVisitor() {
             await api
-                .post(`/visitors/${this.$route.params.id}`, this.visitor, {
+                .post(`/api/visitors/${this.$route.params.id}`, this.visitor, {
                     headers: {
                         Authorization:
                             "Bearer " + localStorage.getItem("token"),
@@ -63,7 +63,7 @@ export default {
         },
         async getCategories() {
             await api
-                .get("/categories", {
+                .get("/api/categories", {
                     headers: {
                         Authorization:
                             "Bearer " + localStorage.getItem("token"),
@@ -78,7 +78,7 @@ export default {
         },
         async getStatuses() {
             await api
-                .get("/statuses", {
+                .get("/api/statuses", {
                     headers: {
                         Authorization:
                             "Bearer " + localStorage.getItem("token"),
@@ -94,6 +94,11 @@ export default {
         handleFileChange(event) {
             this.visitor.application_letter = event.target.files[0];
         },
+    },
+    beforeMount() {
+        if (!localStorage.getItem("isAuth")) {
+            this.$router.push({ name: "login" });
+        }
     },
     mounted() {
         this.getVisitor();
@@ -112,7 +117,7 @@ export default {
                 <h2>Edit Visitor</h2>
             </div>
             <div class="content">
-                <form @submit.prevent="updateVisitor()">
+                <form @submit.prevent="updateVisitor()" class="w-75 mx-auto">
                     <div class="form-group">
                         <label for="name">Name</label>
                         <input

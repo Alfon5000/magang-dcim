@@ -11,7 +11,7 @@ class NotificationController extends Controller
     public function getAll()
     {
         $notifications = Notification::latest()->paginate(10);
-        $all = Notification::all();
+        $all = Notification::latest()->get();
 
         return response()->json([
             'success' => true,

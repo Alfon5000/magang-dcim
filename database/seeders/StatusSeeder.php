@@ -23,6 +23,9 @@ class StatusSeeder extends Seeder
             [
                 'name' => 'Rejected',
             ],
+            [
+                'name' => 'Canceled',
+            ],
         ];
 
         foreach ($statuses as $status) {

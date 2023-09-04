@@ -9,40 +9,46 @@ export default {
                 email: "",
                 password: "",
             },
-            loggedIn: localStorage.getItem("loggedIn"),
+            isAuth: localStorage.getItem("isAuth"),
             token: localStorage.getItem("token"),
-            loginFailed: null,
             errors: [],
+            message: "",
         };
     },
     methods: {
         async login() {
-            if (this.user.email && this.user.password) {
-                await api.get("/sanctum/csrf-cookie").then(async () => {
+            await api
+                .get("/sanctum/csrf-cookie")
+                .then(async () => {
                     await api
-                        .post("/login", this.user)
+                        .post("/api/login", this.user)
                         .then((response) => {
                             if (response.data.success === true) {
-                                localStorage.setItem("loggedIn", true);
+                                localStorage.setItem("isAuth", true);
                                 localStorage.setItem(
                                     "token",
                                     response.data.token
                                 );
                                 this.$router.push({ name: "dashboard" });
                             } else {
+                                this.errors = [];
+                                this.message = "";
                                 this.errors = response.data.message;
-                                this.loginFailed = true;
                             }
                         })
                         .catch((error) => {
-                            console.log(error);
+                            this.errors = [];
+                            this.message = "";
+                            this.message = error.response.data.message;
                         });
+                })
+                .catch((error) => {
+                    console.log(error);
                 });
-            }
         },
     },
-    mounted() {
-        if (this.loggedIn === "true") {
+    beforeMount() {
+        if (this.isAuth) {
             this.$router.push({ name: "dashboard" });
         }
     },
@@ -50,15 +56,15 @@ export default {
 </script>
 
 <template>
-    <div class="container-fluid mt-5">
-        <h1 class="text-center">
+    <div class="container-fluid pt-5">
+        <h2 class="text-center">
             Data Center Infrastructure Management
             <br />
-            Digital Otoma Solusi
-        </h1>
-        <div class="card w-25 mx-auto mt-5">
-            <div class="card-header text-center bg-navy py-4">
-                <h3>Please log in</h3>
+            PT Digital Otoma Solusi
+        </h2>
+        <div class="card mx-auto mt-5" style="width: 350px">
+            <div class="card-header text-center bg-navy">
+                <h5>Please log In</h5>
             </div>
             <div class="card-body">
                 <form @submit.prevent="login()">
@@ -66,8 +72,9 @@ export default {
                         <label for="email">Email address</label>
                         <input
                             type="email"
-                            class="form-control form-control-lg"
+                            class="form-control"
                             id="email"
+                            name="email"
                             placeholder="Enter your email"
                             v-model="user.email"
                         />
@@ -79,8 +86,9 @@ export default {
                         <label for="password">Password</label>
                         <input
                             type="password"
-                            class="form-control form-control-lg"
+                            class="form-control"
                             id="password"
+                            name="password"
                             placeholder="Enter your password"
                             v-model="user.password"
                         />
@@ -88,13 +96,16 @@ export default {
                             {{ errors.password[0] }}
                         </div>
                     </div>
-                    <div class="form-group mt-5">
+                    <div class="form-group mt-4">
                         <button
                             type="submit"
-                            class="btn btn-lg btn-block bg-navy py-3"
+                            class="btn btn-lg btn-block bg-navy"
                         >
-                            <span class="text-lg">Log in</span>
+                            Log in
                         </button>
+                    </div>
+                    <div v-show="message" class="text-danger text-center mt-3">
+                        {{ message }}
                     </div>
                 </form>
             </div>

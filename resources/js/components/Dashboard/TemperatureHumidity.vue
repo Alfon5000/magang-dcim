@@ -2,67 +2,44 @@
 import api from "../../api";
 
 export default {
-    name: "TemperatureHumidity",
-    props: ["sensor_id", "element_id", "title"],
+    name: "SmokeDetector",
     data() {
         return {
-            sensorId: this.sensor_id,
-            elementId: this.element_id,
-            temperature: 0,
-            humidity: 0,
+            status: "No Smoke",
+            color: "bg-success",
+            icon: "fas fa-smoking-ban",
+            intervalId: null,
         };
     },
     methods: {
         async readData() {
             await api
-                .get(`temperature-humidities/${this.sensorId}`, {
+                .get("/api/smoke-detectors/one", {
                     headers: {
                         Authorization:
                             "Bearer " + localStorage.getItem("token"),
                     },
                 })
                 .then((response) => {
-                    this.temperature = response.data.data.temperature;
-                    this.humidity = response.data.data.humidity;
+                    if (response.data.success === true) {
+                        if (response.data.data.status === 1) {
+                            this.status = response.data.data.description;
+                            this.color = "bg-danger";
+                            this.icon = "fas fa-smoking";
+                        } else {
+                            this.status = response.data.data.description;
+                            this.color = "bg-success";
+                            this.icon = "fas fa-smoking-ban";
+                        }
+                    }
                 })
                 .catch((error) => {
                     console.log(error);
                 });
         },
-        drawChart() {
-            const data = google.visualization.arrayToDataTable([
-                ["Label", "Value"],
-                ["Temp (°C)", this.temperature],
-                ["Hum (%)", this.humidity],
-            ]);
-
-            const options = {
-                greenFrom: 0,
-                greenTo: 35,
-                yellowFrom: 36,
-                yellowTo: 70,
-                redFrom: 71,
-                redTo: 100,
-            };
-
-            const chart = new google.visualization.Gauge(
-                document.getElementById(this.elementId)
-            );
-
-            chart.draw(data, options);
-
-            this.intervalId = setInterval(() => {
-                this.readData();
-                data.setValue(0, 1, this.temperature);
-                data.setValue(1, 1, this.humidity);
-                chart.draw(data, options);
-            }, 2000);
-        },
     },
     mounted() {
-        google.charts
-            .load("current", { packages: ["gauge"] })
-            .then(this.drawChart);
+        this.intervalId = setInterval(this.readData, 1000);
     },
     unmounted() {
         clearInterval(this.intervalId);
@@ -71,12 +48,16 @@ export default {
 </script>
 
 <template>
-    <div class="card">
-        <div class="card-header text-center bg-navy">
-            <h5>{{ title }}</h5>
+    <div class="small-box" :class="color">
+        <div class="inner">
+            <h3>{{ status }}</h3>
+            <p>Smoke Detector</p>
         </div>
-        <div class="card-body">
-            <div :id="elementId"></div>
+        <div class="icon">
+            <i :class="icon"></i>
         </div>
+        <router-link :to="{ name: 'reports' }" class="small-box-footer">
+            More info <i class="fas fa-arrow-circle-right"></i>
+        </router-link>
     </div>
 </template>

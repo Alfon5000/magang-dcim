@@ -23,7 +23,7 @@ class VisitorFactory extends Factory
             'status_id' => Arr::random([1, 2, 3]),
             'start_date' => fake()->date(),
             'end_date' => fake()->date(),
-            'application_letter' => null,
+            'application_letter' => fake()->word(),
             'description' => fake()->paragraph(),
         ];
     }

@@ -8,16 +8,22 @@ export default {
         PushNotification,
     },
     methods: {
-        logout() {
-            api.get("/logout", {
-                headers: {
-                    Authorization: "Bearer " + localStorage.getItem("token"),
-                },
-            }).then(() => {
-                localStorage.removeItem("loggedIn");
-                localStorage.removeItem("token");
-                this.$router.push({ name: "login" });
-            });
+        async logout() {
+            await api
+                .get("/api/logout", {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                    },
+                })
+                .then(() => {
+                    localStorage.removeItem("isAuth");
+                    localStorage.removeItem("token");
+                    this.$router.push({ name: "login" });
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
         },
     },
 };

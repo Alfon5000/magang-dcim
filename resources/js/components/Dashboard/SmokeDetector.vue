@@ -14,7 +14,7 @@ export default {
     methods: {
         async readData() {
             await api
-                .get("/smoke-detectors/one", {
+                .get("/api/smoke-detectors/one", {
                     headers: {
                         Authorization:
                             "Bearer " + localStorage.getItem("token"),
@@ -39,7 +39,7 @@ export default {
         },
     },
     mounted() {
-        this.intervalId = setInterval(this.readData, 2000);
+        this.intervalId = setInterval(this.readData, 1000);
     },
     unmounted() {
         clearInterval(this.intervalId);

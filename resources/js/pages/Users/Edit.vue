@@ -76,6 +76,11 @@ export default {
             this.user.image = event.target.files[0];
         },
     },
+    beforeMount() {
+        if (!localStorage.getItem("isAuth")) {
+            this.$router.push({ name: "login" });
+        }
+    },
     mounted() {
         this.getUser();
         this.getRoles();

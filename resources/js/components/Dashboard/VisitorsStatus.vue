@@ -17,7 +17,7 @@ export default {
     methods: {
         async countVisitors() {
             await api
-                .get("/visitors", {
+                .get("/api/visitors", {
                     headers: {
                         Authorization:
                             "Bearer " + localStorage.getItem("token"),

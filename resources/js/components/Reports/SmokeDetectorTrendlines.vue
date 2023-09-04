@@ -15,7 +15,7 @@ export default {
     methods: {
         async getAll() {
             await api
-                .get("/smoke-detectors", {
+                .get("/api/smoke-detectors", {
                     headers: {
                         Authorization:
                             "Bearer " + localStorage.getItem("token"),
@@ -36,7 +36,7 @@ export default {
         },
         async getAggregate(year = this.year, month = this.month) {
             await api
-                .get("/smoke-detectors/aggregate", {
+                .get("/api/smoke-detectors/aggregate", {
                     headers: {
                         Authorization:
                             "Bearer " + localStorage.getItem("token"),
@@ -65,16 +65,22 @@ export default {
             data.addRows(this.tableData);
 
             const options = {
-                chart: {
-                    curveType: "function",
+                hAxis: {
+                    title: "Day",
+                    gridlines: {
+                        interval: 1,
+                    },
+                },
+                vAxis: {
+                    title: "Smoky",
                 },
             };
 
-            const chart = new google.charts.Line(
+            const chart = new google.visualization.LineChart(
                 document.getElementById("smoke_detector_trendlines")
             );
 
-            chart.draw(data, google.charts.Line.convertOptions(options));
+            chart.draw(data, options);
         },
         convertNumberToMonth(number) {
             switch (number) {
@@ -109,7 +115,7 @@ export default {
         this.getAll();
 
         google.charts
-            .load("current", { packages: ["line"] })
+            .load("current", { packages: ["corechart"] })
             .then(this.drawChart);
     },
 };

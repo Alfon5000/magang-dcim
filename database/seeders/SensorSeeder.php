@@ -38,10 +38,10 @@ class SensorSeeder extends Seeder
                 'id' => 10,
                 'name' => 'SHT20-MD01',
             ],
-            [
-                'id' => 11,
-                'name' => 'SHT20-MD01',
-            ],
+            // [
+            //     'id' => 11,
+            //     'name' => 'SHT20-MD01',
+            // ],
         ];
 
         foreach ($sensors as $sensor) {

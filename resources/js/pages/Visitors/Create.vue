@@ -21,7 +21,7 @@ export default {
     },
     methods: {
         async storeVisitor() {
-            api.post("/visitors", this.visitor, {
+            api.post("/api/visitors", this.visitor, {
                 headers: {
                     Authorization: "Bearer " + localStorage.getItem("token"),
                     "Content-Type": "multipart/form-data",
@@ -40,12 +40,7 @@ export default {
         },
         async getCategories() {
             await api
-                .get("/categories", {
-                    headers: {
-                        Authorization:
-                            "Bearer " + localStorage.getItem("token"),
-                    },
-                })
+                .get("/api/categories")
                 .then((response) => {
                     this.categories = response.data.data;
                 })
@@ -55,7 +50,7 @@ export default {
         },
         async getStatuses() {
             await api
-                .get("/statuses", {
+                .get("/api/statuses", {
                     headers: {
                         Authorization:
                             "Bearer " + localStorage.getItem("token"),
@@ -71,6 +66,11 @@ export default {
         handleFileChange(event) {
             this.visitor.application_letter = event.target.files[0];
         },
+    },
+    beforeMount() {
+        if (!localStorage.getItem("isAuth")) {
+            this.$router.push({ name: "login" });
+        }
     },
     mounted() {
         this.getCategories();
@@ -88,7 +88,7 @@ export default {
                 <h2>Create Visitor</h2>
             </div>
             <div class="content">
-                <form @submit.prevent="storeVisitor()">
+                <form @submit.prevent="storeVisitor()" class="w-75 mx-auto">
                     <div class="form-group">
                         <label for="name">Name</label>
                         <input

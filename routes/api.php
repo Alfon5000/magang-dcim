@@ -24,24 +24,25 @@ use App\Http\Controllers\API\TemperatureHumidityController;
 |
 */
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/user', [UserController::class, 'getAuth']);
+    Route::get('/users', [UserController::class, 'index']);
+    Route::get('/users/{id}', [UserController::class, 'show']);
 
     Route::middleware('admin')->group(function () {
-        Route::apiResources([
-            '/users' => UserController::class,
-            '/visitors' => VisitorController::class,
-            '/roles' => RoleController::class,
-            '/categories' => CategoryController::class,
-            '/statuses' => StatusController::class,
-        ]);
-
-        Route::get('/visitors/download/{file_name}', [VisitorController::class, 'download']);
-        Route::patch('/visitors/accept/{id}', [VisitorController::class, 'accept']);
-        Route::patch('/visitors/reject/{id}', [VisitorController::class, 'reject']);
+        Route::post('/users', [UserController::class, 'store']);
+        Route::put('/users/{id}', [UserController::class, 'update']);
+        Route::delete('/users/{id}', [UserController::class, 'destroy']);
     });
+
+    Route::apiResource('/visitors', VisitorController::class);
+    Route::put('/visitors/accept/{id}', [VisitorController::class, 'accept']);
+    Route::put('/visitors/reject/{id}', [VisitorController::class, 'reject']);
+    Route::get('/visitors/download/{file_name}', [VisitorController::class, 'download']);
+
+    Route::get('/roles', [RoleController::class, 'index']);
+    Route::get('/categories', [CategoryController::class, 'index']);
+    Route::get('/statuses', [StatusController::class, 'index']);
 
     Route::get('/magnetic-doors', [MagneticDoorController::class, 'readAll']);
     Route::get('/magnetic-doors/one', [MagneticDoorController::class, 'readOne']);
@@ -57,12 +58,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/temperature-humidities/{id}', [TemperatureHumidityController::class, 'readBySensorId']);
 
     Route::get('/notifications', [NotificationController::class, 'getAll']);
+    Route::put('/notifications/read', [NotificationController::class, 'readAll']);
+    Route::put('/notifications/read/{id}', [NotificationController::class, 'readOne']);
+    Route::put('/notifications/unread', [NotificationController::class, 'unreadAll']);
+    Route::put('/notifications/unread/{id}', [NotificationController::class, 'unreadOne']);
     Route::delete('/notifications', [NotificationController::class, 'deleteAll']);
     Route::delete('/notifications/{id}', [NotificationController::class, 'deleteOne']);
-    Route::patch('/notifications/read', [NotificationController::class, 'readAll']);
-    Route::patch('/notifications/read/{id}', [NotificationController::class, 'readOne']);
-    Route::patch('/notifications/unread', [NotificationController::class, 'unreadAll']);
-    Route::patch('/notifications/unread/{id}', [NotificationController::class, 'unreadOne']);
 
     Route::get('/logout', [AuthController::class, 'logout']);
 });

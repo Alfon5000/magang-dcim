@@ -16,11 +16,8 @@ export default {
         VisitorsStatus,
         SmokeDetector,
     },
-    mounted() {
-        if (
-            localStorage.getItem("loggedIn") === null &&
-            localStorage.getItem("token") === null
-        ) {
+    beforeMount() {
+        if (!localStorage.getItem("isAuth")) {
             this.$router.push({ name: "login" });
         }
     },
@@ -38,12 +35,12 @@ export default {
                         <div class="content-header">
                             <h2>Dashboard</h2>
                         </div>
-                        <div class="content">
+                        <div class="content px-3">
                             <div class="row">
                                 <h4 class="px-2">Total Users</h4>
                             </div>
                             <div class="row">
-                                <div class="col-12 col-sm-4">
+                                <div class="col-12 col-sm-6">
                                     <UsersStatus
                                         title="Admins"
                                         color="bg-teal"
@@ -51,7 +48,7 @@ export default {
                                         role_id="1"
                                     />
                                 </div>
-                                <div class="col-12 col-sm-4">
+                                <div class="col-12 col-sm-6">
                                     <UsersStatus
                                         title="Operators"
                                         color="bg-indigo"
@@ -64,7 +61,7 @@ export default {
                                 <h4 class="px-2">Total Visitors</h4>
                             </div>
                             <div class="row">
-                                <div class="col-12 col-sm-4">
+                                <div class="col-12 col-sm-6">
                                     <VisitorsStatus
                                         title="Waiting"
                                         color="bg-secondary"
@@ -72,7 +69,17 @@ export default {
                                         status="1"
                                     />
                                 </div>
-                                <div class="col-12 col-sm-4">
+                                <div class="col-12 col-sm-6">
+                                    <VisitorsStatus
+                                        title="Canceled"
+                                        color="bg-dark"
+                                        icon="fas fa-users"
+                                        status="4"
+                                    />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 col-sm-6">
                                     <VisitorsStatus
                                         title="Accepted"
                                         color="bg-primary"
@@ -80,7 +87,7 @@ export default {
                                         status="2"
                                     />
                                 </div>
-                                <div class="col-12 col-sm-4">
+                                <div class="col-12 col-sm-6">
                                     <VisitorsStatus
                                         title="Rejected"
                                         color="bg-danger"
@@ -90,11 +97,11 @@ export default {
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-12 col-sm-4">
+                                <div class="col-12 col-sm-6">
                                     <h4 class="px-2">Magnetic Door</h4>
                                     <MagneticDoor />
                                 </div>
-                                <div class="col-12 col-sm-4">
+                                <div class="col-12 col-sm-6">
                                     <h4 class="px-2">Smoke Detector</h4>
                                     <SmokeDetector />
                                 </div>
@@ -126,7 +133,7 @@ export default {
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-12 col-sm-4">
+                                <div class="col-12 col-sm-4 offset-sm-2">
                                     <TemperatureHumidity
                                         sensor_id="9"
                                         element_id="th4"

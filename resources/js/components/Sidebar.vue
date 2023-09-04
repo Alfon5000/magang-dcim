@@ -1,6 +1,33 @@
 <script>
+import api from "../api";
+
 export default {
     name: "Sidebar",
+    data() {
+        return {
+            role_id: null,
+        };
+    },
+    methods: {
+        getAuth() {
+            api.get("/api/user", {
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("token"),
+                },
+            }).then((response) => {
+                this.role_id = response.data.data.role_id;
+            });
+        },
+        closeSidebar() {
+            const body = document.querySelector("body");
+            body.classList.remove("sidebar-open");
+            body.classList.add("sidebar-closed");
+            body.classList.add("sidebar-collapse");
+        },
+    },
+    beforeMount() {
+        this.getAuth();
+    },
 };
 </script>
 
@@ -10,9 +37,9 @@ export default {
         <!-- Brand Logo -->
         <router-link :to="{ name: 'dashboard' }" class="brand-link">
             <img
-                src="https://cdn-icons-png.flaticon.com/128/8142/8142588.png"
+                src="https://cdn-icons-png.flaticon.com/128/9089/9089753.png"
                 alt="Brand Logo"
-                class="brand-image img-circle elevation-3 bg-white"
+                class="brand-image img-circle elevation-3"
                 style="opacity: 0.8"
             />
             <span class="brand-text font-weight-light">DCIM</span>
@@ -37,7 +64,7 @@ export default {
                             <p>Dashboard</p>
                         </router-link>
                     </li>
-                    <li class="nav-item">
+                    <li v-show="role_id === 1" class="nav-item">
                         <router-link
                             :to="{ name: 'users.index' }"
                             class="nav-link"
@@ -90,6 +117,12 @@ export default {
                             <i class="nav-icon fas fa-info-circle mr-2"></i>
                             <p>About</p>
                         </router-link>
+                    </li>
+                    <li class="nav-item">
+                        <a @click.prevent="closeSidebar()" class="nav-link">
+                            <i class="nav-icon fas fa-times mr-2"></i>
+                            <p>Close</p></a
+                        >
                     </li>
                 </ul>
             </nav>

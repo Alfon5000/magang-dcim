@@ -12,6 +12,11 @@ export default {
         MagneticDoorTrendlines,
         SmokeDetectorTrendlines,
     },
+    beforeMount() {
+        if (!localStorage.getItem("isAuth")) {
+            this.$router.push({ name: "login" });
+        }
+    },
 };
 </script>
 

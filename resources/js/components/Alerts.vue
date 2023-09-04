@@ -35,7 +35,7 @@ export default {
         },
         async getNotifications() {
             await api
-                .get("/notifications", {
+                .get("/api/notifications", {
                     headers: {
                         Authorization:
                             "Bearer " + localStorage.getItem("token"),
@@ -74,11 +74,10 @@ export default {
     },
     mounted() {
         this.updateTime();
-        this.getNotifications();
-        this.intervalId = setInterval(this.getNotifications, 10000);
+        // this.intervalId = setInterval(this.getNotifications, 2000);
     },
     unmounted() {
-        clearInterval(this.intervalId);
+        // clearInterval(this.intervalId);
     },
 };
 </script>
@@ -97,9 +96,9 @@ export default {
             <ul class="list-group text-navy">
                 <li
                     v-if="notifications.length > 0"
-                    v-for="(notification, index) in notifications.slice(1, 10)"
+                    v-for="(notification, index) in notifications.slice(0, 10)"
                     :key="index"
-                    class="list-group-item text-navy"
+                    class="list-group-item text-danger"
                 >
                     {{ notification.message }} at
                     {{ timestampToDateTime(notification.created_at) }}

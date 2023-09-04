@@ -29,11 +29,11 @@ class AuthController extends Controller
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response([
                 'success' => false,
-                'message' => 'Email address or password is incorrect',
+                'message' => 'Email address or password is incorrect.',
             ], 404);
         }
 
-        $token = $user->createToken('api-token')->plainTextToken;
+        $token = $user->createToken('api_token')->plainTextToken;
 
         return response()->json([
             'success' => true,
@@ -48,7 +48,7 @@ class AuthController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Log out successful',
+            'message' => 'Log out successful.',
         ], 200);
     }
 }

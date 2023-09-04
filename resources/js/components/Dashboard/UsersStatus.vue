@@ -17,7 +17,7 @@ export default {
     methods: {
         async countUsers() {
             await api
-                .get("/users", {
+                .get("/api/users", {
                     headers: {
                         Authorization:
                             "Bearer " + localStorage.getItem("token"),

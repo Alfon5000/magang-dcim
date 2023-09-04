@@ -16,18 +16,18 @@ app.component("Sidebar", Sidebar);
 const myLang = {
     dashboard: {
         btn: {
-            play: "播放",
+            play: "Play",
             pause: "Pause",
-            fullscreen: "Tela inteira",
-            exitFullscreen: "Sair da tela inteira",
+            fullscreen: "Fullscreen",
+            exitFullscreen: "Exit Fullscreen",
             mute: "Mute",
             unmute: "Unmute",
             back: "Back",
-            pip: "ピクチャインピクチャ",
+            pip: "PIP",
         },
         settings: {
             autoplay: "Autoplay",
-            loop: "ループプレイ",
+            loop: "Loop",
             speed: "Speed",
             resolution: "Resolution",
         },
@@ -47,10 +47,10 @@ const myLang = {
     },
 };
 
-app.use(router);
-
 app.use(Vue3VideoPlayer, {
     lang: myLang,
 });
+
+app.use(router);
 
 app.mount("#app");

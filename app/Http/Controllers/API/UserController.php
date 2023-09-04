@@ -151,4 +151,12 @@ class UserController extends Controller
             'message' => 'User has been deleted.'
         ]);
     }
+
+    public function getAuth(Request $request)
+    {
+        return response()->json([
+            'success' => true,
+            'data' => $request->user(),
+        ]);
+    }
 }

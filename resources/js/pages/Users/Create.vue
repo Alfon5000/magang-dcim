@@ -2,7 +2,7 @@
 import api from "../../api";
 
 export default {
-    name: "UsersCreate",
+    name: "UsersEdit",
     data() {
         return {
             user: {
@@ -12,15 +12,49 @@ export default {
                 email: "",
                 password: "",
                 password_confirmation: "",
+                _method: "PUT",
             },
             roles: [],
             errors: [],
         };
     },
     methods: {
-        async storeUser() {
+        async getUser() {
             await api
-                .post("/users", this.user, {
+                .get(`/api/users/${this.$route.params.id}`, {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                    },
+                })
+                .then((response) => {
+                    this.user.name = response.data.data.name;
+                    this.user.role_id = response.data.data.role.id;
+                    this.user.image = response.data.data.image;
+                    this.user.email = response.data.data.email;
+                    this.user.password = response.data.data.password;
+                    this.user.password_confirmation =
+                        response.data.data.password;
+                });
+        },
+        async getRoles() {
+            await api
+                .get("/api/roles", {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                    },
+                })
+                .then((response) => {
+                    this.roles = response.data.data;
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
+        async updateUser() {
+            await api
+                .post(`/api/users/${this.$route.params.id}`, this.user, {
                     headers: {
                         Authorization:
                             "Bearer " + localStorage.getItem("token"),
@@ -38,26 +72,34 @@ export default {
                     console.log(error);
                 });
         },
-        async getRoles() {
+        async getAuth() {
             await api
-                .get("/roles", {
+                .get("/api/user", {
                     headers: {
                         Authorization:
                             "Bearer " + localStorage.getItem("token"),
                     },
                 })
                 .then((response) => {
-                    this.roles = response.data.data;
-                })
-                .catch((error) => {
-                    console.log(error);
+                    if (response.data.data.role_id === 1) {
+                        this.$router.push({ name: "users.edit" });
+                    } else {
+                        this.$router.push({ name: "dashboard" });
+                    }
                 });
         },
         handleFileChange(event) {
             this.user.image = event.target.files[0];
         },
     },
+    beforeMount() {
+        if (!localStorage.getItem("isAuth")) {
+            this.$router.push({ name: "login" });
+        }
+    },
     mounted() {
+        this.getAuth();
+        this.getUser();
         this.getRoles();
     },
 };
@@ -69,10 +111,10 @@ export default {
         <Sidebar />
         <div class="content-wrapper px-3">
             <div class="content-header">
-                <h2>Create User</h2>
+                <h2>Edit User</h2>
             </div>
             <div class="content">
-                <form @submit.prevent="storeUser()">
+                <form @submit.prevent="updateUser()" class="w-75 mx-auto">
                     <div class="form-group">
                         <label for="name">Name</label>
                         <input
@@ -102,6 +144,9 @@ export default {
                                 {{ role.name }}
                             </option>
                         </select>
+                        <div v-if="errors.role_id" class="text-danger mt-2">
+                            {{ errors.role_id[0] }}
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="image">Image (Optional)</label>
@@ -118,7 +163,6 @@ export default {
                                 >
                             </div>
                         </div>
-
                         <div v-if="errors.image" class="text-danger mt-2">
                             {{ errors.image[0] }}
                         </div>
@@ -166,7 +210,7 @@ export default {
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn bg-teal mr-2">
-                            <i class="fas fa-save mr-2"></i>Save
+                            <i class="fas fa-save mr-2"></i>Update
                         </button>
                         <router-link
                             :to="{ name: 'users.index' }"
