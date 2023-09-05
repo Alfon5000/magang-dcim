@@ -21,7 +21,7 @@ export default {
     methods: {
         async getUser() {
             await api
-                .get(`/users/${this.$route.params.id}`, {
+                .get(`/api/users/${this.$route.params.id}`, {
                     headers: {
                         Authorization:
                             "Bearer " + localStorage.getItem("token"),
@@ -39,7 +39,7 @@ export default {
         },
         async getRoles() {
             await api
-                .get("/roles", {
+                .get("/api/roles", {
                     headers: {
                         Authorization:
                             "Bearer " + localStorage.getItem("token"),
@@ -54,7 +54,7 @@ export default {
         },
         async updateUser() {
             await api
-                .post(`/users/${this.$route.params.id}`, this.user, {
+                .post(`/api/users/${this.$route.params.id}`, this.user, {
                     headers: {
                         Authorization:
                             "Bearer " + localStorage.getItem("token"),
@@ -72,16 +72,33 @@ export default {
                     console.log(error);
                 });
         },
+        async getAuth() {
+            await api
+                .get("/api/user", {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                    },
+                })
+                .then((response) => {
+                    if (response.data.data.role_id === 1) {
+                        this.$router.push({ name: "users.edit" });
+                    } else {
+                        this.$router.push({ name: "dashboard" });
+                    }
+                });
+        },
         handleFileChange(event) {
             this.user.image = event.target.files[0];
         },
     },
     beforeMount() {
-        if (!localStorage.getItem("isAuth")) {
+        if (!localStorage.getItem("isAuth") && !localStorage.getItem("token")) {
             this.$router.push({ name: "login" });
         }
     },
     mounted() {
+        this.getAuth();
         this.getUser();
         this.getRoles();
     },
@@ -97,7 +114,7 @@ export default {
                 <h2>Edit User</h2>
             </div>
             <div class="content">
-                <form @submit.prevent="updateUser()">
+                <form @submit.prevent="updateUser()" class="w-75 mx-auto">
                     <div class="form-group">
                         <label for="name">Name</label>
                         <input
